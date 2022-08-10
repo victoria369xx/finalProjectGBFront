@@ -1,13 +1,14 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import LogIn from "./components/LogIn";
 import { persistor, store } from "./store";
 
 function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <div className="App">I'm future React app!</div>
+       <LogIn/>
       </PersistGate>
     </Provider>
   );
