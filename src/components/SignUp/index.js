@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card,FormGroup, TextField, Button, Typography} from '@mui/material';
 
-function SignUp () {
+export const SignUp = () => {
     return (
         <>
         <Card sx={{ maxWidth: 400, p: 4, boxShadow: 2 }}>
@@ -18,4 +18,3 @@ function SignUp () {
     )
 }
 
-export default SignUp;

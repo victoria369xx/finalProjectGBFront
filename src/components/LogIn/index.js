@@ -2,7 +2,7 @@ import React from 'react';
 import {Card,FormGroup, TextField, FormControlLabel, Checkbox, Button, Typography} from '@mui/material';
 
 
-function LogIn () {
+export const LogIn = () => {
     return (
         <>
         <Card sx={{ maxWidth: 400, p: 4, boxShadow: 2 }}>
@@ -18,5 +18,3 @@ function LogIn () {
         </>
     )
 }
-
-export default LogIn;

@@ -4,6 +4,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ProjectRoutes } from "./routes/ProjectRoutes";
 import { persistor, store } from "./store";
 
+
 function App() {
   return (
     <Provider store={store}>
