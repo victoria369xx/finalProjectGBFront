@@ -1,3 +1,4 @@
+
 import { CardMedia, Container, Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,3 +60,6 @@ export const Profile = () => {
     </Container>
   );
 };
+
+
+
