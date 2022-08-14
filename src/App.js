@@ -5,6 +5,7 @@ import { ProjectRoutes } from "./routes/ProjectRoutes";
 import { persistor, store } from "./store";
 
 
+
 function App() {
   return (
     <Provider store={store}>
