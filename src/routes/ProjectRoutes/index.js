@@ -1,10 +1,10 @@
 
 import { Routes, Route } from 'react-router-dom'
-import { Page404 } from '../Page404'
 import { LogInPage } from '../../pages/LogInPage';
 import {SignUpPage} from '../../pages/SignUpPage';
 import { HomePage } from '../../pages/HomePage';
 import { ProfilePage } from '../../pages/ProfilePage';
+import { NotFound } from '../../pages/NotFound';
 import { PrivateRoute } from '../PrivateRoute';
 
 
@@ -19,7 +19,7 @@ const authStatus = false
                 <Route element={<PrivateRoute authed={authStatus}/>}>
                 <Route exact path={"profile"} element={<ProfilePage />} />
                 </Route>
-                <Route path={"*"} element={<Page404 />} />
+                <Route path={"*"} element={<NotFound />} />
 
             </Route>
         </Routes>
