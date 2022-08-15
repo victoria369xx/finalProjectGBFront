@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Card,FormGroup, TextField, FormControlLabel, Checkbox, Button, Typography} from '@mui/material';
-import {Link, Navigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {logInUserThunk} from '../../store/userAuth/actions';
 
@@ -9,6 +9,7 @@ export const LogIn = () => {
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
     const dispatch = useDispatch(); 
+    const navigate = useNavigate();
 
     function emailSubmitHandler (event) {
         setEmail(event.target.value)
@@ -24,10 +25,11 @@ export const LogIn = () => {
         setPassword("");
     }
 
-    function logInHandler (event) {
-        event.preventDefault()
-        dispatch(logInUserThunk(email,password))
-        clearForm()
+    async function logInHandler (event) {
+        event.preventDefault();
+        await dispatch(logInUserThunk(email,password));
+        navigate('/account');
+        clearForm();
     }
     return (
         <>
@@ -35,10 +37,10 @@ export const LogIn = () => {
         <Typography sx={{fontWeight: 'medium'}}>ВХОД </Typography>
         <form onSubmit={logInHandler}>
         <FormGroup>
-        <TextField id="standard-basic" label="Эл.почта" variant="outlined" sx={{mt:2}} value={email} onChange={emailSubmitHandler}/>
-        <TextField id="standard-basic" label="Пароль" variant="outlined" sx={{mt:2}} value={password} onChange={passwordSubmitHandler}/>
+        <TextField id="standard-basic" label="Эл.почта" variant="outlined" sx={{mt:2}} value={email} onChange={emailSubmitHandler} required/>
+        <TextField id="standard-basic" label="Пароль" variant="outlined" sx={{mt:2}} value={password} onChange={passwordSubmitHandler} required/>
         <FormControlLabel control={<Checkbox defaultChecked />} label="Запомнить меня" sx={{mt:2}}/>
-         <Button type='submit' variant="contained"><Navigate to='/profile'/>ВОЙТИ</Button>
+         <Button type='submit' variant="contained">ВОЙТИ</Button>
         </FormGroup>
         </form>
         <Link to='/signup' style={{textDecoration: 'none'}}><Button sx={{mt:2}}>Создать аккаунт</Button></Link>

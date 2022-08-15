@@ -19,7 +19,7 @@ export const Header = () => {
         <AppBar position="static" sx={{backgroundColor: 'white', p:2 }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between'}} >
-                   <Box> <img src={logo} alt="logo"/></Box>
+                   <Box><Link style={{textDecoration:'none'}} to='/'><img src={logo} alt="logo"/></Link></Box>
                     <Box sx={{ display: "flex", justifyContent: "right", alignItems: 'center' }}>
                         {
                             authed ? <Link to="/" style={{textDecoration: 'none'}}><Button onClick={logOutHandler}>Выйти</Button></Link>: <Link to="/login" style={{textDecoration: 'none'}} ><Button>Войти</Button></Link>

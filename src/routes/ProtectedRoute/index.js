@@ -1,9 +1,9 @@
 
 import { Outlet, Navigate } from "react-router-dom";
 
-export const PrivateRoute = (props) => {
+export const ProtectedRoute = (props) => {
     const isAuthed = props.authed
     return (
-        isAuthed ? <Outlet/> : <Navigate to='/login' replace/>
+        isAuthed ? <Outlet/> : <Navigate to='login' replace/>
     )
 }

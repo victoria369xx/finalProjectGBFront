@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Card,FormGroup, TextField, Button, Typography} from '@mui/material';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { signUpUserThunk } from '../../store/userAuth/actions';
 
@@ -9,6 +9,7 @@ export const SignUp = () => {
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
     const dispatch = useDispatch(); 
+    const navigate = useNavigate();
 
     function emailSubmitHandler (event) {
         setEmail(event.target.value)
@@ -23,10 +24,11 @@ export const SignUp = () => {
         setPassword("");
     }
 
-   function signUpHandler (event) {
-        event.preventDefault()
-        dispatch(signUpUserThunk(email,password))
-        clearForm()
+   async function signUpHandler (event) {
+        event.preventDefault();
+       await dispatch(signUpUserThunk(email,password));
+        navigate('/account');
+        clearForm();
     }
 
     return (
