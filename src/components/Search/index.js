@@ -11,22 +11,21 @@ export const Search = () => {
 
     const cities = getCityArrFromDB()
     console.log(cities)
-    const [currencyCity, setCurrencyCity] = useState({});
+
+    const [cityName, setCityName] = useState('Москва')
 
     const handleChange = (event) => {
         const elTarget = event.target.value
-        console.log(`elTarget: ${elTarget.id}`)
-        setCurrencyCity(elTarget)
-        console.log(currencyCity)
+        setCityName(elTarget)
     }
-    // React.useEffect(() => {
-    //     handleChange()
+    let currencyCity = {}
+    cities.filter(el => {
+        if (el.city == cityName) { currencyCity = el }
 
-    // }, [currencyCity])
-
+    })
 
     const path = `/search/${currencyCity.id}`
-    console.log(currencyCity.id)
+
     return (
 
         <Grid item xs={12} md={12}>
@@ -44,7 +43,7 @@ export const Search = () => {
                     id="filled-select-currency"
                     select
                     label="Выберите город"
-                    value={currencyCity.city}
+                    value={cityName}
                     onChange={handleChange}
                     variant="filled"
 
@@ -52,7 +51,7 @@ export const Search = () => {
                     {/* ___________ Исправить, когда появится Api ____________*/}
 
                     {cities.map((city) => (
-                        <MenuItem key={city.id} value={city}>
+                        <MenuItem key={city.id} value={city.city}>
                             {city.city}
                         </MenuItem>
                     ))}
