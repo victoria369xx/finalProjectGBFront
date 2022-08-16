@@ -16,6 +16,7 @@ import styles from './header.module.css'
 
 let linkStyle = classnames(styles.link_style)
 
+// style={textDecoration: 'none'}
 
 export const Header = () => {
 
@@ -109,7 +110,7 @@ export const Header = () => {
                             >
                                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: 'start' }}>
                                     <MenuItem onClick={handleCloseUserMenu} sx={{ width: "100%" }}>
-                                        <Link to="/profile" className={linkStyle}>Личный кабинет</Link>
+                                        <Link to='/profile/:id' className={linkStyle}>Личный кабинет</Link>
                                     </MenuItem>
                                     <MenuItem onClick={handleCloseUserMenu} sx={{ width: "100%" }}>
                                         <Link to="/" className={linkStyle}>Выйти</Link>
