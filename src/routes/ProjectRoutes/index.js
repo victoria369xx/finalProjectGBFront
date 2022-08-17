@@ -1,11 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import { Page404 } from "../Page404";
-import { Profile } from "../../components";
 import { PrivatRoute } from "../PrivatRoute";
+import {ProfilePage} from "../../pages/ProfilePage";
 import { LogInPage } from "../../pages/LogInPage";
 import { SignUpPage } from "../../pages/SignUpPage";
 import { HomePage } from "../../pages/HomePage";
-import { AccountPage } from "../../pages/AccountPage";
+import {NotFound} from "../../pages/NotFound";
 import { RenderSearchResultsBlock } from '../../components';
 
 

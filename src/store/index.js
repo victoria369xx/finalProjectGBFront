@@ -15,7 +15,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   profile: profileReducer,
-  search: searchResultReducer
+  search: searchResultReducer,
   account: accountReducer,
 });
 
