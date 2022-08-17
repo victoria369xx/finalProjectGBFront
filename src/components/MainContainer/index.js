@@ -4,9 +4,6 @@ import { BottomNavigation, BottomNavigationAction, Container, Paper } from '@mui
 import { Outlet } from 'react-router-dom'
 import { Header } from '../Header';
 
-// здесь основной контейнер с разметкой страницы: по порядку идут 
-// Header, потом все остальное содержимое(оно будет указано в роутах и помещено 
-// в Outlet) и footer
 export const MainContainer = () => {
 
     // let classNameFooter = classnames(styles.footer)
