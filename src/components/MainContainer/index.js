@@ -1,5 +1,3 @@
-import classnames from 'classnames';
-
 import { BottomNavigation, BottomNavigationAction, Container, Paper } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 import { Header } from '../Header';
