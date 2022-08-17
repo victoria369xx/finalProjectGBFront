@@ -1,65 +1,70 @@
-
-import { CardMedia, Container, Box, Typography } from "@mui/material";
+import { CardMedia, Container, Box, Typography, Button } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getProfileFromDB } from "../../store/profile/actions";
-import { selectProfile } from "../../store/profile/selector";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAccountFromDB } from "../../store/account/actions";
+import {
+  selectAccount,
+  selectAccountError,
+} from "../../store/account/selector";
+import avatar from "../../assets/images/user.jpg";
 
-export const Profile = () => {
-  // const { userId } = useParams();
-  const userId = 3;
+export const Account = () => {
+  const { userId } = useParams();
+  let navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const profile = useSelector(selectProfile);
+  const account = useSelector(selectAccount);
+  const error = useSelector(selectAccountError);
 
   useEffect(() => {
-    dispatch(getProfileFromDB(userId));
+    dispatch(getAccountFromDB(Number(userId)));
   }, [userId]);
 
-  if (!profile) {
-    return;
-    //будет редирект на 404
-    //return <Redirect to="*" />
-  }
+  // здесь потом будет настроен редирект с некорректного id
+  // if (isNaN(Number(userId))) {
+  //   return navigate("*");
+  // }
+  // if (error) {
+  //   return navigate("/");
+  // }
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ display: "flex", gap: 5, mt: 10 }}>
+      <Box sx={{ display: "flex", gap: 5, mt: 10, mb: 5 }}>
         {/* user.jpg - (временная) заглушка, когда у пользователя нет фото */}
         <CardMedia
           component="img"
           sx={{ width: 300 }}
-          image={profile.img || "user.jpg"}
-          alt={profile.name}
+          // image={account.img || avatar}
+          image={avatar}
+          alt={account.name}
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography component="div" variant="h5">
-            {profile.name}
+            {account.name}
           </Typography>
           <Typography variant="h6" component="div">
             О себе:
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
-            {profile.info}
+            {account.info}
           </Typography>
           <Typography variant="h6" component="div">
             Город:
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
-            {profile.city}
+            {account.city}
           </Typography>
           <Typography variant="h6" component="div">
             Контакты:
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
-            Телефон&emsp;{profile.phone}
+            Телефон&emsp;{account.phone}
           </Typography>
         </Box>
       </Box>
+      <Button variant="contained">Редактировать профиль</Button>
     </Container>
   );
 };
-
-
-
