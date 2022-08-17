@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo_transparent.png'
 
 
-
 export const Header = () => {
 
     return (
@@ -13,12 +12,11 @@ export const Header = () => {
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between'}} >
                    <Box> <img src={logo} alt="logo"/></Box>
-
-
-
                     <Box sx={{ display: "flex", justifyContent: "right", alignItems: 'center' }}>
+
                        <Link to="/login" style={{textDecoration: 'none'}}><Button>Войти</Button></Link>
                        <Link to="/" style={{textDecoration: 'none'}}><Button>Выйти</Button></Link>
+
                     </Box>
                 </Toolbar>
             </Container>

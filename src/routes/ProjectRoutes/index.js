@@ -6,31 +6,25 @@ import { LogInPage } from "../../pages/LogInPage";
 import { SignUpPage } from "../../pages/SignUpPage";
 import { HomePage } from "../../pages/HomePage";
 import { AccountPage } from "../../pages/AccountPage";
+import { RenderSearchResultsBlock } from '../../components';
 
-// import { PublicRoute } from "../PublicRoute"
+
 
 export const ProjectRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<HomePage />}>
-        {/* в MainContainer.index.js прописала <Outlet/> куда попадaют все руты, 
-            находящиеся в Route path='/' element={<MainContainer />}  */}
-        <Route path="/login" element={<LogInPage />} />
-        <Route path="/account/:userId" element={<AccountPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
+    const authStatus = false
+    return (
+        <Routes>
+            <Route path='/' element={<HomePage />}>
+                <Route path='/login' element={<LogInPage />} />
+                <Route path='/signup' element={<SignUpPage />} />
+                <Route element={<PrivatRoute authed={authStatus} />}>
+                    <Route exact path={"profile"} element={<ProfilePage />} />
+                </Route>
+                <Route path='/search/:cityId' element={<RenderSearchResultsBlock />} />
+                <Route path={"*"} element={<NotFound />} />
 
-        <Route
-          exact
-          path={"profile"}
-          element={
-            <PrivatRoute>
-              <Profile />
-            </PrivatRoute>
-          }
-        />
+            </Route>
+        </Routes>
 
-        <Route path={"*"} element={<Page404 />} />
-      </Route>
-    </Routes>
-  );
-};
+    )
+}
