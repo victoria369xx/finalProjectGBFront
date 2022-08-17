@@ -7,7 +7,6 @@ import { useDispatch, useSelector} from 'react-redux';
 import { logOutUserThunk} from '../../store/userAuth/actions';
 import { getIsAuth } from '../../store/userAuth/selectors';
 
-
 export const Header = () => {
     const dispatch = useDispatch();
     function logOutHandler () {
@@ -19,6 +18,7 @@ export const Header = () => {
         <AppBar position="static" sx={{backgroundColor: 'white', p:2 }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between'}} >
+
                    <Box><Link style={{textDecoration:'none'}} to='/'><img src={logo} alt="logo"/></Link></Box>
                     <Box sx={{ display: "flex", justifyContent: "right", alignItems: 'center' }}>
                         {

@@ -1,5 +1,7 @@
 export * from "./Header"
 export * from "./Profile"
 export * from "./MainContainer"
+export * from "./Search"
+export * from "./searchResults"
 export * from "./LogIn"
 export * from "./SignUp"

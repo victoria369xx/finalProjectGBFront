@@ -4,6 +4,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { signUpUserThunk } from '../../store/userAuth/actions';
 
+
 export const SignUp = () => {
     
     const [email, setEmail] = useState(''); 
@@ -47,4 +48,3 @@ export const SignUp = () => {
         </>
     )
 }
-

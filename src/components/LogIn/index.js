@@ -1,9 +1,9 @@
+
 import React, {useState} from 'react';
 import {Card,FormGroup, TextField, FormControlLabel, Checkbox, Button, Typography} from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {logInUserThunk} from '../../store/userAuth/actions';
-
 
 export const LogIn = () => {
     const [email, setEmail] = useState(''); 
@@ -33,6 +33,7 @@ export const LogIn = () => {
     }
     return (
         <>
+        
         <Card sx={{ maxWidth: 400, p: 4, boxShadow: 2, mt:4 }}>
         <Typography sx={{fontWeight: 'medium'}}>ВХОД </Typography>
         <form onSubmit={logInHandler}>

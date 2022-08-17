@@ -3,7 +3,10 @@ import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
 import { profileReducer } from "./profile/reducer";
+import { searchResultReducer } from "./search/reducer";
+import { accountReducer } from "./account/reducer";
 import { userAuthReducer } from "./userAuth/reducer";
+
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -14,6 +17,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   profile: profileReducer,
+  search: searchResultReducer,
+  account: accountReducer,
   auth: userAuthReducer,
 });
 
