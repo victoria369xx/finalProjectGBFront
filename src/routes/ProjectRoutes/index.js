@@ -7,12 +7,16 @@ import { NotFound } from "../../pages/NotFound";
 import { PrivateRoute } from "../PrivateRoute";
 
 export const ProjectRoutes = () => {
+<<<<<<< HEAD
   const dispatch = useDispatch();
   const authState = useSelector(getIsAuth);
 
   useEffect(() => {
     dispatch(initAuthAction);
   });
+=======
+  const authStatus = false;
+>>>>>>> test connect with backend
   return (
     <Routes>
       <Route path="/" element={<HomePage />}>
