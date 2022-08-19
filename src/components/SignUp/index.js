@@ -6,11 +6,17 @@ import { signUpUserThunk } from '../../store/userAuth/actions';
 
 
 export const SignUp = () => {
-    
+    const [name, setName] = useState(''); 
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
+    const [confirmation, setConfirmation] = useState('');
+    
     const dispatch = useDispatch(); 
     const navigate = useNavigate();
+
+    function nameSubmitHandler (event) {
+        setName(event.target.value)
+    }
 
     function emailSubmitHandler (event) {
         setEmail(event.target.value)
@@ -20,14 +26,19 @@ export const SignUp = () => {
         setPassword(event.target.value)
     }
 
+    function confirmationSubmitHandler (event) {
+        setConfirmation(event.target.value)
+    }
     function clearForm () {
+        setName("");
         setEmail("");
         setPassword("");
+        setConfirmation("");
     }
 
    async function signUpHandler (event) {
         event.preventDefault();
-       await dispatch(signUpUserThunk(email,password));
+       await dispatch(signUpUserThunk(name,email,password,confirmation));
         navigate('/account/1');
         clearForm();
     }
@@ -38,8 +49,10 @@ export const SignUp = () => {
         <Typography sx={{fontWeight: 'medium'}}>РЕГИСТРАЦИЯ</Typography>
         <form onSubmit={signUpHandler}>
         <FormGroup>
+        <TextField id="standard-basic" label="Имя" variant="outlined" sx={{mt:2}} onChange={nameSubmitHandler} required/>
         <TextField id="standard-basic" label="Эл. почта" variant="outlined" sx={{mt:2}} onChange={emailSubmitHandler} required/>
         <TextField id="standard-basic" label="Пароль" variant="outlined" sx={{mt:2}} onChange={passwordSubmitHandler} required/>
+        <TextField id="standard-basic" label="Подтвердите пароль" variant="outlined" sx={{mt:2}} onChange={confirmationSubmitHandler} required/>
         <Button type='submit' variant="contained" sx={{mt:2}}>СОЗДАТЬ АККАУНТ</Button>
         </FormGroup>
         </form>
