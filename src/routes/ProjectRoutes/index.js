@@ -21,7 +21,6 @@ export const ProjectRoutes = () => {
   useEffect(() => {
     dispatch(initAuthAction);
   });
-
   return (
     <Routes>
       <Route path="/" element={<HomePage />}>
