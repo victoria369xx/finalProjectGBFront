@@ -12,20 +12,29 @@ const setError = (error) => ({
 });
 
 export const getProfileFromDB = (id) => async (dispatch) => {
-  //   const settings = {
-  //     method: "POST",
-  //     headers: {
-  //       userId: id,
-  //     },
-  //   };
+  // const settings = {
+  //   method: "GET",
+  //   headers: {
+  //     userId: id,
+  //   },
+  // };
   try {
-    // const fetchResponse = await fetch(API, settings);
-    // const data = await fetchResponse.json();
-    // заглушка пока нет данных с БД
-    const data = JSONDATA["users"].find((el) => el.id === id);
-    dispatch(setProfile(data));
+    // const fetchResponse = await fetch(
+    //   "http://127.0.0.1:8000/api/v1/users/",
+    //   settings
+    // );
+    // const response = await fetch("localhost/api/v1/users/1");
+    const response = await fetch("http://127.0.0.1:8000/api/v1/users/1");
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+    // const data = JSONDATA["users"].find((el) => el.id === id);
+    // dispatch(setProfile(data));
   } catch (e) {
-    console.log(e.message);
-    dispatch(setError(e.message));
+    // console.log(e.message);
+    console.log(e);
+    // dispatch(setError(e.message));
   }
 };
