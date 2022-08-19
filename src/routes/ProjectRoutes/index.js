@@ -1,18 +1,10 @@
-import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import {
-  LogInPage,
-  SignUpPage,
-  HomePage,
-  ProfilePage,
-  AccountPage,
-  NotFound,
-} from "../../pages";
-import { ProtectedRoute } from "../ProtectedRoute";
-import { useDispatch, useSelector } from "react-redux";
-import { initAuthAction } from "../../store/userAuth/actions";
-import { getIsAuth } from "../../store/userAuth/selectors";
-import { RenderSearchResultsBlock } from "../../components";
+import { LogInPage } from "../../pages/LogInPage";
+import { SignUpPage } from "../../pages/SignUpPage";
+import { HomePage } from "../../pages/HomePage";
+import { ProfilePage } from "../../pages/ProfilePage";
+import { NotFound } from "../../pages/NotFound";
+import { PrivateRoute } from "../PrivateRoute";
 
 export const ProjectRoutes = () => {
   const dispatch = useDispatch();
@@ -25,14 +17,13 @@ export const ProjectRoutes = () => {
     <Routes>
       <Route path="/" element={<HomePage />}>
         <Route path="/login" element={<LogInPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route exact path={"/profile/:userId"} element={<ProfilePage />} />
-        <Route element={<ProtectedRoute authed={authState} />}>
-          <Route path="/account/:userId" element={<AccountPage />} />
+        <Route element={<PrivateRoute authed={authStatus} />}>
+          {/* <Route exact path={"profile"} element={<ProfilePage />} /> */}
         </Route>
-        <Route path="/search/:cityId" element={<RenderSearchResultsBlock />} />
+        <Route path={"*"} element={<NotFound />} />
       </Route>
-      <Route path={"*"} element={<NotFound />} />
     </Routes>
   );
 };
