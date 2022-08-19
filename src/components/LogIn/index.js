@@ -28,7 +28,7 @@ export const LogIn = () => {
     async function logInHandler (event) {
         event.preventDefault();
         await dispatch(logInUserThunk(email,password));
-        navigate('/account');
+        navigate('/account/1');
         clearForm();
     }
     return (
