@@ -11,6 +11,7 @@ export const LogIn = () => {
     const dispatch = useDispatch(); 
     const navigate = useNavigate();
 
+
     function emailSubmitHandler (event) {
         setEmail(event.target.value)
     }
@@ -27,8 +28,8 @@ export const LogIn = () => {
 
     async function logInHandler (event) {
         event.preventDefault();
-        await dispatch(logInUserThunk(email,password));
-        navigate('/account/1');
+       await dispatch(logInUserThunk(email,password));
+       navigate('/account/1');
         clearForm();
     }
     return (
