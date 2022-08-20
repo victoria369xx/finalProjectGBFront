@@ -1,8 +1,7 @@
-
-
 import React from 'react';
 import { Card, FormGroup, TextField, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+
 
 export const SignUp = () => {
     return (

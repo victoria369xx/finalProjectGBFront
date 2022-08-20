@@ -4,6 +4,6 @@ import { LogIn } from "../components";
 
 export const LogInPage = () => {
     return <>
-        <LogIn />
+    <LogIn/>
     </>
 }
