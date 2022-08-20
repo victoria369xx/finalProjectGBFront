@@ -1,17 +1,35 @@
 import { Box, Button, Grid, MenuItem, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
-import { getCityArrFromDB } from "../../helpers/getData";
-import { getSearchResult } from "../../store/search/actions";
-import { useInput } from "../../utils/useInput";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { getCities, getSearchResult } from "../../store/search/actions";
+import { selectCities } from "../../store/search/selector";
 
 export const Search = () => {
-  const cities = getCityArrFromDB();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const { value: cityId, handleChange: changeId, reset: resetId } = useInput(1);
+  const { cityId } = useParams();
+  const selectedCity = cityId ? cityId : "";
+  const [city, setCity] = useState(selectedCity);
+
+  const cities = useSelector(selectCities);
+
+  const handleChange = (event) => {
+    setCity(event.target.value);
+  };
 
   const handleSubmit = (event) => {
-    getSearchResult(cityId);
+    event.preventDefault();
+    navigate(`/search/${city}`);
   };
+
+  useEffect(() => {
+    dispatch(getCities());
+    if (cityId) {
+      dispatch(getSearchResult(cityId));
+    }
+  }, [cityId]);
 
   return (
     <Grid item xs={12} md={12}>
@@ -29,8 +47,8 @@ export const Search = () => {
           id="filled-select-currency"
           select
           label="Выберите город"
-          //   value={cityId}
-          onChange={changeId}
+          value={city}
+          onChange={handleChange}
           variant="filled"
         >
           {/* ___________ Исправить, когда появится Api ____________*/}
@@ -43,9 +61,7 @@ export const Search = () => {
         </TextField>
 
         <Button id="search-btn" type="submit" variant="outlined">
-          <Link to={`search/${cityId}`} style={{ textDecoration: "none" }}>
-            Поиск{" "}
-          </Link>
+          Поиск
         </Button>
       </Box>
     </Grid>
