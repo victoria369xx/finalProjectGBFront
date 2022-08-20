@@ -4,13 +4,13 @@ import {AppBar, Box, Toolbar,Button, Container} from '@mui/material';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo_transparent.png';
 import { useDispatch, useSelector} from 'react-redux';
-import { logOutUserThunk} from '../../store/userAuth/actions';
+import { logOutUserAction} from '../../store/userAuth/actions';
 import { getIsAuth } from '../../store/userAuth/selectors';
 
 export const Header = () => {
     const dispatch = useDispatch();
     function logOutHandler () {
-        dispatch(logOutUserThunk)
+        dispatch(logOutUserAction)
       }
       const authed = useSelector(getIsAuth)
 

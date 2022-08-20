@@ -8,18 +8,19 @@ import {
   AccountPage,
   NotFound,
 } from "../../pages";
-import { ProtectedRoute } from "../ProtectedRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { initAuthAction } from "../../store/userAuth/actions";
-import { getIsAuth } from "../../store/userAuth/selectors";
+import {  getUser } from "../../store/userAuth/selectors";
 import { RenderSearchResultsBlock } from "../../components";
 
 export const ProjectRoutes = () => {
   const dispatch = useDispatch();
-  const authState = useSelector(getIsAuth);
+  //const authState = useSelector(getIsAuth);
+  const user = useSelector(getUser);
+
 
   useEffect(() => {
-    dispatch(initAuthAction);
+    dispatch(initAuthAction(user));
   });
 
   return (
@@ -28,9 +29,9 @@ export const ProjectRoutes = () => {
         <Route path="/login" element={<LogInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route exact path={"/profile/:userId"} element={<ProfilePage />} />
-        <Route element={<ProtectedRoute authed={authState} />}>
+        
           <Route path="/account/:userId" element={<AccountPage />} />
-        </Route>
+        
         <Route path="/search/:cityId" element={<RenderSearchResultsBlock />} />
       </Route>
       <Route path={"*"} element={<NotFound />} />
