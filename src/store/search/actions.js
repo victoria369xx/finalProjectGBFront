@@ -27,7 +27,26 @@ const dogSitter = [
     name: "Наталья",
     email: "example@example.ru",
     phone: "+79201234567",
-    city: "Санкт-Петербург",
+    city: "Москва",
+    cityId: 1,
+    adress: "ул. Центральная, д. 37",
+  },
+  {
+    id: 2,
+    name: "Ирина",
+    email: "example@example.ru",
+    phone: "+79201234567",
+    city: "Пушкино",
+    cityId: 3,
+    adress: "ул. Центральная, д. 37",
+  },
+  {
+    id: 4,
+    name: "Вика",
+    email: "example@example.ru",
+    phone: "+79201234567",
+    city: "Самара",
+    cityId: 2,
     adress: "ул. Центральная, д. 37",
   },
 ];
@@ -63,8 +82,11 @@ export const getSearchResult = (id) => async (dispatch) => {
     //     })
     //     .then(renderSearchResultsBlock(result))
 
-    dispatch(setSearchResult(dogSitter[0]));
-    RenderSearchResultsBlock(dogSitter[0]);
+    const data = dogSitter.find((el) => el.cityId == Number(id));
+    dispatch(setSearchResult(data));
+    RenderSearchResultsBlock();
+    // dispatch(setSearchResult(dogSitter[0]));
+    // RenderSearchResultsBlock(dogSitter[0]);
   } catch (error) {
     console.log(error.message);
     dispatch(setSearchError(error.message));

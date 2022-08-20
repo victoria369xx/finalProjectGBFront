@@ -14,6 +14,7 @@ export const searchResultReducer = (
       return {
         ...state,
         searchResult: payload,
+        error: null,
       };
     }
     case SET_SEARCH_ERROR: {
@@ -26,6 +27,7 @@ export const searchResultReducer = (
       return {
         ...state,
         cities: payload,
+        error: null,
       };
     }
     default:
