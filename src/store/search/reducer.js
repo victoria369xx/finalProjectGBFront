@@ -1,6 +1,6 @@
 import { SET_CITIES, SET_SEARCH_ERROR, SET_SEARCH_RESULT } from "./actionTypes";
 const initialState = {
-  searchResult: {},
+  searchResult: [], // должен возвращаться массив объектов (так как ситтеров м.б. несколько)
   error: null,
   cities: [],
 };

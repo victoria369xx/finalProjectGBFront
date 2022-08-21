@@ -1,4 +1,4 @@
-import { RenderSearchResultsBlock } from "../../components/searchResults";
+// import { RenderSearchResultsBlock } from "../../components/searchResults";
 import { SET_CITIES, SET_SEARCH_ERROR, SET_SEARCH_RESULT } from "./actionTypes";
 // import { useDispatch } from "react-redux"
 
@@ -35,7 +35,7 @@ const dogSitter = [
     id: 2,
     name: "Ирина",
     email: "example@example.ru",
-    phone: "+79201234567",
+    phone: "+79212345678",
     city: "Пушкино",
     cityId: 3,
     adress: "ул. Центральная, д. 37",
@@ -44,10 +44,19 @@ const dogSitter = [
     id: 4,
     name: "Вика",
     email: "example@example.ru",
-    phone: "+79201234567",
+    phone: "+79223456789",
     city: "Самара",
     cityId: 2,
     adress: "ул. Центральная, д. 37",
+  },
+  {
+    id: 5,
+    name: "Дима",
+    email: "example@example.ru",
+    phone: "+79999999999",
+    city: "Самара",
+    cityId: 2,
+    adress: "ул. Ленина, д. 2",
   },
 ];
 
@@ -82,9 +91,9 @@ export const getSearchResult = (city) => async (dispatch) => {
     //     })
     //     .then(renderSearchResultsBlock(result))
 
-    const data = dogSitter.find((el) => el.cityId == Number(city));
+    // const data = dogSitter.find((el) => el.cityId == Number(city));
+    const data = dogSitter.filter((el) => el.cityId === Number(city)); //так как ситтеров может быть несколько, то нужен метод filter
     dispatch(setSearchResult(data));
-
   } catch (error) {
     console.log(error.message);
     dispatch(setSearchError(error.message));
