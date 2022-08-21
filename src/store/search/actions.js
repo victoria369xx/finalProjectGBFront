@@ -24,7 +24,7 @@ const setCities = (cities) => ({
 const dogSitter = [
   {
     id: 1,
-    name: "Наталья",
+    name: "Татьяна",
     email: "example@example.ru",
     phone: "+79201234567",
     city: "Москва",
@@ -67,7 +67,7 @@ export const getCities = () => async (dispatch) => {
   }
 };
 
-export const getSearchResult = (id) => async (dispatch) => {
+export const getSearchResult = (city) => async (dispatch) => {
   try {
     // fetch(baseURL + `/${id}`, {
     //     method: 'GET',
@@ -82,11 +82,9 @@ export const getSearchResult = (id) => async (dispatch) => {
     //     })
     //     .then(renderSearchResultsBlock(result))
 
-    const data = dogSitter.find((el) => el.cityId == Number(id));
+    const data = dogSitter.find((el) => el.cityId == Number(city));
     dispatch(setSearchResult(data));
-    RenderSearchResultsBlock();
-    // dispatch(setSearchResult(dogSitter[0]));
-    // RenderSearchResultsBlock(dogSitter[0]);
+
   } catch (error) {
     console.log(error.message);
     dispatch(setSearchError(error.message));
