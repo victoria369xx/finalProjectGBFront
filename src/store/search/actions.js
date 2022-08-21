@@ -1,10 +1,7 @@
-// import { RenderSearchResultsBlock } from "../../components/searchResults";
 import { SET_CITIES, SET_SEARCH_ERROR, SET_SEARCH_RESULT } from "./actionTypes";
-// import { useDispatch } from "react-redux"
 
-// const dispatch = useDispatch()
 
-// const baseURL = 'http://localhost:3030'
+const baseURL = 'http://localhost/api/v1'
 
 const setSearchResult = (searchResult) => ({
   type: SET_SEARCH_RESULT,
@@ -21,56 +18,20 @@ const setCities = (cities) => ({
   payload: cities,
 });
 
-const dogSitter = [
-  {
-    id: 1,
-    name: "Татьяна",
-    email: "example@example.ru",
-    phone: "+79201234567",
-    city: "Москва",
-    cityId: 1,
-    adress: "ул. Центральная, д. 37",
-  },
-  {
-    id: 2,
-    name: "Ирина",
-    email: "example@example.ru",
-    phone: "+79212345678",
-    city: "Пушкино",
-    cityId: 3,
-    adress: "ул. Центральная, д. 37",
-  },
-  {
-    id: 4,
-    name: "Вика",
-    email: "example@example.ru",
-    phone: "+79223456789",
-    city: "Самара",
-    cityId: 2,
-    adress: "ул. Центральная, д. 37",
-  },
-  {
-    id: 5,
-    name: "Дима",
-    email: "example@example.ru",
-    phone: "+79999999999",
-    city: "Самара",
-    cityId: 2,
-    adress: "ул. Ленина, д. 2",
-  },
-];
-
 export const getCities = () => async (dispatch) => {
   try {
-    //тут будет потом запрос доступных городов из БД
-    const citiesArr = [
-      { id: 1, city: "Москва" },
-      { id: 2, city: "Самара" },
-      { id: 3, city: "Пушкино" },
-      { id: 4, city: "Сергиев - Посад" },
-      { id: 5, city: "Калининград" },
-    ];
-    dispatch(setCities(citiesArr));
+    fetch(baseURL + `/locations`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(responce => responce.json())
+      .then((data) => {
+        const result = data.data.cities
+        dispatch(setCities(result));
+      })
+
   } catch (e) {
     console.log(e.message);
   }
@@ -78,22 +39,19 @@ export const getCities = () => async (dispatch) => {
 
 export const getSearchResult = (city) => async (dispatch) => {
   try {
-    // fetch(baseURL + `/${id}`, {
-    //     method: 'GET',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     }
-    // })
-    //     .then(responce => responce.json())
-    //     .then(() => {
-    //         console.log(result)
-    //         dispatch(setSearchResult(result))
-    //     })
-    //     .then(renderSearchResultsBlock(result))
+    fetch(baseURL + `/recipients?filters[city_id]=${city}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(responce => responce.json())
+      .then((data) => {
+        console.log(data.data.users)
+        const result = data.data.users
+        dispatch(setSearchResult(result))
+      })
 
-    // const data = dogSitter.find((el) => el.cityId == Number(city));
-    const data = dogSitter.filter((el) => el.cityId === Number(city)); //так как ситтеров может быть несколько, то нужен метод filter
-    dispatch(setSearchResult(data));
   } catch (error) {
     console.log(error.message);
     dispatch(setSearchError(error.message));
