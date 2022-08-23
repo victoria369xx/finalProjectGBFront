@@ -69,7 +69,7 @@ a {
 }
 
 .page-wrapper {
-  width: 1280px;
+  /* width: 1280px; */
   /* height: 100vh; */
   position: relative;
   margin: 0 auto;
@@ -209,8 +209,6 @@ h2.text-lev2 {
   justify-content: space-between;
 }
 
-
-
 .address {
   -webkit-line-clamp: 1;
   display: -webkit-box;
@@ -252,12 +250,12 @@ h2.text-lev2 {
 .btn {
   height: 30px;
   /* padding: 12px 24px; */
-  background-color: #F0BD66;
+  background-color: #f0bd66;
   color: #ffffff;
   font-weight: 500;
   font-size: 12px;
   line-height: 10px;
   border: none;
   border-radius: 100px;
-  cursor:pointer;
+  cursor: pointer;
 }
