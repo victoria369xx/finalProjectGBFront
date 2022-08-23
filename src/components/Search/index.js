@@ -1,4 +1,4 @@
-// import { Box, Button, Grid, MenuItem, TextField } from "@mui/material";
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -65,38 +65,4 @@ export const Search = () => {
       </div>
     </div>
   );
-
-  // return (
-  //   <Grid item xs={12} md={12}>
-  //     <Box
-  //       component="form"
-  //       sx={{
-  //         display: "flex",
-  //         "& > :not(style)": { m: 1, width: "25ch" },
-  //       }}
-  //       noValidate
-  //       autoComplete="off"
-  //       onSubmit={handleSubmit}
-  //     >
-  //       <TextField
-  //         id="filled-select-currency"
-  //         select
-  //         label="Выберите город"
-  //         value={city}
-  //         onChange={handleChange}
-  //         variant="filled"
-  //       >
-  // {cities.map((city) => (
-  //   <MenuItem key={city.id} value={city.id}>
-  //     {city.city}
-  //   </MenuItem>
-  // ))}
-  //       </TextField>
-
-  //       <Button id="search-btn" type="submit" variant="outlined">
-  //         Поиск
-  //       </Button>
-  //     </Box>
-  //   </Grid>
-  // );
-};
+}
