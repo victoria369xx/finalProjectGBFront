@@ -1,19 +1,23 @@
-import classnames from 'classnames';
-
 import { BottomNavigation, BottomNavigationAction, Container, Paper } from '@mui/material'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { Header } from '../Header';
 import { Search } from '../Search';
 
-// здесь основной контейнер с разметкой страницы: по порядку идут 
-// Header, Search потом все остальное содержимое(оно будет указано в роутах и помещено 
-// в Outlet) и footer
 export const MainContainer = () => {
-
+    const currentLocation = useLocation();
+    const locationCheck = (location) => {
+        if (location.pathname === "/") {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     return (
         <Container>
             <Header />
-            <Search />
+            { locationCheck(currentLocation) ? <Search/> : <></>}
+            
             <Outlet />
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
                 <BottomNavigation showLabels>

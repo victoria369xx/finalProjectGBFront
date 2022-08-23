@@ -1,5 +1,7 @@
 import { SET_ERROR, SET_PROFILE } from "./actioinTypes";
-import JSONDATA from "../users.json";
+
+// const baseURL = "http://localhost:881/api/v1";
+const baseURL = "http://localhost/api/v1";
 
 const setProfile = (profile) => ({
   type: SET_PROFILE,
@@ -12,18 +14,19 @@ const setError = (error) => ({
 });
 
 export const getProfileFromDB = (id) => async (dispatch) => {
-  //   const settings = {
-  //     method: "POST",
-  //     headers: {
-  //       userId: id,
-  //     },
-  //   };
   try {
-    // const fetchResponse = await fetch(API, settings);
-    // const data = await fetchResponse.json();
-    // заглушка пока нет данных с БД
-    const data = JSONDATA["users"].find((el) => el.id === id);
-    dispatch(setProfile(data));
+    const response = await fetch(baseURL + `/users/${Number(id)}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
+    }
+    const data = await response.json();
+    // console.log(data.data.user);
+    dispatch(setProfile(data.data.user));
   } catch (e) {
     console.log(e.message);
     dispatch(setError(e.message));
