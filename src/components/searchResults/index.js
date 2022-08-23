@@ -17,7 +17,7 @@ export const RenderSearchResultsBlock = () => {
   useEffect(() => {
     if (
       isNaN(Number(cityId)) ||
-      !cities.find((el) => el.id == Number(cityId))
+      !cities.find((el) => el.id === Number(cityId))
     ) {
       // если в get-parameters не число или id города, которого нет в cities, то редирект на 404
       navigate("*");
@@ -45,7 +45,7 @@ export const RenderSearchResultsBlock = () => {
             <img src="https://picsum.photos/200/300" alt={sitter.name} />
             <div className="card-content">
               <h3 className="text-lev3">{sitter.name}</h3>
-              <p>{sitter.info ? sitter.info : ""}</p>
+              <p>{sitter.description ? sitter.description : ""}</p>
               <span>
                 <div className="address text-additional">{sitter.city}</div>
                 <div className="address text-additional">{sitter.adress}</div>
