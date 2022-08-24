@@ -1,2 +1,1 @@
 export const SET_PROFILE = "PROFILE::SET_PROFILE";
-export const SET_ERROR = "PROFILE::SET_ERROR";
