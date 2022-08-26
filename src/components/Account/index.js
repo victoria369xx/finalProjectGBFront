@@ -64,7 +64,7 @@ export const Account = () => {
           </Typography>
         </Box>
       </Box>
-      <Button variant="contained">Редактировать профиль</Button>
+      <Button variant="outlined" color='warning'>Редактировать профиль</Button>
     </Container>
   );
 };

@@ -10,6 +10,7 @@ import {
 import avatar from "../../assets/images/user.jpg";
 import avatar2 from "../../assets/images/user2.jpg";
 import Carousel from "../Carousel";
+import { ReviewForm } from "../ReviewForm";
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -70,6 +71,7 @@ export const Profile = () => {
         </Box>
       </Box>
       <Carousel></Carousel>
+      <ReviewForm/>
     </Container>
   );
 };
