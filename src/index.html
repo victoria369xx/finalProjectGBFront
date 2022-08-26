@@ -22,15 +22,42 @@
                 <div class="home-page">
                     <div class="home-title">
                         <h1>Сервис поиска догситтеров</h1>
-                        <form class="title-btn" action="#">
-                            <input type="text" class="left-side-btn" placeholder="Введите город" value="">
-                            <input type="submit" class="right-side-btn" value="Найти">
-                        </form>
                     </div>
                     <div class="home-img">
                         <img class="page-img" src="../img/home-dog.svg" alt="picture">
                     </div>
                 </div>
+                <form class="index-form" action="#">
+                    <div class="header-btn-town">
+                        <label for="town">Город</label>
+                        <select id="town">
+                            <option value="" disabled selected hidden>Введите город</option>
+                            <option value="">Москва</option>
+                            <option value="">Санкт-Петербург</option>
+                            <option value="">Екатеринбург</option>
+                            <option value="">Казань</option>
+                        </select>
+                    </div>
+
+                    <div class="header-btn-date">
+                        <label for="date">Дата</label>
+                        <div>
+                            <input id="date" type="date">
+                            <input type="date">
+                        </div>
+                    </div>
+                    <div class="header-btn-size">
+                        <label for="size">Размер</label>
+                        <select id="size">
+                            <option value="" disabled selected hidden>Введите размер</option>
+                            <option value="">Mini (до 3 кг)</option>
+                            <option value="">Small (3-5 кг)</option>
+                            <option value="">Medium (5-10 кг)</option>
+                            <option value="">Big (более 10 кг)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="search-btn">НАЙТИ</button>
+                </form>
             </div>
         </div>
     </section>
