@@ -1,33 +1,63 @@
-import "./renderSearch_module.css"
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { selectSearchResult, selectCities } from "../../store/search/selector";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { getSearchResult } from "../../store/search/actions";
+import "./renderSearch_module.css";
 
-export const RenderSearchResultsBlock = (data) => {
-    console.log(`data: ${[data]}`);
+export const RenderSearchResultsBlock = () => {
+  const { cityId } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const sitters = useSelector(selectSearchResult);
+  const cities = useSelector(selectCities);
+  // console.log(sitters);
+
+  useEffect(() => {
+    if (
+      isNaN(Number(cityId)) ||
+      !cities.find((el) => el.id === Number(cityId))
+    ) {
+      // если в get-parameters не число или id города, которого нет в cities, то редирект на 404
+      navigate("*");
+    } else if (!isNaN(Number(cityId)) && sitters.length === 0) {
+      // если в поиск попали, вбив руками url
+      dispatch(getSearchResult(cityId));
+    }
+  }, [cityId]);
+
+  // если возвращается пустой массив результатов поиска
+  if (sitters.length === 0) {
     return (
+      <section className="page-wrapper">
+        <h2 className="text-lev2 text-center">Нет догситтеров в этом городе</h2>
+      </section>
+    );
+  }
 
-        <section class="page-wrapper">
-            <h2 class="text-lev2 text-center">Наши догситтеры</h2>
-            <div class="grid-card">
-                <a href="#" class="card">
-                    <img src="https://picsum.photos/200/300" alt="" />
-                    <div class="card-content">
-                        <h3 class="text-lev3">Наталья</h3>
-                        <p>У Лукоморья дуб зеленый. Златая цепь на дубе том. И днем. и ночью кот ученый все ходит по цепи кругом</p>
-                        <span>
-                            <div class="address text-additional">г. Кременчуг-Константиновское</div>
-                            <div class="address text-additional">ул. Центральная, д. 37</div>
-                        </span>
-                    </div>
-                    <div class="card-info">
-
-                        <div class="price">
-                            от 1500 ₽
-                    </div>
-                        <button class="btn">89999999999</button>
-                    </div>
-                </a>
+  return (
+    <section className="page-wrapper">
+      <h2 className="text-lev2 text-center">Наши догситтеры</h2>
+      <div className="grid-card">
+        {sitters.map((sitter) => (
+          <Link to={`/profile/${sitter.id}`} className="card" key={sitter.id}>
+            <img src="https://picsum.photos/200/300" alt={sitter.name} />
+            <div className="card-content">
+              <h3 className="text-lev3">{sitter.name}</h3>
+              <p>{sitter.description ? sitter.description : ""}</p>
+              <span>
+                <div className="address text-additional">{sitter.city}</div>
+                <div className="address text-additional">{sitter.adress}</div>
+              </span>
             </div>
-        </section>
-    )
-}
-
+            <div className="card-info">
+              <div className="price">{sitter.price ? sitter.price : ""}</div>
+              <button className="btn">{sitter.phone}</button>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+};

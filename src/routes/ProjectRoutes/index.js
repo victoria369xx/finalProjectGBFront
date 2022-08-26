@@ -1,37 +1,26 @@
-import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import {
-  LogInPage,
-  SignUpPage,
-  HomePage,
-  ProfilePage,
-  AccountPage,
-  NotFound,
-} from "../../pages";
-import { useDispatch, useSelector } from "react-redux";
-import { initAuthAction } from "../../store/userAuth/actions";
-import {  getUser } from "../../store/userAuth/selectors";
+// import { PrivatRoute } from "../PrivatRoute";
+import { LogInPage } from "../../pages/LogInPage";
+import { SignUpPage } from "../../pages/SignUpPage";
+import { HomePage } from "../../pages/HomePage";
 import { RenderSearchResultsBlock } from "../../components";
+import { ProfilePage } from "../../pages/ProfilePage";
+import { NotFound } from "../../pages/NotFound";
+import { AccountPage } from "../../pages/AccountPage";
 
 export const ProjectRoutes = () => {
-  const dispatch = useDispatch();
-  //const authState = useSelector(getIsAuth);
-  const user = useSelector(getUser);
-
-
-  useEffect(() => {
-    dispatch(initAuthAction(user));
-  });
+  const authStatus = false;
 
   return (
     <Routes>
       <Route path="/" element={<HomePage />}>
         <Route path="/login" element={<LogInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+
         <Route exact path={"/profile/:userId"} element={<ProfilePage />} />
-        
-          <Route path="/account/:userId" element={<AccountPage />} />
-        
+
+        <Route path="/account/:userId" element={<AccountPage />} />
+
         <Route path="/search/:cityId" element={<RenderSearchResultsBlock />} />
       </Route>
       <Route path={"*"} element={<NotFound />} />

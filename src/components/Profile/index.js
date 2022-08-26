@@ -1,35 +1,48 @@
 import { CardMedia, Container, Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProfileFromDB } from "../../store/profile/actions";
-import { selectProfile } from "../../store/profile/selector";
+import {
+  selectProfile,
+  selectProfileError,
+} from "../../store/profile/selector";
+import avatar from "../../assets/images/user.jpg";
+import avatar2 from "../../assets/images/user2.jpg";
+import Carousel from "../Carousel";
 
 export const Profile = () => {
-  // const { userId } = useParams();
-  const userId = 3;
+  const { userId } = useParams();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const profile = useSelector(selectProfile);
+  const error = useSelector(selectProfileError);
+
+  //временная заглушка на фото
+  const imgArr = [avatar, avatar2];
+  const profileImg = imgArr[Math.floor(Math.random() * 2)];
 
   useEffect(() => {
-    dispatch(getProfileFromDB(userId));
+    if (isNaN(Number(userId))) {
+      navigate("*");
+    } else {
+      dispatch(getProfileFromDB(Number(userId)));
+    }
   }, [userId]);
 
-  if (!profile) {
-    return;
-    //будет редирект на 404
-    //return <Redirect to="*" />
+  if (!profile || error) {
+    return <h3>Нет такого ситтера</h3>;
   }
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ display: "flex", gap: 5, mt: 10 }}>
-        {/* user.jpg - (временная) заглушка, когда у пользователя нет фото */}
+      <Box sx={{ display: "flex", gap: 5, mt: 10, mb: 8 }}>
         <CardMedia
           component="img"
           sx={{ width: 300 }}
-          image={profile.img || "user.jpg"}
+          image={profile.img ? profile.img : profileImg}
           alt={profile.name}
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -40,7 +53,7 @@ export const Profile = () => {
             О себе:
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
-            {profile.info}
+            {profile.description}
           </Typography>
           <Typography variant="h6" component="div">
             Город:
@@ -56,6 +69,7 @@ export const Profile = () => {
           </Typography>
         </Box>
       </Box>
+      <Carousel></Carousel>
     </Container>
   );
 };

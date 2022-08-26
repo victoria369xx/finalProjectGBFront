@@ -1,68 +1,68 @@
 
-import * as React from 'react';
-import { Box, Button, Grid, MenuItem, TextField } from "@mui/material"
-import { Link } from "react-router-dom"
-import { getCityArrFromDB } from "../../helpers/getData"
-import { useState } from "react"
-import { getSearchResult } from "../../store/search/actions"
-
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { getCities, getSearchResult } from "../../store/search/actions";
+import { selectCities } from "../../store/search/selector";
+import "./search.css";
+import dog from "../../assets/images/home-dog.svg";
 
 export const Search = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const cities = getCityArrFromDB()
-    console.log(cities)
+  const { cityId } = useParams();
+  const selectedCity = cityId ? cityId : "";
+  const [city, setCity] = useState(selectedCity);
 
-    const [cityName, setCityName] = useState('Москва')
+  const cities = useSelector(selectCities);
 
-    const handleChange = (event) => {
-        const elTarget = event.target.value
-        setCityName(elTarget)
-    }
-    let currencyCity = {}
-    cities.filter(el => {
-        if (el.city == cityName) { currencyCity = el }
+  const handleChange = (event) => {
+    setCity(event.target.value);
+  };
 
-    })
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(getSearchResult(city));
+    navigate(`/search/${city}`);
+  };
 
-    const path = `/search/${currencyCity.id}`
+  useEffect(() => {
+    dispatch(getCities());
+  }, [cityId]);
 
-    return (
-
-        <Grid item xs={12} md={12}>
-            <Box
-                component="form"
-                sx={{
-                    display: "flex",
-                    '& > :not(style)': { m: 1, width: '25ch' },
-                }}
-                noValidate
-                autoComplete="off"
+  return (
+    <div className="home-content container">
+      <div className="home-page">
+        <div className="home-title">
+          <h1>Сервис поиска догситтеров</h1>
+          <form className="title-btn" onSubmit={handleSubmit}>
+            <select
+              className="left-side-btn"
+              name={city}
+              id={city}
+              onChange={handleChange}
             >
-
-                <TextField
-                    id="filled-select-currency"
-                    select
-                    label="Выберите город"
-                    value={cityName}
-                    onChange={handleChange}
-                    variant="filled"
-
+              <option value="Выберите город" selected disabled hidden>
+                Выберите город
+              </option>
+              {cities.map((city) => (
+                <option
+                  key={city.id}
+                  value={city.id}
+                  selected={city.id == cityId}
                 >
-                    {/* ___________ Исправить, когда появится Api ____________*/}
-
-                    {cities.map((city) => (
-                        <MenuItem key={city.id} value={city.city}>
-                            {city.city}
-                        </MenuItem>
-                    ))}
-                </TextField>
-
-
-                <Button id="search-btn" type="submit" variant="outlined" onClick={getSearchResult(currencyCity.id)}>
-                    <Link to={path} style={{ textDecoration: 'none' }}>Поиск </Link></Button>
-
-            </Box>
-        </Grid >
-
-    )
+                  {city.city}
+                </option>
+              ))}
+            </select>
+            <input type="submit" className="right-side-btn" value="Найти" />
+          </form>
+        </div>
+        <div className="home-img">
+          <img className="page-img" src={dog} alt="picture" />
+        </div>
+      </div>
+    </div>
+  );
 }
