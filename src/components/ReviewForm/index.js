@@ -1,5 +1,5 @@
 import React from "react"; 
-import {Card, Typography, Button, Rating, FormGroup, TextField} from '@mui/material'
+import {Card, Typography, Button, Rating, FormGroup, TextareaAutosize} from '@mui/material'
 
 export function ReviewForm () {
     return <>
@@ -7,10 +7,14 @@ export function ReviewForm () {
         <Typography>Оставить отзыв</Typography>
         <form>
         <FormGroup>
-                <Typography>Имя</Typography>
-                <Rating></Rating>
-                <TextField></TextField>
-                <Button variant="outlined" color="warning">Отправить</Button>
+                <Typography sx={{mt:2}}>Имя</Typography>
+                <Rating sx={{mb:2}}></Rating>
+                <TextareaAutosize
+                aria-label="minimum height"
+                minRows={6}
+                placeholder="Введите текст..."
+                />
+                <Button variant="outlined" color="warning" sx={{mt:2}}>Отправить</Button>
         </FormGroup>
         </form>
     </Card>
