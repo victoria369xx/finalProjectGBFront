@@ -9,6 +9,7 @@ import {
 } from "../../store/profile/selector";
 import avatar from "../../assets/images/user.jpg";
 import avatar2 from "../../assets/images/user2.jpg";
+import Carousel from "../Carousel";
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -37,7 +38,7 @@ export const Profile = () => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ display: "flex", gap: 5, mt: 10 }}>
+      <Box sx={{ display: "flex", gap: 5, mt: 10, mb: 8 }}>
         <CardMedia
           component="img"
           sx={{ width: 300 }}
@@ -68,6 +69,7 @@ export const Profile = () => {
           </Typography>
         </Box>
       </Box>
+      <Carousel></Carousel>
     </Container>
   );
 };
