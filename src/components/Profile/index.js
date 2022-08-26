@@ -1,11 +1,18 @@
-import { CardMedia, Container, Box, Typography } from "@mui/material";
-import { useEffect } from "react";
+import {
+  CardMedia,
+  Container,
+  Box,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProfileFromDB } from "../../store/profile/actions";
 import {
   selectProfile,
   selectProfileError,
+  selectProfileLoading,
 } from "../../store/profile/selector";
 import avatar from "../../assets/images/user.jpg";
 import avatar2 from "../../assets/images/user2.jpg";
@@ -18,6 +25,7 @@ export const Profile = () => {
 
   const profile = useSelector(selectProfile);
   const error = useSelector(selectProfileError);
+  const loading = useSelector(selectProfileLoading);
 
   //временная заглушка на фото
   const imgArr = [avatar, avatar2];
@@ -30,6 +38,16 @@ export const Profile = () => {
       dispatch(getProfileFromDB(Number(userId)));
     }
   }, [userId]);
+
+  if (loading) {
+    return (
+      <Container maxWidth="md">
+        <Box sx={{ display: "flex", gap: 5, mt: 10 }}>
+          <CircularProgress />
+        </Box>
+      </Container>
+    );
+  }
 
   if (!profile || error) {
     return <h3>Нет такого ситтера</h3>;
