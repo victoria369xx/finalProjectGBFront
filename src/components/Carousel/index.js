@@ -1,5 +1,7 @@
 
 import * as React from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
@@ -49,6 +51,10 @@ const data = [
 ];
 
 export default function Carousel() {
+    //Ир, массив отзывов reviewList. Надо будет еще что-то отображать, если у юзера нет отзывов
+    const {userId} = useParams();
+    const reviewList = useSelector((state)=> state.reviews.reviewList[userId]);
+    console.log(reviewList)
     return (
         <Box
             sx={{

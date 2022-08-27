@@ -15,14 +15,14 @@ export const Header = () => {
       const authed = useSelector(getIsAuth)
 
     return (
-        <AppBar position="static" sx={{backgroundColor: 'white', p:2 }}>
+        <AppBar position="static" sx={{backgroundColor: 'white', p:2, boxShadow:0 }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between'}} >
 
                    <Box><Link style={{textDecoration:'none'}} to='/'><img src={logo} alt="logo"/></Link></Box>
                     <Box sx={{ display: "flex", justifyContent: "right", alignItems: 'center' }}>
                         {
-                            authed ? <Link to="/" style={{textDecoration: 'none'}}><Button onClick={logOutHandler}>Выйти</Button></Link>: <Link to="/login" style={{textDecoration: 'none'}} ><Button>Войти</Button></Link>
+                            authed ? <Link to="/" style={{textDecoration: 'none'}}><Button color='warning' onClick={logOutHandler}>Выйти</Button></Link>: <Link to="/login" style={{textDecoration: 'none'}} ><Button color='warning'>Войти</Button></Link>
                         }
                     </Box>
                 </Toolbar>
