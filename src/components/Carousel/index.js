@@ -53,9 +53,17 @@ const data = [
 export default function Carousel() {
     //Ир, массив отзывов reviewList. Надо будет еще что-то отображать, если у юзера нет отзывов
     const {userId} = useParams();
-    const reviewList = useSelector((state)=> state.reviews.reviewList[userId]);
-    console.log(reviewList)
+    let reviewList = useSelector((state)=> state.reviews.reviewList[userId]);
+    if(reviewList !== undefined){
+        console.log(reviewList)
+    } else {
+        reviewList = []
+        console.log(reviewList)
+    }
+    
+
     return (
+        <>
         <Box
             sx={{
                 display: 'flex',
@@ -97,5 +105,6 @@ export default function Carousel() {
                 </Card>
             ))}
         </Box>
+        </>
     );
 }

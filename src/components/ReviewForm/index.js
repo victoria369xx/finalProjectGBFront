@@ -28,25 +28,30 @@ export function ReviewForm () {
     
     function reviewSubmitHandler(event) {
         event.preventDefault();
-        const newReview = {
-            name: currentUser.email,
-            rating:rating,
-            reviewText: reviewText
+        if(reviewText) {
+            const newReview = {
+                name: currentUser.email,
+                rating:rating,
+                reviewText: reviewText
+            }
+            dispatch(addReviewThunk(userId, newReview))
+            clearForm();
+        } else {
+            alert('Поле комментарий не может быть пустым!')
         }
-        dispatch(addReviewThunk(userId, newReview))
-        clearForm();
     }
     return <>
     <Card sx={{p:4}}>
         <Typography sx={{fontWeight:'medium'}}>Оставить отзыв</Typography>
         <form onSubmit={reviewSubmitHandler}>
         <FormGroup>
-                <Typography sx={{mt:2}}>{currentUser.email}</Typography>
-                <Rating sx={{mb:2}} value={rating} onChange={setRatingHandler}></Rating>
+                <Typography sx={{mt:2}}>Имя: {currentUser.email}</Typography>
+               <Typography> Оценка: <Rating sx={{mb:2}} value={rating} onChange={setRatingHandler}></Rating></Typography>
+                <Typography>Комментарий:</Typography>
                 <TextareaAutosize
                 aria-label="minimum height"
                 minRows={6}
-                placeholder="Введите текст..."
+                placeholder=" Введите текст..."
                 sx={{p:2}}
                 value={reviewText} onChange={setReviewTextHandler} />
                 <Button variant="outlined" color="warning" sx={{mt:2, width:'100px'}} type="submit">Отправить</Button>

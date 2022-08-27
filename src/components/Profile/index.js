@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { getProfileFromDB } from "../../store/profile/actions";
 import {
   selectProfile,
@@ -18,9 +18,11 @@ import avatar from "../../assets/images/user.jpg";
 import avatar2 from "../../assets/images/user2.jpg";
 import Carousel from "../Carousel";
 import { ReviewForm } from "../ReviewForm";
+import { getIsAuth } from "../../store/userAuth/selectors";
 
 export const Profile = () => {
   const { userId } = useParams();
+  const authed = useSelector(getIsAuth)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -89,7 +91,12 @@ export const Profile = () => {
         </Box>
       </Box>
       <Carousel></Carousel>
-      <ReviewForm/>
+      {
+        
+          authed ? <ReviewForm/> : <Box sx={{mt:4}}>Войдите или зарегистрируйтесь,чтобы оставить отзыв. <Link to="/login" target="_blank" style={{textDecoration: 'none', color:'orange'}} > Войти </Link></Box>
+      
+      }
+     
     </Container>
   );
 };
