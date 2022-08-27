@@ -6,6 +6,7 @@ import { profileReducer } from "./profile/reducer";
 import { searchResultReducer } from "./search/reducer";
 import { accountReducer } from "./account/reducer";
 import { userAuthReducer } from "./userAuth/reducer";
+import {reviewsReducer} from "./reviews/reducer";
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   search: searchResultReducer,
   account: accountReducer,
   auth: userAuthReducer,
+  reviews: reviewsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
