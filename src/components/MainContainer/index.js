@@ -1,8 +1,7 @@
 import {
   BottomNavigation,
   BottomNavigationAction,
-  Container,
-  Paper,
+  Paper, Box
 } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
 import { Header } from "../Header";
@@ -19,7 +18,7 @@ export const MainContainer = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ paddingBottom: "56px" }}>
       <Header />
       {locationCheck(currentLocation) ? <Search /> : <></>}
 
@@ -32,6 +31,6 @@ export const MainContainer = () => {
           <BottomNavigationAction label="2022 Pet Booking" />
         </BottomNavigation>
       </Paper>
-    </Container>
+    </Box>
   );
 };

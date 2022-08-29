@@ -13,6 +13,7 @@ const setError = (error) => ({
   payload: error,
 });
 
+
 export const getProfileFromDB = (id) => async (dispatch) => {
   try {
     const response = await fetch(baseURL + `/users/${Number(id)}`, {
