@@ -7,9 +7,9 @@ import { ProfilePage } from "../../pages/ProfilePage";
 import { NotFound } from "../../pages/NotFound";
 import { AccountPage } from "../../pages/AccountPage";
 import { ProtectedRoute } from "../ProtectedRoute";
+import { AccountEditPage } from "../../pages/AccountEditPage";
 
 export const ProjectRoutes = () => {
- 
   return (
     <Routes>
       <Route path="/" element={<HomePage />}>
@@ -18,8 +18,9 @@ export const ProjectRoutes = () => {
 
         <Route exact path={"/profile/:userId"} element={<ProfilePage />} />
 
-        <Route element={<ProtectedRoute/>}>
-        <Route path="/account/:userId" element={<AccountPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/account/:userId" element={<AccountPage />} />
+          <Route path="/accountEdit/:userId" element={<AccountEditPage />} />
         </Route>
 
         <Route path="/search/:cityId" element={<RenderSearchResultsBlock />} />
