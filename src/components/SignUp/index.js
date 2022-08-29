@@ -38,9 +38,14 @@ export const SignUp = () => {
 
    async function signUpHandler (event) {
         event.preventDefault();
-       await dispatch(signUpUserThunk(name,email,password,confirmation));
-        navigate('/account/1');
-        clearForm();
+        if(password !== confirmation){
+            alert("Введенные пароли не совпадают!")
+        } else {
+            await dispatch(signUpUserThunk(name,email,password,confirmation));
+            navigate('/account/1');
+            clearForm();
+        }
+      
     }
 
     return (
