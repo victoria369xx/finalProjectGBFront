@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar container">
             <a href="#"><img class="navbar-logo" src="../img/logo.svg" alt="picture"></a>
-            <button class="nav-btn">Войти</button>
+            <a href="#" class="nav-btn">Войти</a>
         </nav>
     </header>
     <section>
@@ -28,27 +28,40 @@
                     </div>
                 </div>
                 <form class="index-form" action="#">
-                    <div class="header-btn-town">
-                        <label for="town">Город</label>
-                        <select id="town">
+                    <div class="text-field datalist">
+                        <!-- <label class="text-field__label text-caps text-center" for="city">Город</label>
+                        <select class="text-field__select" id="city">
                             <option value="" disabled selected hidden>Введите город</option>
                             <option value="">Москва</option>
                             <option value="">Санкт-Петербург</option>
                             <option value="">Екатеринбург</option>
                             <option value="">Казань</option>
-                        </select>
+                        </select> -->
+                        <label class="text-field__label text-caps text-center" for="city">Город</label>
+                        <input class="text-field__input datalist" list="cities" name="city" id="city"
+                            placeholder="Введите город">
+                        <datalist id="cities">
+                            <option value="Москва">
+                            </option>
+                            <option value="Санкт-Петербург">
+                            </option>
+                            <option value="Казань">
+                            </option>
+                            <option value="Екатеринбург">
+                            </option>
+                        </datalist>
                     </div>
-
-                    <div class="header-btn-date">
-                        <label for="date">Дата</label>
-                        <div>
-                            <input id="date" type="date">
-                            <input type="date">
-                        </div>
+                    <div class="text-field">
+                        <label class="text-field__label text-caps text-center" for="date_in">Дата заезда</label>
+                        <input class="text-field__input" id="date_in" type="date">
                     </div>
-                    <div class="header-btn-size">
-                        <label for="size">Размер</label>
-                        <select id="size">
+                    <div class="text-field">
+                        <label class="text-field__label text-caps text-center" for="date_out">Дата выезда</label>
+                        <input class="text-field__input" id="date_out" type="date">
+                    </div>
+                    <div class="text-field">
+                        <label class="text-field__label text-caps text-center" for="size">Размер</label>
+                        <select class="text-field__select" id="size">
                             <option value="" disabled selected hidden>Введите размер</option>
                             <option value="">Mini (до 3 кг)</option>
                             <option value="">Small (3-5 кг)</option>
@@ -56,7 +69,7 @@
                             <option value="">Big (более 10 кг)</option>
                         </select>
                     </div>
-                    <button type="submit" class="search-btn">НАЙТИ</button>
+                    <input class="btn" type="submit" value="НАЙТИ">
                 </form>
             </div>
         </div>
