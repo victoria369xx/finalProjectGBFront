@@ -2,46 +2,49 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/style.css">
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
 </head>
 
 <body>
-	<header>
-		<nav class="navbar container">
-			<a href="#"><img class="navbar-logo" src="../img/logo.svg" alt="picture"></a>
-			<button class="nav-btn">Войти</button>
-		</nav>
-	</header>
-	<section class="page-wrapper">
-		<div class="login-page">
-			<div class="main">
-				<h3 class="text-lev3 text-center">Регистрация</h3>
-				<div class="form">
-					<div class="email">
-						<label for="email">Email</label>
-						<input type="text" id="email" placeholder="Введите email" value="">
-					</div>
-
-					<div class="password">
-						<label for="password">Пароль</label>
-						<input type="text" id="password" placeholder="Введите пароль" value="">
-
-					</div>
-					<div class="repeat-pass">
-						<label for="password_again">Повторите пароль</label>
-						<input type="text" id="password_again" placeholder="Повторите пароль" value="">
-					</div>
-
-				</div>
-				<input class="btn" type="submit" value="Зарегистрироваться">
-			</div>
-		</div>
-		</div>
-	</section>
+    <header>
+        <nav class="navbar container">
+            <a href="#"><img class="navbar-logo" src="../img/logo.svg" alt="picture"></a>
+            <a href="#" class="nav-btn">Войти</a>
+        </nav>
+    </header>
+    <section class="page-wrapper">
+        <div class="login-page">
+            <form action="#">
+                <div class="text-lev3 text-center">Регистрация</div>
+                <div class="form">
+                    <div class="text-field">
+                        <label class="text-field__label" for="email">Email</label>
+                        <input class="text-field__input" id="email" type="email" placeholder="Введите email" value="">
+                    </div>
+                    <div class="text-field">
+                        <label class="text-field__label" for="password">Пароль</label>
+                        <input class="text-field__input" id="password" type="password" placeholder="Введите пароль"
+                            value="">
+                    </div>
+                    <div class="text-field">
+                        <label class="text-field__label" for="_repeat">Повторить пароль</label>
+                        <input class="text-field__input" id="password_repeat" type="password"
+                            placeholder="Введите пароль" value="">
+                    </div>
+                    <div class="remember-me">
+                        <div class="text-login">
+                            <p>Есть аккаунт? <a href="./login.html">Вход</a></p>
+                        </div>
+                    </div>
+                    <input class="btn" type="submit" value="Регистрация">
+                </div>
+            </form>
+        </div>
+    </section>
 </body>
 
 </html>
