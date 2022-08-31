@@ -41,7 +41,7 @@ export const Search = () => {
           </div>
           <div className="home-img">
             <div className="home-img">
-              <img className="page-img" src={dog} alt="picture" />
+              <img className="page-img" src={dog} alt="dog" />
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ export const Search = () => {
                 <option
                   key={city.id}
                   value={city.id}
-                  selected={city.id == cityId}
+                  selected={city.id === cityId}
                 >
                   {city.city}
                 </option>

@@ -1,5 +1,6 @@
 
-import { GET_REVIEWS, ERR_REVIEWS, ADD_REVIEW } from "./actionTypes";
+import { GET_REVIEWS, ERR_REVIEWS} from "./actionTypes";
+import { ADD_REVIEW } from "./actions";
 
 const initialState = {
     reviewList: {},
