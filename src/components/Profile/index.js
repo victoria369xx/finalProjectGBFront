@@ -5,7 +5,7 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
-import { useCallback, useEffect } from "react";
+import {  useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getProfileFromDB } from "../../store/profile/actions";
@@ -16,7 +16,7 @@ import {
 } from "../../store/profile/selector";
 import avatar from "../../assets/images/user.jpg";
 import avatar2 from "../../assets/images/user2.jpg";
-import Carousel from "../Carousel";
+import Reviews from "../Reviews";
 import { ReviewForm } from "../ReviewForm";
 import { getIsAuth } from "../../store/userAuth/selectors";
 
@@ -58,7 +58,7 @@ export const Profile = () => {
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg" sx={{ marginBottom: "50px" }}>
       <Box sx={{ display: "flex", gap: 5, mt: 10, mb: 8 }}>
         <CardMedia
           component="img"
@@ -90,7 +90,7 @@ export const Profile = () => {
           </Typography>
         </Box>
       </Box>
-      <Carousel></Carousel>
+      <Reviews></Reviews>
       {
         
           authed ? <ReviewForm/> : <Box sx={{mt:4}}>Войдите или зарегистрируйтесь,чтобы оставить отзыв. <Link to="/login" target="_blank" style={{textDecoration: 'none', color:'orange'}} > Войти </Link></Box>

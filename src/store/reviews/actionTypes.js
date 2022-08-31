@@ -1,0 +1,2 @@
+export const GET_REVIEWS = "PROFILE::GET_REVIEWS";
+export const ERR_REVIEWS = "PROFILE::ERR_REVIEWS"
