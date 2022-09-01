@@ -1,7 +1,7 @@
 import { CardMedia, Container, Box, Typography, Button } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import { getAccountFromDB } from "../../store/account/actions";
 import {
   selectAccount,
@@ -11,23 +11,32 @@ import avatar from "../../assets/images/user.jpg";
 
 export const Account = () => {
   const { userId } = useParams();
-  let navigate = useNavigate();
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const account = useSelector(selectAccount);
   const error = useSelector(selectAccountError);
 
   useEffect(() => {
-    dispatch(getAccountFromDB(Number(userId)));
-  }, [userId]);
+    if (isNaN(Number(userId))) {
+      navigate("*");
+    } else {
+      //пока редактирование не интегрировано с бэком
+      if (!account) {
+        dispatch(getAccountFromDB(Number(userId)));
+      }
+    }
+  }, [userId, account]);
 
-  // здесь потом будет настроен редирект с некорректного id
-  // if (isNaN(Number(userId))) {
-  //   return navigate("*");
-  // }
-  // if (error) {
-  //   return navigate("/");
-  // }
+  //после интеграции с бэком добавить элемент с loading
+
+  if (!account || error) {
+    return <h3>Нет такого аккаунта</h3>;
+  }
+
+  const handleClick = () => {
+    navigate(`/accountEdit/${userId}`);
+  };
 
   return (
     <Container maxWidth="md">
@@ -41,20 +50,33 @@ export const Account = () => {
           alt={account.name}
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography component="div" variant="h5">
+          <Typography component="div" variant="h4">
             {account.name}
           </Typography>
           <Typography variant="h6" component="div">
-            О себе:
+            Обо мне
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
-            {account.info}
+            {account.description}
           </Typography>
           <Typography variant="h6" component="div">
-            Город:
+            Спецификация услуги
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
-            {account.city}
+            <p>-Размер принимаемой собаки:</p>
+            <div style={{ marginLeft: "10px" }}>
+              {account.petSize.map((size) => (
+                <p>{size}</p>
+              ))}
+            </div>
+            <p>-Есть другие животные:</p>
+            <div style={{ marginLeft: "10px" }}>{account.otherAnimals}</div>
+          </Typography>
+          <Typography variant="h6" component="div">
+            Адрес:
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom component="div">
+            {account.city}, {account.address}
           </Typography>
           <Typography variant="h6" component="div">
             Контакты:
@@ -64,7 +86,10 @@ export const Account = () => {
           </Typography>
         </Box>
       </Box>
-      <Button variant="contained">Редактировать профиль</Button>
+      <Button variant="outlined" color="warning" onClick={handleClick}>
+        Редактировать профиль
+      </Button>
+      {/* <Link to={`/accountEdit/${userId}`}>Редактировать профиль</Link> */}
     </Container>
   );
 };

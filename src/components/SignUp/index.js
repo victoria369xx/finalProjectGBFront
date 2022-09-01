@@ -38,9 +38,14 @@ export const SignUp = () => {
 
    async function signUpHandler (event) {
         event.preventDefault();
-       await dispatch(signUpUserThunk(name,email,password,confirmation));
-        navigate('/account/1');
-        clearForm();
+        if(password !== confirmation){
+            alert("Введенные пароли не совпадают!")
+        } else {
+            await dispatch(signUpUserThunk(name,email,password,confirmation));
+            navigate('/account/1');
+            clearForm();
+        }
+      
     }
 
     return (
@@ -53,10 +58,10 @@ export const SignUp = () => {
         <TextField id="standard-basic" label="Эл. почта" variant="outlined" sx={{mt:2}} onChange={emailSubmitHandler} required/>
         <TextField id="standard-basic" label="Пароль" variant="outlined" sx={{mt:2}} onChange={passwordSubmitHandler} required/>
         <TextField id="standard-basic" label="Подтвердите пароль" variant="outlined" sx={{mt:2}} onChange={confirmationSubmitHandler} required/>
-        <Button type='submit' variant="contained" sx={{mt:2}}>СОЗДАТЬ АККАУНТ</Button>
+        <Button type='submit' color='warning' variant="contained" sx={{mt:2}}>СОЗДАТЬ АККАУНТ</Button>
         </FormGroup>
         </form>
-        <Typography sx={{mt:2}}> Уже есть аккаунт? <Link to='/login'> Войти </Link></Typography>
+        <Typography sx={{mt:2}}> Уже есть аккаунт? <Link  to='/login'> Войти </Link></Typography>
         </Card>
         </>
     )

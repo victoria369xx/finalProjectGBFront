@@ -1,24 +1,35 @@
-import { CardMedia, Container, Box, Typography } from "@mui/material";
-import { useEffect } from "react";
+import {
+  CardMedia,
+  Container,
+  Box,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
+import {  useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { getProfileFromDB } from "../../store/profile/actions";
 import {
   selectProfile,
   selectProfileError,
+  selectProfileLoading,
 } from "../../store/profile/selector";
 import avatar from "../../assets/images/user.jpg";
 import avatar2 from "../../assets/images/user2.jpg";
-import Carousel from "../Carousel";
+import Reviews from "../Reviews";
+import { ReviewForm } from "../ReviewForm";
+import { getIsAuth } from "../../store/userAuth/selectors";
 
 export const Profile = () => {
   const { userId } = useParams();
+  const authed = useSelector(getIsAuth)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const profile = useSelector(selectProfile);
   const error = useSelector(selectProfileError);
+  const loading = useSelector(selectProfileLoading);
 
   //временная заглушка на фото
   const imgArr = [avatar, avatar2];
@@ -32,12 +43,22 @@ export const Profile = () => {
     }
   }, [userId]);
 
+  if (loading) {
+    return (
+      <Container maxWidth="md">
+        <Box sx={{ display: "flex", gap: 5, mt: 10 }}>
+          <CircularProgress />
+        </Box>
+      </Container>
+    );
+  }
+
   if (!profile || error) {
     return <h3>Нет такого ситтера</h3>;
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg" sx={{ marginBottom: "50px" }}>
       <Box sx={{ display: "flex", gap: 5, mt: 10, mb: 8 }}>
         <CardMedia
           component="img"
@@ -69,7 +90,13 @@ export const Profile = () => {
           </Typography>
         </Box>
       </Box>
-      <Carousel></Carousel>
+      <Reviews></Reviews>
+      {
+        
+          authed ? <ReviewForm/> : <Box sx={{mt:4}}>Войдите или зарегистрируйтесь,чтобы оставить отзыв. <Link to="/login" target="_blank" style={{textDecoration: 'none', color:'orange'}} > Войти </Link></Box>
+      
+      }
+     
     </Container>
   );
 };

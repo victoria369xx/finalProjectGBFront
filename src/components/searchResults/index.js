@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { selectSearchResult, selectCities } from "../../store/search/selector";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getSearchResult } from "../../store/search/actions";
-import "./renderSearch_module.css";
+import "../../css/style.css";
 
 export const RenderSearchResultsBlock = () => {
   const { cityId } = useParams();
@@ -37,9 +37,9 @@ export const RenderSearchResultsBlock = () => {
   }
 
   return (
-    <section className="page-wrapper">
-      <h2 className="text-lev2 text-center">Наши догситтеры</h2>
-      <div className="grid-card">
+    <section className="page-wrapper container">
+      <h2 className="text-center">Наши догситтеры</h2>
+      <div className="flex-card">
         {sitters.map((sitter) => (
           <Link to={`/profile/${sitter.id}`} className="card" key={sitter.id}>
             <img src="https://picsum.photos/200/300" alt={sitter.name} />

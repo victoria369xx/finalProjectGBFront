@@ -42,10 +42,10 @@ export const LogIn = () => {
         <TextField id="standard-basic" label="Эл.почта" variant="outlined" sx={{mt:2}} value={email} onChange={emailSubmitHandler} required/>
         <TextField id="standard-basic" label="Пароль" variant="outlined" sx={{mt:2}} value={password} onChange={passwordSubmitHandler} required/>
         <FormControlLabel control={<Checkbox defaultChecked />} label="Запомнить меня" sx={{mt:2}}/>
-         <Button type='submit' variant="contained">ВОЙТИ</Button>
+         <Button type='submit' variant="contained" color='warning'>ВОЙТИ</Button>
         </FormGroup>
         </form>
-        <Link to='/signup' style={{textDecoration: 'none'}}><Button sx={{mt:2}}>Создать аккаунт</Button></Link>
+        <Link to='/signup' style={{textDecoration: 'none'}}><Button color='warning' sx={{mt:2}}>Создать аккаунт</Button></Link>
         </Card>
         </>
     )
