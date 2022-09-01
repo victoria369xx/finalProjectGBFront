@@ -46,8 +46,8 @@ export const Search = () => {
           </div>
         </div>
         <form className="index-form" onSubmit={handleSubmit}>
-          <div class="header-btn-town">
-            <label for="town">Город</label>
+          <div className="header-btn-town">
+            <label htmlFor="town">Город</label>
             <select
               className="left-side-btn"
               name={city}
@@ -69,15 +69,15 @@ export const Search = () => {
 
             </select>
           </div>
-          <div class="header-btn-date">
-            <label for="date">Дата</label>
+          <div className="header-btn-date">
+            <label htmlFor="date">Дата</label>
             <div>
               <input id="date" type="date"></input>
 
             </div>
           </div>
-          <div class="header-btn-size">
-            <label for="size">Размер</label>
+          <div className="header-btn-size">
+            <label htmlFor="size">Размер</label>
             <select id="size">
               <option value="" disabled selected hidden>Введите размер</option>
               <option value="">Mini (до 3 кг)</option>
