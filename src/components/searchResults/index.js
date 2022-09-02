@@ -7,10 +7,9 @@ import {
 } from "../../store/search/selector";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getSearchResult } from "../../store/search/actions";
-import "./renderSearch_module.css";
+// import "./renderSearch_module.css";
 import { CircularProgress } from "@mui/material";
 import "../../css/style.css";
-
 
 export const RenderSearchResultsBlock = () => {
   const { cityId } = useParams();

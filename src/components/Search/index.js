@@ -7,24 +7,33 @@ import {
   selectCitiesError,
   selectCitiesLoading,
 } from "../../store/search/selector";
-import "./search.css";
 import dog from "../../assets/images/home-dog.svg";
-import { CircularProgress } from "@mui/material";
+import { Autocomplete } from "@mui/material";
 
 export const Search = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { cityId } = useParams();
-  const selectedCity = cityId ? cityId : "";
-  const [city, setCity] = useState(selectedCity);
 
-  const cities = useSelector(selectCities);
+  const citiesFromDB = useSelector(selectCities);
   const loading = useSelector(selectCitiesLoading);
   const error = useSelector(selectCitiesError);
 
-  const handlerChange = (event) => {
-    setCity(event.target.value);
+  const cities = {
+    options: citiesFromDB,
+    getOptionLabel: (option) => option.city,
+  };
+  const [city, setCity] = useState(cityId ? cityId : 0);
+  const [cityInput, setCityInput] = useState(
+    cityId ? citiesFromDB.find((el) => el.id === Number(cityId).city) : "0"
+  );
+
+  const handlerChangeCity = (event, newValue) => {
+    setCity(newValue ? newValue.id : "");
+  };
+  const handlerOnInputChangeCity = (event, newInputValue) => {
+    setCityInput(newInputValue);
   };
 
   const handlerSubmit = (event) => {
@@ -35,50 +44,95 @@ export const Search = () => {
   useEffect(() => {
     dispatch(getCities());
   }, [cityId]);
-  
-  if (!cities || error) {
+
+  if (!citiesFromDB || error) {
     return <h3>Проблемы со списком городов на сервере</h3>;
   }
 
   return (
-    <div className="home-content container">
-      <div className="home-page">
-        <div className="home-title">
-          <h1>Сервис поиска догситтеров</h1>
-          {!!loading ? (
-            <CircularProgress />
-          ) : (
-            <form className="title-btn" onSubmit={handlerSubmit}>
-              <select
-                className="left-side-btn"
-                name={city}
-                id={city}
-                onChange={handlerChange}
-                defaultValue={
-                  cities.find((el) => el.id === Number(cityId))
-                    ? city
-                    : "Выберите город"
-                }
+    <section>
+      <div className="container">
+        <div className="home-content">
+          <div className="home-page">
+            <div className="home-title">
+              <h1>Сервис поиска догситтеров</h1>
+            </div>
+            <div className="home-img">
+              <img className="page-img" src={dog} alt="dog" />
+            </div>
+          </div>
+          <form className="index-form" onSubmit={handlerSubmit}>
+            <div className="text-field datalist">
+              <label
+                className="text-field__label text-caps text-center"
+                htmlFor="city"
               >
-                <option value="Выберите город" disabled hidden>
-                  Выберите город
+                Город
+              </label>
+              <Autocomplete
+                {...cities}
+                value={cities.options.find((el) => el.id === Number(cityId))}
+                onChange={handlerChangeCity}
+                inputValue={cityInput}
+                onInputChange={handlerOnInputChangeCity}
+                id="city"
+                loading={loading}
+                renderInput={(params) => (
+                  <div ref={params.InputProps.ref}>
+                    <input
+                      type="text"
+                      {...params.inputProps}
+                      required
+                      placeholder="Выберите город"
+                      className="text-field__input datalist"
+                    />
+                  </div>
+                )}
+              />
+            </div>
+            <div className="text-field">
+              <label
+                className="text-field__label text-caps text-center"
+                htmlFor="date_in"
+              >
+                Дата заезда
+              </label>
+              <input className="text-field__input" id="date_in" type="date" />
+            </div>
+            <div className="text-field">
+              <label
+                className="text-field__label text-caps text-center"
+                htmlFor="date_out"
+              >
+                Дата выезда
+              </label>
+              <input className="text-field__input" id="date_out" type="date" />
+            </div>
+            <div className="text-field">
+              <label
+                className="text-field__label text-caps text-center"
+                htmlFor="size"
+              >
+                Размер
+              </label>
+              <select
+                className="text-field__select"
+                id="size"
+                defaultValue={""}
+              >
+                <option value="" disabled hidden>
+                  Введите размер
                 </option>
-                {cities.map((city) => (
-                  <option key={city.id} value={city.id}>
-                    {city.city}
-                  </option>
-                ))}
+                <option value="">Mini (до 3 кг)</option>
+                <option value="">Small (3-5 кг)</option>
+                <option value="">Medium (5-10 кг)</option>
+                <option value="">Big (более 10 кг)</option>
               </select>
-              <input type="submit" className="right-side-btn" value="Найти" />
-            </form>
-          )}
+            </div>
+            <input type="submit" className="btn" value="НАЙТИ" />
+          </form>
         </div>
-        <div className="home-img">
-          <img className="page-img" src={dog} alt="dog" />
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
   );
 };
