@@ -35,7 +35,7 @@ export const Search = () => {
   useEffect(() => {
     dispatch(getCities());
   }, [cityId]);
-
+  
   if (!cities || error) {
     return <h3>Проблемы со списком городов на сервере</h3>;
   }
@@ -76,7 +76,9 @@ export const Search = () => {
         <div className="home-img">
           <img className="page-img" src={dog} alt="dog" />
         </div>
+
       </div>
     </div>
+  </section>
   );
 };

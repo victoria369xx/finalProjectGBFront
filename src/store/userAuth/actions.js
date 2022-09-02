@@ -63,7 +63,7 @@ export const signUpUserThunk =
         };
         dispatch(signUpUser(user));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err.message));
   };
 
 export const logInUserThunk = (email, password) => (dispatch) => {
@@ -81,7 +81,7 @@ export const logInUserThunk = (email, password) => (dispatch) => {
       };
       dispatch(logInUser(user));
     })
-    .catch((err) => console.log(err));
+    .catch((err) => alert(err.message));
 };
 
 export const logOutUserAction = (dispatch) => {

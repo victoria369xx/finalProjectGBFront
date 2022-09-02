@@ -15,7 +15,8 @@ import {
   selectProfileLoading,
 } from "../../store/profile/selector";
 import avatar from "../../assets/images/user.jpg";
-import Carousel from "../Carousel";
+import avatar2 from "../../assets/images/user2.jpg";
+import Reviews from "../Reviews";
 import { ReviewForm } from "../ReviewForm";
 import { getIsAuth } from "../../store/userAuth/selectors";
 
@@ -53,7 +54,7 @@ export const Profile = () => {
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg" sx={{ marginBottom: "50px" }}>
       <Box sx={{ display: "flex", gap: 5, mt: 10, mb: 8 }}>
         <CardMedia
           component="img"
@@ -85,22 +86,13 @@ export const Profile = () => {
           </Typography>
         </Box>
       </Box>
-      <Carousel></Carousel>
-      {authed ? (
-        <ReviewForm />
-      ) : (
-        <Box sx={{ mt: 4 }}>
-          Войдите или зарегистрируйтесь,чтобы оставить отзыв.{" "}
-          <Link
-            to="/login"
-            target="_blank"
-            style={{ textDecoration: "none", color: "orange" }}
-          >
-            {" "}
-            Войти{" "}
-          </Link>
-        </Box>
-      )}
+      <Reviews></Reviews>
+      {
+        
+          authed ? <ReviewForm/> : <Box sx={{mt:4}}>Войдите или зарегистрируйтесь,чтобы оставить отзыв. <Link to="/login" target="_blank" style={{textDecoration: 'none', color:'orange'}} > Войти </Link></Box>
+      
+      }
+     
     </Container>
   );
 };

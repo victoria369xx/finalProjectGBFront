@@ -46,6 +46,7 @@ export const SignUp = () => {
     <>
       <Card sx={{ maxWidth: 400, p: 4, boxShadow: 2, mt: 4 }}>
         <Typography sx={{ fontWeight: "medium" }}>РЕГИСТРАЦИЯ</Typography>
+
         <form onSubmit={signUpHandler}>
           <FormGroup>
             <TextField
