@@ -1,8 +1,10 @@
-const signUpUrl = "http://localhost/api/v1/register";
-const logInUrl = "http://localhost/api/v1/login";
+import { clearAccount } from "../account/actions";
+import { API_URL } from "../storeConstants";
 
-// const signUpUrl = "http://localhost:881/api/v1/register";
-// const logInUrl = "http://localhost:881/api/v1/login";
+const baseURL = API_URL;
+
+const signUpUrl = baseURL + "/register";
+const logInUrl = baseURL + "/login";
 
 export const SIGNUP_USER = "SIGNUP_USER";
 export const LOGIN_USER = "LOGIN_USER";
@@ -84,6 +86,7 @@ export const logInUserThunk = (email, password) => (dispatch) => {
 
 export const logOutUserAction = (dispatch) => {
   dispatch(logOutUser());
+  dispatch(clearAccount());
 };
 
 export const initAuthAction = (user) => (dispatch) => {
@@ -91,5 +94,6 @@ export const initAuthAction = (user) => (dispatch) => {
     dispatch(logInUser(user));
   } else {
     dispatch(logOutUser());
+    dispatch(clearAccount());
   }
 };

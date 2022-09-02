@@ -19,8 +19,8 @@ export const ProjectRoutes = () => {
         <Route exact path={"/profile/:userId"} element={<ProfilePage />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route path="/account/:userId" element={<AccountPage />} />
-          <Route path="/accountEdit/:userId" element={<AccountEditPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/accountEdit" element={<AccountEditPage />} />
         </Route>
 
         <Route path="/search/:cityId" element={<RenderSearchResultsBlock />} />

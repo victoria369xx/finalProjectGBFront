@@ -1,12 +1,15 @@
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getCities, getSearchResult } from "../../store/search/actions";
-import { selectCities } from "../../store/search/selector";
-
-import "../../css/style.css"
+import { getCities } from "../../store/search/actions";
+import {
+  selectCities,
+  selectCitiesError,
+  selectCitiesLoading,
+} from "../../store/search/selector";
+import "./search.css";
 import dog from "../../assets/images/home-dog.svg";
+import { CircularProgress } from "@mui/material";
 
 export const Search = () => {
   const navigate = useNavigate();
@@ -17,79 +20,65 @@ export const Search = () => {
   const [city, setCity] = useState(selectedCity);
 
   const cities = useSelector(selectCities);
+  const loading = useSelector(selectCitiesLoading);
+  const error = useSelector(selectCitiesError);
 
-  const handleChange = (event) => {
+  const handlerChange = (event) => {
     setCity(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handlerSubmit = (event) => {
     event.preventDefault();
-    dispatch(getSearchResult(city));
     navigate(`/search/${city}`);
   };
 
   useEffect(() => {
     dispatch(getCities());
   }, [cityId]);
+  
+  if (!cities || error) {
+    return <h3>Проблемы со списком городов на сервере</h3>;
+  }
 
-  return (<section>
-    <div className="container">
-      <div className="home-content">
-        <div className="home-page">
-          <div className="home-title">
-            <h1>Сервис поиска догситтеров</h1>
-          </div>
-          <div className="home-img">
-            <div className="home-img">
-              <img className="page-img" src={dog} alt="dog" />
-            </div>
-          </div>
-        </div>
-        <form className="index-form" onSubmit={handleSubmit}>
-          <div className="header-btn-town">
-            <label htmlFor="town">Город</label>
-            <select
-              className="left-side-btn"
-              name={city}
-              id={city}
-              onChange={handleChange}
-            >
-              <option value="Выберите город" selected disabled hidden>
-                Выберите город
-              </option>
-              {cities.map((city) => (
-                <option
-                  key={city.id}
-                  value={city.id}
-                  selected={city.id === cityId}
-                >
-                  {city.city}
+  return (
+    <div className="home-content container">
+      <div className="home-page">
+        <div className="home-title">
+          <h1>Сервис поиска догситтеров</h1>
+          {!!loading ? (
+            <CircularProgress />
+          ) : (
+            <form className="title-btn" onSubmit={handlerSubmit}>
+              <select
+                className="left-side-btn"
+                name={city}
+                id={city}
+                onChange={handlerChange}
+                defaultValue={
+                  cities.find((el) => el.id === Number(cityId))
+                    ? city
+                    : "Выберите город"
+                }
+              >
+                <option value="Выберите город" disabled hidden>
+                  Выберите город
                 </option>
-              ))}
+                {cities.map((city) => (
+                  <option key={city.id} value={city.id}>
+                    {city.city}
+                  </option>
+                ))}
+              </select>
+              <input type="submit" className="right-side-btn" value="Найти" />
+            </form>
+          )}
+        </div>
+        <div className="home-img">
+          <img className="page-img" src={dog} alt="dog" />
+        </div>
 
-            </select>
-          </div>
-          <div className="header-btn-date">
-            <label htmlFor="date">Дата</label>
-            <div>
-              <input id="date" type="date"></input>
-
-            </div>
-          </div>
-          <div className="header-btn-size">
-            <label htmlFor="size">Размер</label>
-            <select id="size">
-              <option value="" disabled selected hidden>Введите размер</option>
-              <option value="">Mini (до 3 кг)</option>
-              <option value="">Small (3-5 кг)</option>
-              <option value="">Medium (5-10 кг)</option>
-              <option value="">Big (более 10 кг)</option>
-            </select>
-          </div>
-          <input type="submit" className="search-btn" value="Найти" />
-        </form>
       </div>
     </div>
   </section>
   );
-}
+};

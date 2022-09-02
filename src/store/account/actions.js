@@ -1,5 +1,12 @@
-import { SET_ACCOUNT, SET_ERROR } from "./actionTypes";
-import JSONDATA from "../users.json";
+import {
+  CLEAR_ACCOUNT,
+  SET_ACCOUNT,
+  SET_ERROR,
+  ACCOUNT_PENDING,
+} from "./actionTypes";
+import { API_URL } from "../storeConstants";
+
+const baseURL = API_URL.slice(0, -3);
 
 const setAccount = (account) => ({
   type: SET_ACCOUNT,
@@ -11,13 +18,28 @@ const setError = (error) => ({
   payload: error,
 });
 
-export const getAccountFromDB = (id) => async (dispatch) => {
+export const clearAccount = () => ({
+  type: CLEAR_ACCOUNT,
+});
+
+const getAccountPending = () => ({
+  type: ACCOUNT_PENDING,
+});
+
+export const getAccountFromDB = (token) => async (dispatch) => {
+  dispatch(getAccountPending());
   try {
-    //тут будет отправка запроса на бэк
-    const data = JSONDATA["users"].find((el) => el.id === Number(id));
-    if (!data) {
-      throw new Error(`No such user`);
+    const response = await fetch(baseURL + `/user`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
     }
+    const data = await response.json();
     dispatch(setAccount(data));
   } catch (e) {
     console.log(e.message);
