@@ -1,11 +1,15 @@
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getCities, getSearchResult } from "../../store/search/actions";
-import { selectCities } from "../../store/search/selector";
+import { getCities } from "../../store/search/actions";
+import {
+  selectCities,
+  selectCitiesError,
+  selectCitiesLoading,
+} from "../../store/search/selector";
 import "./search.css";
 import dog from "../../assets/images/home-dog.svg";
+import { CircularProgress } from "@mui/material";
 
 export const Search = () => {
   const navigate = useNavigate();
@@ -16,14 +20,15 @@ export const Search = () => {
   const [city, setCity] = useState(selectedCity);
 
   const cities = useSelector(selectCities);
+  const loading = useSelector(selectCitiesLoading);
+  const error = useSelector(selectCitiesError);
 
-  const handleChange = (event) => {
+  const handlerChange = (event) => {
     setCity(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handlerSubmit = (event) => {
     event.preventDefault();
-    dispatch(getSearchResult(city));
     navigate(`/search/${city}`);
   };
 
@@ -31,38 +36,47 @@ export const Search = () => {
     dispatch(getCities());
   }, [cityId]);
 
+  if (!cities || error) {
+    return <h3>Проблемы со списком городов на сервере</h3>;
+  }
+
   return (
     <div className="home-content container">
       <div className="home-page">
         <div className="home-title">
           <h1>Сервис поиска догситтеров</h1>
-          <form className="title-btn" onSubmit={handleSubmit}>
-            <select
-              className="left-side-btn"
-              name={city}
-              id={city}
-              onChange={handleChange}
-            >
-              <option value="Выберите город" selected disabled hidden>
-                Выберите город
-              </option>
-              {cities.map((city) => (
-                <option
-                  key={city.id}
-                  value={city.id}
-                  selected={city.id == cityId}
-                >
-                  {city.city}
+          {!!loading ? (
+            <CircularProgress />
+          ) : (
+            <form className="title-btn" onSubmit={handlerSubmit}>
+              <select
+                className="left-side-btn"
+                name={city}
+                id={city}
+                onChange={handlerChange}
+                defaultValue={
+                  cities.find((el) => el.id === Number(cityId))
+                    ? city
+                    : "Выберите город"
+                }
+              >
+                <option value="Выберите город" disabled hidden>
+                  Выберите город
                 </option>
-              ))}
-            </select>
-            <input type="submit" className="right-side-btn" value="Найти" />
-          </form>
+                {cities.map((city) => (
+                  <option key={city.id} value={city.id}>
+                    {city.city}
+                  </option>
+                ))}
+              </select>
+              <input type="submit" className="right-side-btn" value="Найти" />
+            </form>
+          )}
         </div>
         <div className="home-img">
-          <img className="page-img" src={dog} alt="picture" />
+          <img className="page-img" src={dog} alt="dog" />
         </div>
       </div>
     </div>
   );
-}
+};

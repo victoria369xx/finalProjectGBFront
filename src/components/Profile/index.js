@@ -5,7 +5,7 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getProfileFromDB } from "../../store/profile/actions";
@@ -15,14 +15,13 @@ import {
   selectProfileLoading,
 } from "../../store/profile/selector";
 import avatar from "../../assets/images/user.jpg";
-import avatar2 from "../../assets/images/user2.jpg";
 import Carousel from "../Carousel";
 import { ReviewForm } from "../ReviewForm";
 import { getIsAuth } from "../../store/userAuth/selectors";
 
 export const Profile = () => {
   const { userId } = useParams();
-  const authed = useSelector(getIsAuth)
+  const authed = useSelector(getIsAuth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,10 +29,6 @@ export const Profile = () => {
   const profile = useSelector(selectProfile);
   const error = useSelector(selectProfileError);
   const loading = useSelector(selectProfileLoading);
-
-  //временная заглушка на фото
-  const imgArr = [avatar, avatar2];
-  const profileImg = imgArr[Math.floor(Math.random() * 2)];
 
   useEffect(() => {
     if (isNaN(Number(userId))) {
@@ -63,7 +58,7 @@ export const Profile = () => {
         <CardMedia
           component="img"
           sx={{ width: 300 }}
-          image={profile.img ? profile.img : profileImg}
+          image={profile.img ? profile.img : avatar}
           alt={profile.name}
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -80,7 +75,7 @@ export const Profile = () => {
             Город:
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
-            {profile.city}
+            {profile.locations}
           </Typography>
           <Typography variant="h6" component="div">
             Контакты:
@@ -91,12 +86,21 @@ export const Profile = () => {
         </Box>
       </Box>
       <Carousel></Carousel>
-      {
-        
-          authed ? <ReviewForm/> : <Box sx={{mt:4}}>Войдите или зарегистрируйтесь,чтобы оставить отзыв. <Link to="/login" target="_blank" style={{textDecoration: 'none', color:'orange'}} > Войти </Link></Box>
-      
-      }
-     
+      {authed ? (
+        <ReviewForm />
+      ) : (
+        <Box sx={{ mt: 4 }}>
+          Войдите или зарегистрируйтесь,чтобы оставить отзыв.{" "}
+          <Link
+            to="/login"
+            target="_blank"
+            style={{ textDecoration: "none", color: "orange" }}
+          >
+            {" "}
+            Войти{" "}
+          </Link>
+        </Box>
+      )}
     </Container>
   );
 };

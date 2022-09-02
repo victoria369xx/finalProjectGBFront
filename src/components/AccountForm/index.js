@@ -4,6 +4,7 @@ import {
   Button,
   CardMedia,
   Checkbox,
+  CircularProgress,
   Container,
   FormControl,
   FormControlLabel,
@@ -16,21 +17,23 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { editAccount, getAccountFromDB } from "../../store/account/actions";
 import {
   selectAccount,
   selectAccountError,
+  selectAccountLoading,
 } from "../../store/account/selector";
 import { selectCities } from "../../store/search/selector";
 import avatar from "../../assets/images/user.jpg";
+import { getToken } from "../../store/userAuth/selectors";
 
 export const AccountForm = () => {
-  //пока информация о пользователе будет через get-параметр, потом будет браться только из стора и адрес будет без get-параметра
-  const { userId } = useParams();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const token = useSelector(getToken);
+  const loading = useSelector(selectAccountLoading);
 
   const accountFromDB = useSelector(selectAccount);
   const errorDB = useSelector(selectAccountError);
@@ -54,51 +57,50 @@ export const AccountForm = () => {
           otherAnimals: "нет",
         }
   );
-  //опредилить c бэком, как хранить размеры животных
   const [petSize, setPetSize] = useState({
-    mini: account.petSize.includes("mini"),
-    small: account.petSize.includes("small"),
-    medium: account.petSize.includes("medium"),
-    big: account.petSize.includes("big"),
+    mini: account.petSize ? account.petSize.includes("mini") : true,
+    small: account.petSize ? account.petSize.includes("small") : false,
+    medium: account.petSize ? account.petSize.includes("medium") : false,
+    big: account.petSize ? account.petSize.includes("big") : false,
   });
   const [cityInput, setCityInput] = useState(account.city);
   //тут потом будет useState для фотографии
 
   const [errorPetSize, setErrorPetSize] = useState(false);
 
-  //после интеграции с бэком добавить элемент с loading
-
   useEffect(() => {
-    //проверка пока есть get-параметр
-    if (isNaN(Number(userId))) {
-      navigate("*");
-    } else {
-      //пока редактирование не интегрировано с бэком
-      if (!account) {
-        dispatch(getAccountFromDB(Number(userId)));
-      }
+    if (!accountFromDB) {
+      dispatch(getAccountFromDB(token));
     }
-  }, [userId, account]);
+  }, [accountFromDB, token]);
+
+  if (loading) {
+    return (
+      <Container maxWidth="md">
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   if (!account || errorDB) {
     return <h3>Нет данных об аккаунте</h3>;
   }
 
-  const handleChangeName = (event) => {
+  const handlerChangeName = (event) => {
     setAccount({
       ...account,
       name: event.target.value,
     });
   };
 
-  const handleChangeDescription = (event) => {
+  const handlerChangeDescription = (event) => {
     setAccount({
       ...account,
       description: event.target.value,
     });
   };
 
-  const handleChangePetSize = (event) => {
+  const handlerChangePetSize = (event) => {
     setErrorPetSize(false);
     setPetSize({
       ...petSize,
@@ -106,40 +108,40 @@ export const AccountForm = () => {
     });
   };
 
-  const handleChangeOtherAnimals = (event) => {
+  const handlerChangeOtherAnimals = (event) => {
     setAccount({
       ...account,
       otherAnimals: event.target.value,
     });
   };
 
-  const handleChangeCity = (event, newValue) => {
+  const handlerChangeCity = (event, newValue) => {
     setAccount({
       ...account,
       city: newValue ? newValue.city : "",
     });
   };
-  const handleOnInputChangeCity = (event, newInputValue) => {
+  const handlerOnInputChangeCity = (event, newInputValue) => {
     setCityInput(newInputValue);
   };
 
-  const handleChangeAddress = (event) => {
+  const handlerChangeAddress = (event) => {
     setAccount({
       ...account,
       address: event.target.value,
     });
   };
 
-  const handleChangePhone = (event) => {
+  const handlerChangePhone = (event) => {
     setAccount({
       ...account,
       phone: event.target.value,
     });
   };
 
-  //тут потом будет handleChange для фотографии
+  //тут потом будет handlerChange для фотографии
 
-  const handleSubmit = (event) => {
+  const handlerSubmit = (event) => {
     event.preventDefault();
 
     const petSizeNew = Object.keys(petSize).filter(
@@ -154,7 +156,7 @@ export const AccountForm = () => {
     account.petSize = petSizeNew;
 
     dispatch(editAccount(account));
-    navigate(`/account/${userId}`);
+    navigate(`/account`);
   };
 
   return (
@@ -188,14 +190,14 @@ export const AccountForm = () => {
             mb: 5,
             flexDirection: "column",
           }}
-          onSubmit={handleSubmit}
+          onSubmit={handlerSubmit}
         >
           <TextField
             required
             variant="outlined"
             defaultValue={account.name}
             name="name"
-            onChange={handleChangeName}
+            onChange={handlerChangeName}
             placeholder="Введите свое имя"
             label="Имя"
           />
@@ -209,12 +211,13 @@ export const AccountForm = () => {
               id="description"
               name="description"
               defaultValue={account.description}
-              onChange={handleChangeDescription}
+              onChange={handlerChangeDescription}
               multiline
               placeholder="Введите информацию о себе"
             />
           </FormControl>
-          <Typography variant="h6" component="div">
+          {/* когда изменятся данные на бэке, тогда корректно будет отображаться */}
+          {/* <Typography variant="h6" component="div">
             Спецификация услуги
           </Typography>
           <FormControl error={errorPetSize}>
@@ -226,7 +229,7 @@ export const AccountForm = () => {
                   <Checkbox
                     checked={petSize.mini}
                     name="mini"
-                    onChange={handleChangePetSize}
+                    onChange={handlerChangePetSize}
                   />
                 }
               />
@@ -236,7 +239,7 @@ export const AccountForm = () => {
                   <Checkbox
                     checked={petSize.small}
                     name="small"
-                    onChange={handleChangePetSize}
+                    onChange={handlerChangePetSize}
                   />
                 }
               />
@@ -246,7 +249,7 @@ export const AccountForm = () => {
                   <Checkbox
                     checked={petSize.medium}
                     name="medium"
-                    onChange={handleChangePetSize}
+                    onChange={handlerChangePetSize}
                   />
                 }
               />
@@ -256,7 +259,7 @@ export const AccountForm = () => {
                   <Checkbox
                     checked={petSize.big}
                     name="big"
-                    onChange={handleChangePetSize}
+                    onChange={handlerChangePetSize}
                   />
                 }
               />
@@ -272,7 +275,7 @@ export const AccountForm = () => {
                   <Radio
                     value="да"
                     checked={account.otherAnimals === "да"}
-                    onChange={handleChangeOtherAnimals}
+                    onChange={handlerChangeOtherAnimals}
                   />
                 }
                 label="Да"
@@ -282,13 +285,13 @@ export const AccountForm = () => {
                   <Radio
                     value="нет"
                     checked={account.otherAnimals === "нет"}
-                    onChange={handleChangeOtherAnimals}
+                    onChange={handlerChangeOtherAnimals}
                   />
                 }
                 label="Нет"
               ></FormControlLabel>
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
           <FormControl>
             <Typography variant="h6" component="div">
               Адрес
@@ -297,9 +300,9 @@ export const AccountForm = () => {
               <Autocomplete
                 {...cities}
                 value={cities.options.find((el) => el.city === account.city)}
-                onChange={handleChangeCity}
+                onChange={handlerChangeCity}
                 inputValue={cityInput}
-                onInputChange={handleOnInputChangeCity}
+                onInputChange={handlerOnInputChangeCity}
                 id="city"
                 renderInput={(params) => (
                   <TextField
@@ -314,7 +317,7 @@ export const AccountForm = () => {
                 variant="outlined"
                 defaultValue={account.address}
                 name="address"
-                onChange={handleChangeAddress}
+                onChange={handlerChangeAddress}
                 placeholder="Введите свой адрес"
                 sx={{ flexGrow: 1 }}
               />
@@ -331,7 +334,7 @@ export const AccountForm = () => {
               variant="outlined"
               defaultValue={account.phone}
               name="phone"
-              onChange={handleChangePhone}
+              onChange={handlerChangePhone}
               inputProps={{
                 inputMode: "numeric",
                 pattern:

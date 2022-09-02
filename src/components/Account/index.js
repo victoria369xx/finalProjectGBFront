@@ -1,41 +1,54 @@
-import { CardMedia, Container, Box, Typography, Button } from "@mui/material";
+import {
+  CardMedia,
+  Container,
+  Box,
+  Typography,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getAccountFromDB } from "../../store/account/actions";
 import {
   selectAccount,
   selectAccountError,
+  selectAccountLoading,
 } from "../../store/account/selector";
 import avatar from "../../assets/images/user.jpg";
+import { getToken } from "../../store/userAuth/selectors";
 
 export const Account = () => {
-  const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const account = useSelector(selectAccount);
   const error = useSelector(selectAccountError);
+  const token = useSelector(getToken);
+  const loading = useSelector(selectAccountLoading);
 
   useEffect(() => {
-    if (isNaN(Number(userId))) {
-      navigate("*");
-    } else {
-      //пока редактирование не интегрировано с бэком
-      if (!account) {
-        dispatch(getAccountFromDB(Number(userId)));
-      }
-    }
-  }, [userId, account]);
+    dispatch(getAccountFromDB(token));
+  }, [token]);
 
-  //после интеграции с бэком добавить элемент с loading
-
-  if (!account || error) {
-    return <h3>Нет такого аккаунта</h3>;
+  if (loading) {
+    return (
+      <Container maxWidth="md">
+        <CircularProgress />
+      </Container>
+    );
   }
 
-  const handleClick = () => {
-    navigate(`/accountEdit/${userId}`);
+  if (!account || error) {
+    return (
+      <Container maxWidth="md">
+        <h3>Проблема с сервером</h3>
+      </Container>
+    );
+  }
+
+  const handlerClick = () => {
+    navigate(`/accountEdit`);
   };
 
   return (
@@ -59,7 +72,8 @@ export const Account = () => {
           <Typography variant="subtitle1" gutterBottom component="div">
             {account.description}
           </Typography>
-          <Typography variant="h6" component="div">
+          {/* когда изменятся данные на бэке, тогда корректно будет отображаться */}
+          {/* <Typography variant="h6" component="div">
             Спецификация услуги
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
@@ -77,7 +91,7 @@ export const Account = () => {
           </Typography>
           <Typography variant="subtitle1" gutterBottom component="div">
             {account.city}, {account.address}
-          </Typography>
+          </Typography> */}
           <Typography variant="h6" component="div">
             Контакты:
           </Typography>
@@ -86,10 +100,10 @@ export const Account = () => {
           </Typography>
         </Box>
       </Box>
-      <Button variant="outlined" color="warning" onClick={handleClick}>
+      <Button variant="outlined" color="warning" onClick={handlerClick}>
         Редактировать профиль
       </Button>
-      {/* <Link to={`/accountEdit/${userId}`}>Редактировать профиль</Link> */}
+      {/* <Link to={`/accountEdit`}>Редактировать профиль</Link> */}
     </Container>
   );
 };

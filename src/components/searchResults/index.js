@@ -1,9 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { selectSearchResult, selectCities } from "../../store/search/selector";
+import {
+  selectSearchResult,
+  selectSearchResultLoading,
+  selectSearchError,
+} from "../../store/search/selector";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getSearchResult } from "../../store/search/actions";
 import "./renderSearch_module.css";
+import { CircularProgress } from "@mui/material";
 
 export const RenderSearchResultsBlock = () => {
   const { cityId } = useParams();
@@ -11,23 +16,25 @@ export const RenderSearchResultsBlock = () => {
   const dispatch = useDispatch();
 
   const sitters = useSelector(selectSearchResult);
-  const cities = useSelector(selectCities);
-  // console.log(sitters);
+  const loading = useSelector(selectSearchResultLoading);
+  const error = useSelector(selectSearchError);
 
   useEffect(() => {
-    if (
-      isNaN(Number(cityId)) ||
-      !cities.find((el) => el.id === Number(cityId))
-    ) {
-      // если в get-parameters не число или id города, которого нет в cities, то редирект на 404
-      navigate("*");
-    } else if (!isNaN(Number(cityId)) && sitters.length === 0) {
-      // если в поиск попали, вбив руками url
-      dispatch(getSearchResult(cityId));
-    }
+    dispatch(getSearchResult(cityId));
   }, [cityId]);
 
-  // если возвращается пустой массив результатов поиска
+  if (isNaN(Number(cityId))) {
+    navigate("*");
+  }
+
+  if (loading) {
+    return (
+      <section className="page-wrapper">
+        <CircularProgress />
+      </section>
+    );
+  }
+
   if (sitters.length === 0) {
     return (
       <section className="page-wrapper">
@@ -36,18 +43,24 @@ export const RenderSearchResultsBlock = () => {
     );
   }
 
+  if (!sitters || error) {
+    return <h3>Проблемы со списком ситтеров на сервере</h3>;
+  }
+
   return (
     <section className="page-wrapper">
       <h2 className="text-lev2 text-center">Наши догситтеры</h2>
       <div className="grid-card">
         {sitters.map((sitter) => (
           <Link to={`/profile/${sitter.id}`} className="card" key={sitter.id}>
-            <img src="https://picsum.photos/200/300" alt={sitter.name} />
+            <img src={sitter.img} alt={sitter.name} />
             <div className="card-content">
               <h3 className="text-lev3">{sitter.name}</h3>
               <p>{sitter.description ? sitter.description : ""}</p>
               <span>
-                <div className="address text-additional">{sitter.city}</div>
+                <div className="address text-additional">
+                  {sitter.locations}
+                </div>
                 <div className="address text-additional">{sitter.adress}</div>
               </span>
             </div>

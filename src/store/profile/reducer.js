@@ -1,14 +1,8 @@
+import { REQUEST_STATUS } from "../storeConstants";
 import { PROFILE_PENDING, SET_ERROR, SET_PROFILE } from "./actioinTypes";
 
-export const REQUEST_STATUS = {
-  IDLE: 0,
-  PENDING: 1,
-  SUCCESS: 2,
-  ERROR: 3,
-};
-
 const initialState = {
-  //profile will be like this {id, name, description, phone, img city}
+  //profile will be like this {id, name, description, phone, img, locations, address, petSize, otherAnimals}
   profile: {},
   error: null,
   statusRequest: REQUEST_STATUS.IDLE,
