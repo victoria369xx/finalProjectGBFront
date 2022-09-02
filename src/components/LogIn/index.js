@@ -7,6 +7,7 @@ import {
   Checkbox,
   Button,
   Typography,
+  Container,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -38,7 +39,7 @@ export const LogIn = () => {
     clearForm();
   }
   return (
-    <>
+    <Container>
       <Card sx={{ maxWidth: 400, p: 4, boxShadow: 2, mt: 4 }}>
         <Typography sx={{ fontWeight: "medium" }}>ВХОД </Typography>
         <form onSubmit={logInHandler}>
@@ -77,6 +78,6 @@ export const LogIn = () => {
           </Button>
         </Link>
       </Card>
-    </>
+    </Container>
   );
 };

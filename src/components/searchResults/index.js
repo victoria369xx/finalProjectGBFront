@@ -7,9 +7,9 @@ import {
 } from "../../store/search/selector";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getSearchResult } from "../../store/search/actions";
-// import "./renderSearch_module.css";
 import { CircularProgress } from "@mui/material";
 import "../../css/style.css";
+import ratingStar from "../../img/star.svg";
 
 export const RenderSearchResultsBlock = () => {
   const { cityId } = useParams();
@@ -45,11 +45,11 @@ export const RenderSearchResultsBlock = () => {
   }
 
   if (!sitters || error) {
-    return <h3>Проблемы со списком ситтеров на сервере</h3>;
+    return <h2 className>Проблемы со списком ситтеров на сервере</h2>;
   }
 
   return (
-    <section className="page-wrapper container">
+    <section className="page-wrapper">
       <h2 className="text-center">Наши догситтеры</h2>
       <div className="flex-card">
         {sitters.map((sitter) => (
@@ -66,8 +66,14 @@ export const RenderSearchResultsBlock = () => {
               </span>
             </div>
             <div className="card-info">
+              <div className="rating">
+                <span>
+                  <img src={ratingStar} alt="" />
+                  {sitter.rating}
+                </span>
+              </div>
               <div className="price">{sitter.price ? sitter.price : ""}</div>
-              <button className="btn">{sitter.phone}</button>
+              {/* <button className="btn">{sitter.phone}</button> */}
             </div>
           </Link>
         ))}

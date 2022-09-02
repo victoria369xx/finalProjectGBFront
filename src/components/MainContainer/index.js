@@ -3,7 +3,7 @@ import {
   Paper,
   BottomNavigation,
   BottomNavigationAction,
-  Box
+  Box,
 } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
 import { Header } from "../Header";
@@ -22,21 +22,19 @@ export const MainContainer = () => {
   return (
     <Box sx={{ paddingBottom: "60px" }}>
       <Header />
-      <Container>
-        {locationCheck(currentLocation) ? <Search /> : <></>}
+      {/* <Container> */}
+      {locationCheck(currentLocation) ? <Search /> : <></>}
 
-        <Outlet />
-        <Paper
-          sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-          elevation={3}
-        >
-          <BottomNavigation showLabels>
-            <BottomNavigationAction label="2022 Pet Booking" />
-          </BottomNavigation>
-        </Paper>
-      </Container>
+      <Outlet />
+      <Paper
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+        elevation={3}
+      >
+        <BottomNavigation showLabels>
+          <BottomNavigationAction label="2022 Pet Booking" />
+        </BottomNavigation>
+      </Paper>
+      {/* </Container> */}
     </Box>
   );
 };
-
-
