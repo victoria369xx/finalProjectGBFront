@@ -30,7 +30,7 @@ export const getProfileFromDB = (id) => async (dispatch) => {
       throw new Error(`Request failed: ${response.status}`);
     }
     const data = await response.json();
-    console.log(data.data.user);
+    // console.log(data.data.user);
     dispatch(setProfile(data.data.user));
   } catch (e) {
     console.log(e.message);

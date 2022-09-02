@@ -14,11 +14,11 @@ import {
   selectProfileError,
   selectProfileLoading,
 } from "../../store/profile/selector";
-import avatar from "../../assets/images/user.jpg";
-import avatar2 from "../../assets/images/user2.jpg";
 import Reviews from "../Reviews";
 import { ReviewForm } from "../ReviewForm";
 import { getIsAuth } from "../../store/userAuth/selectors";
+import avatar from "../../assets/images/user.jpg";
+import ratingStar from "../../img/star.svg";
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -54,45 +54,68 @@ export const Profile = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ marginBottom: "50px" }}>
-      <Box sx={{ display: "flex", gap: 5, mt: 10, mb: 8 }}>
-        <CardMedia
-          component="img"
-          sx={{ width: 300 }}
-          image={profile.img ? profile.img : avatar}
-          alt={profile.name}
-        />
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography component="div" variant="h5">
-            {profile.name}
-          </Typography>
-          <Typography variant="h6" component="div">
-            О себе:
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom component="div">
-            {profile.description}
-          </Typography>
-          <Typography variant="h6" component="div">
-            Город:
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom component="div">
-            {profile.locations}
-          </Typography>
-          <Typography variant="h6" component="div">
-            Контакты:
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom component="div">
-            Телефон&emsp;{profile.phone}
-          </Typography>
-        </Box>
-      </Box>
-      <Reviews></Reviews>
-      {
-        
-          authed ? <ReviewForm/> : <Box sx={{mt:4}}>Войдите или зарегистрируйтесь,чтобы оставить отзыв. <Link to="/login" target="_blank" style={{textDecoration: 'none', color:'orange'}} > Войти </Link></Box>
-      
-      }
-     
-    </Container>
+    <section className="page-wrapper">
+      <div className="flex-card profile">
+        <div>
+          <img src={profile.img ? profile.img : avatar} alt={profile.name} />
+          {/* тут в верстке у ребят форма отзыва */}
+          <div className="review-block">
+            <div className="text-lev2 text-center">Оставьте свой отзыв</div>
+            {authed ? (
+              <ReviewForm />
+            ) : (
+              <Box style={{ width: "400px" }}>
+                Войдите или зарегистрируйтесь,чтобы оставить отзыв.{" "}
+                <Link
+                  to="/login"
+                  target="_blank"
+                  style={{ textDecoration: "none", color: "orange" }}
+                >
+                  {" "}
+                  Войти{" "}
+                </Link>
+              </Box>
+            )}
+          </div>
+        </div>
+        <div className="card-content">
+          <h1 className="text-lev2">{profile.name}</h1>
+          <div className="card-info">
+            <div className="rating">
+              <span>
+                <img src={ratingStar} alt="rating" />
+                {profile.rating}
+              </span>
+            </div>
+          </div>
+          <h4 className="text-lev3">Обо мне</h4>
+          <div>{profile.description}</div>
+          <h4 className="text-lev3">Спецификация услуги</h4>
+          <p>
+            - Размер принимаемой собаки:{" "}
+            {/* когда данные будут на бэке, тогда подтяну */}
+            {/* <span className="text-italic">
+              mini (до 3 кг), big (более 10 кг)
+            </span> 
+            .*/}
+          </p>
+          <p>
+            - Есть другие животные:
+            {/* когда данные будут на бэке, тогда подтяну */}
+            {/* <span className="text-italic">да</span>. */}
+          </p>
+          <h4 className="text-lev3">Адрес</h4>
+          <p>
+            {profile.locations} {profile.address ? `,${profile.address}` : ""}
+          </p>
+          <h4 className="text-lev3">Телефон</h4>
+          <p>{profile.phone}</p>
+
+          <div className="review-block">
+            <Reviews></Reviews>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
