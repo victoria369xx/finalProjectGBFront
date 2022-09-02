@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Nunito&display=swap');
 
 :root {
     --unit: 1rem; /* 1rem = 16px */
@@ -142,16 +143,21 @@ input, select {
   width: 416px;
   margin-left: 152px;
   margin-top: 27px;
+  text-align: justify;
 }
 
-.home-title h1 {
-  color: #002033;
-  font-weight: 900;
-  font-style: normal;
-  font-size: 63px;
-  line-height: 72px;
-  padding-bottom: 73px;
+.home-title__brand {
+    font-family: 'Balsamiq Sans';
+    font-size: 48px;
+    font-weight: 600;
 }
+
+.home-title h2{
+    font-family: 'Balsamiq Sans';
+    font-size: 28px;
+}
+
+
 
 .search-btn {
   background: #f0bd66;
