@@ -1,10 +1,4 @@
-import {
-  CardMedia,
-  Container,
-  Box,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
+import { Container, Box, CircularProgress } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
@@ -41,11 +35,12 @@ export const Profile = () => {
 
   if (loading) {
     return (
-      <Container maxWidth="md">
-        <Box sx={{ display: "flex", gap: 5, mt: 10 }}>
-          <CircularProgress />
-        </Box>
-      </Container>
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <CircularProgress size={60} />
+      </div>
     );
   }
 

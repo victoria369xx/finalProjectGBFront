@@ -1,20 +1,4 @@
-import {
-  Autocomplete,
-  Box,
-  Button,
-  CardMedia,
-  Checkbox,
-  CircularProgress,
-  Container,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -25,8 +9,8 @@ import {
   selectAccountLoading,
 } from "../../store/account/selector";
 import { selectCities } from "../../store/search/selector";
-import avatar from "../../assets/images/user.jpg";
 import { getToken } from "../../store/userAuth/selectors";
+import avatar from "../../assets/images/user.jpg";
 
 export const AccountForm = () => {
   const navigate = useNavigate();
@@ -51,7 +35,7 @@ export const AccountForm = () => {
           description: "",
           phone: "",
           img: "",
-          city: "",
+          locations: "",
           address: "",
           petSize: ["mini"],
           otherAnimals: "нет",
@@ -65,8 +49,9 @@ export const AccountForm = () => {
   });
   const [cityInput, setCityInput] = useState(account.city);
   //тут потом будет useState для фотографии
+  const [file, setFile] = useState("");
 
-  const [errorPetSize, setErrorPetSize] = useState(false);
+  const [errorPetSize, setErrorPetSize] = useState({ color: "none" });
 
   useEffect(() => {
     if (!accountFromDB) {
@@ -76,9 +61,12 @@ export const AccountForm = () => {
 
   if (loading) {
     return (
-      <Container maxWidth="md">
-        <CircularProgress />
-      </Container>
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <CircularProgress size={60} />
+      </div>
     );
   }
 
@@ -101,10 +89,11 @@ export const AccountForm = () => {
   };
 
   const handlerChangePetSize = (event) => {
-    setErrorPetSize(false);
+    setErrorPetSize({ border: "none" });
     setPetSize({
       ...petSize,
-      [event.target.name]: event.target.checked,
+      // [event.target.name]: event.target.checked,
+      [event.target.value]: event.target.checked,
     });
   };
 
@@ -118,7 +107,7 @@ export const AccountForm = () => {
   const handlerChangeCity = (event, newValue) => {
     setAccount({
       ...account,
-      city: newValue ? newValue.city : "",
+      locations: newValue ? newValue.city : "",
     });
   };
   const handlerOnInputChangeCity = (event, newInputValue) => {
@@ -140,6 +129,10 @@ export const AccountForm = () => {
   };
 
   //тут потом будет handlerChange для фотографии
+  const handlerChangePhoto = (event) => {
+    console.log(event.target.files[0]);
+    setFile(event.target.files[0]);
+  };
 
   const handlerSubmit = (event) => {
     event.preventDefault();
@@ -149,206 +142,232 @@ export const AccountForm = () => {
     );
 
     if (petSizeNew.length === 0) {
-      setErrorPetSize(true);
+      setErrorPetSize({
+        color: "red",
+      });
       return;
     }
 
     account.petSize = petSizeNew;
 
-    dispatch(editAccount(account));
+    const formData = new FormData();
+    console.log(file);
+    if (!file) {
+      formData.append("file", file);
+      formData.append("fileName", file.name);
+    }
+
+    console.log(account);
+
+    dispatch(editAccount(account, formData));
     navigate(`/account`);
   };
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 10 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", gap: 3 }}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <CardMedia
-            component="img"
-            sx={{ width: 300 }}
-            image={avatar}
-            alt={account.name}
-          />
-          <Button
-            variant="contained"
-            component="label"
-            color="warning"
-            disabled
-          >
-            Загрузить фотографию
-            <input type="file" name="photo" accept="image/*" hidden />
-          </Button>
-        </Box>
-        <Box
-          component="form"
-          method="POST"
-          encType="multipart/form-data"
-          sx={{
-            flex: 1,
-            display: "flex",
-            gap: 2,
-            mb: 5,
-            flexDirection: "column",
-          }}
-          onSubmit={handlerSubmit}
-        >
-          <TextField
-            required
-            variant="outlined"
-            defaultValue={account.name}
-            name="name"
-            onChange={handlerChangeName}
-            placeholder="Введите свое имя"
-            label="Имя"
-          />
-          <FormControl>
-            <FormLabel htmlFor="description">
-              <Typography variant="h6" component="div">
-                Обо мне
-              </Typography>
-            </FormLabel>
-            <TextField
-              id="description"
-              name="description"
-              defaultValue={account.description}
-              onChange={handlerChangeDescription}
-              multiline
-              placeholder="Введите информацию о себе"
+    <section className="page-wrapper">
+      <form
+        className="flex-card profile"
+        method="POST"
+        encType="multipart/form-data"
+        onSubmit={handlerSubmit}
+      >
+        <div>
+          <img src={account.img ? account.img : avatar} alt={account.name} />
+          <div className="review-block">
+            <input
+              type="file"
+              name="img"
+              id="img"
+              accept="image/*"
+              onChange={handlerChangePhoto}
+              hidden
             />
-          </FormControl>
-          {/* когда изменятся данные на бэке, тогда корректно будет отображаться */}
-          {/* <Typography variant="h6" component="div">
-            Спецификация услуги
-          </Typography>
-          <FormControl error={errorPetSize}>
-            <FormLabel htmlFor="petSize">-Размер принимаемой собаки</FormLabel>
-            <FormGroup id="petSize" name="petSize">
-              <FormControlLabel
-                label="Mini (до 3 кг)"
-                control={
-                  <Checkbox
+            <label
+              htmlFor="img"
+              className="btn btn-add"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Загрузить фотографию
+            </label>
+          </div>
+        </div>
+
+        <div className="card-content">
+          <h1 className="text-lev2">Редактирование профиля</h1>
+          <div className="form">
+            <div className="text-field">
+              <label className="text-lev3" htmlFor="name">
+                Имя
+              </label>
+              <input
+                className="text-field__input"
+                id="name"
+                type="text"
+                placeholder="Введите свое имя"
+                defaultValue={account.name}
+                name="name"
+                onChange={handlerChangeName}
+                required
+              />
+            </div>
+            <div className="text-field">
+              <label className="text-lev3" htmlFor="description">
+                Обо мне
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                defaultValue={account.description}
+                onChange={handlerChangeDescription}
+                rows="10"
+                placeholder="Введите информацию о себе"
+                maxLength="1000"
+              ></textarea>
+            </div>
+            <div className="text-field">
+              <div className="text-lev3">Спецификация услуги</div>
+              <div className="form-hor">
+                <div className="form">
+                  <label
+                    className="text-field__label"
+                    htmlFor="petSize"
+                    style={errorPetSize}
+                  >
+                    Размер принимаемой собаки:
+                  </label>
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id="mini"
+                    name="petSize"
+                    value="mini"
                     checked={petSize.mini}
-                    name="mini"
                     onChange={handlerChangePetSize}
                   />
-                }
-              />
-              <FormControlLabel
-                label="Small (3-5 кг)"
-                control={
-                  <Checkbox
+                  <label htmlFor="mini" style={errorPetSize}>
+                    Mini (до 3 кг)
+                  </label>
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id="small"
+                    name="petSize"
+                    value="small"
                     checked={petSize.small}
-                    name="small"
                     onChange={handlerChangePetSize}
                   />
-                }
-              />
-              <FormControlLabel
-                label="Medium (5-10 кг)"
-                control={
-                  <Checkbox
+                  <label htmlFor="small" style={errorPetSize}>
+                    Small (3-5 кг)
+                  </label>
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id="medium"
+                    name="petSize"
+                    value="medium"
                     checked={petSize.medium}
-                    name="medium"
                     onChange={handlerChangePetSize}
                   />
-                }
-              />
-              <FormControlLabel
-                label="Big (более 10 кг)"
-                control={
-                  <Checkbox
+                  <label htmlFor="medium" style={errorPetSize}>
+                    Medium (5-10 кг)
+                  </label>
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id="big"
+                    name="petSize"
+                    value="big"
                     checked={petSize.big}
-                    name="big"
                     onChange={handlerChangePetSize}
                   />
-                }
-              />
-            </FormGroup>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="other_animals_label">
-              Есть другие животные
-            </FormLabel>
-            <RadioGroup name="otherAnimals" id="other_animals_label">
-              <FormControlLabel
-                control={
-                  <Radio
+                  <label htmlFor="big" style={errorPetSize}>
+                    Big (более 10 кг)
+                  </label>
+                </div>
+                <div className="form">
+                  <label className="text-field__label" htmlFor="otherAnimals">
+                    Есть другие животные:
+                  </label>
+                  <input
+                    className="custom-radio"
+                    type="radio"
+                    id="anypet-yes"
+                    name="anypet"
                     value="да"
                     checked={account.otherAnimals === "да"}
                     onChange={handlerChangeOtherAnimals}
                   />
-                }
-                label="Да"
-              ></FormControlLabel>
-              <FormControlLabel
-                control={
-                  <Radio
+                  <label htmlFor="anypet-yes">Да</label>
+                  <input
+                    className="custom-radio"
+                    type="radio"
+                    id="anypet-no"
+                    name="anypet"
                     value="нет"
-                    checked={account.otherAnimals === "нет"}
+                    checked={
+                      account.otherAnimals === "нет" || !account.otherAnimals
+                    }
                     onChange={handlerChangeOtherAnimals}
                   />
-                }
-                label="Нет"
-              ></FormControlLabel>
-            </RadioGroup>
-          </FormControl> */}
-          <FormControl>
-            <Typography variant="h6" component="div">
-              Адрес
-            </Typography>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Autocomplete
-                {...cities}
-                value={cities.options.find((el) => el.city === account.city)}
-                onChange={handlerChangeCity}
-                inputValue={cityInput}
-                onInputChange={handlerOnInputChangeCity}
-                id="city"
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    required
-                    placeholder="Выберите город"
-                  />
-                )}
-                sx={{ width: 200 }}
-              />
-              <TextField
-                variant="outlined"
-                defaultValue={account.address}
-                name="address"
-                onChange={handlerChangeAddress}
-                placeholder="Введите свой адрес"
-                sx={{ flexGrow: 1 }}
-              />
-            </Box>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="phone">
-              <Typography variant="h6" component="div">
-                Телефон
-              </Typography>
-            </FormLabel>
-            <TextField
-              required
-              variant="outlined"
-              defaultValue={account.phone}
-              name="phone"
-              onChange={handlerChangePhone}
-              inputProps={{
-                inputMode: "numeric",
-                pattern:
-                  "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}",
-              }}
-              sx={{ width: 200 }}
-              placeholder="+79999999999"
-            />
-          </FormControl>
-          <Button type="submit" variant="contained" color="warning">
-            Сохранить
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+                  <label htmlFor="anypet-no">Нет</label>
+                </div>
+              </div>
+            </div>
+            <div className="text-field">
+              <label className="text-lev3" htmlFor="city">
+                Контакты
+              </label>
+              <div className="form-hor datalist">
+                <Autocomplete
+                  {...cities}
+                  value={cities.options.find((el) => el.city === account.city)}
+                  onChange={handlerChangeCity}
+                  inputValue={cityInput}
+                  onInputChange={handlerOnInputChangeCity}
+                  id="city"
+                  renderInput={(params) => (
+                    <div ref={params.InputProps.ref}>
+                      <input
+                        type="text"
+                        {...params.inputProps}
+                        required
+                        placeholder="Введите город"
+                        className="text-field__input"
+                      />
+                    </div>
+                  )}
+                />
+                <input
+                  className="text-field__input"
+                  id="address"
+                  type="text"
+                  defaultValue={account.address}
+                  name="address"
+                  onChange={handlerChangeAddress}
+                  placeholder="Введите свой адрес"
+                />
+              </div>
+              <div className="form-hor">
+                <input
+                  type="text"
+                  className="text-field__input mask-phone"
+                  placeholder="+79999999999"
+                  required
+                  defaultValue={account.phone}
+                  name="phone"
+                  onChange={handlerChangePhone}
+                  pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$"
+                />
+                <input className="btn" type="submit" value="Сохранить" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
   );
 };
