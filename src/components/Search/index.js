@@ -55,7 +55,8 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-              <h1>Сервис поиска догситтеров</h1>
+              <span className="home-title__brand">Pet Booking</span> 
+              <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
             <div className="home-img">
               <img className="page-img" src={dog} alt="dog" />

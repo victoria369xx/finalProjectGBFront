@@ -71,7 +71,7 @@ export const getSearchResult = (city) => async (dispatch) => {
       .then((responce) => responce.json())
       .then((data) => {
         const result = data.data.users;
-        // console.log(result);
+        console.log(result);
         dispatch(setSearchResult(result));
       });
   } catch (error) {
