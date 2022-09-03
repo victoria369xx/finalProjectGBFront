@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { useParams } from "react-router";
 import {Card, Typography, Button, Rating, FormGroup, TextareaAutosize} from '@mui/material';
 import {useSelector,useDispatch} from 'react-redux';
-import {addReviewToDB, getReviewsFromDB } from "../../store/reviews/actions";
+import {addReviewToDB } from "../../store/reviews/actions";
 import {selectAccount} from "../../store/account/selector";
 import {getUser} from "../../store/userAuth/selectors";
 
@@ -33,12 +33,11 @@ export function ReviewForm () {
         event.preventDefault();
         if(reviewText) {
             const thatId = currentUser.id;
-            dispatch(addReviewToDB(token,thatId, userId, rating, reviewText))
+           dispatch(addReviewToDB(token,thatId, userId, rating, reviewText))
             clearForm();
         } else {
             alert('Поле комментарий не может быть пустым!')
         }
-        dispatch(getReviewsFromDB(userId));
     }
     return <>
     <Card sx={{p:4}}>
