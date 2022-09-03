@@ -310,7 +310,7 @@ section h2 {
     flex-direction: row;
     gap: 16px;
     padding: 12px 0;
-    justify-content: space-between;
+    justify-content: start;
 }
 
 input,
