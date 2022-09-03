@@ -47,9 +47,19 @@ export const getAccountFromDB = (token) => async (dispatch) => {
   }
 };
 
-export const editAccount = (newAccount) => async (dispatch) => {
+export const editAccount = (newAccount, formData) => async (dispatch) => {
   try {
     //тут будет отправка запроса на бэк
+    //это пример для отправки файла
+    // const url = 'http://localhost:3000/uploadFile';
+    // const config = {
+    //   headers: {
+    //     'content-type': 'multipart/form-data',
+    //   },
+    // };
+    // axios.post(url, formData, config).then((response) => {
+    //   console.log(response.data);
+    // });
     dispatch(setAccount(newAccount));
   } catch (e) {
     console.log(e.message);

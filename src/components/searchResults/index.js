@@ -30,9 +30,12 @@ export const RenderSearchResultsBlock = () => {
 
   if (loading) {
     return (
-      <section className="page-wrapper">
-        <CircularProgress />
-      </section>
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <CircularProgress size={60} />
+      </div>
     );
   }
 
@@ -67,6 +70,10 @@ export const RenderSearchResultsBlock = () => {
             </div>
             <div className="card-info">
               <div className="rating">
+                <span>
+                  {/* <img src={ratingStar} alt="" />
+                  {sitter.rating} */}
+                </span>
                 <span>
                   <img src={ratingStar} alt="" />
                   {sitter.rating}
