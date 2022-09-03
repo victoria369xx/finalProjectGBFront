@@ -1,5 +1,6 @@
 import { clearAccount } from "../account/actions";
 import { API_URL } from "../storeConstants";
+import { sendRequest } from "../helpers";
 
 const baseURL = API_URL;
 
@@ -9,26 +10,6 @@ const logInUrl = baseURL + "/login";
 export const SIGNUP_USER = "SIGNUP_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
-
-function sendRequest(method, url, body = null) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.responseType = "json";
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = () => {
-      if (xhr.status >= 400) {
-        reject(xhr.response);
-      } else {
-        resolve(xhr.response);
-      }
-    };
-    xhr.onerror = () => {
-      reject(xhr.response);
-    };
-    xhr.send(JSON.stringify(body));
-  });
-}
 
 export const signUpUser = (user) => ({
   type: SIGNUP_USER,
