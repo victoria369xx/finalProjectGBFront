@@ -20,6 +20,8 @@ export const RenderSearchResultsBlock = () => {
   const loading = useSelector(selectSearchResultLoading);
   const error = useSelector(selectSearchError);
 
+  
+
   useEffect(() => {
     dispatch(getSearchResult(cityId));
   }, [cityId]);

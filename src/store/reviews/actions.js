@@ -1,8 +1,8 @@
 import { GET_REVIEWS, ERR_REVIEWS } from "./actionTypes";
 
-export const ADD_REVIEW = "ADD_REVIEW";
 
 const baseURL = "http://l7933yx2.beget.tech/api/v1";
+const saveReviewURL = `${baseURL}/reviewsave` ;
 
 const getReviews = (reviews) => ({
     type: GET_REVIEWS,
@@ -14,17 +14,25 @@ const errReviews = (error) => ({
     payload: error,
 })
 
-export const addReview = (userId, newReview) => ({
-    type: "ADD_REVIEW",
-    payload: {
-        userId,
-        newReview
-    }
-});
 
-export const addReviewThunk = (userId, newReview) => (dispatch) => {
-    dispatch(addReview(userId, newReview))
-}
+export const addReviewToDB = (token,thatId, userId, rating, reviewText) => async () =>{
+    const review = {
+        that_id: thatId,
+        to_whom_id: userId,
+        rating: rating,
+        comment: reviewText
+    }
+    let response = await fetch(saveReviewURL, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+    },
+        body: JSON.stringify(review)});
+    
+        let result = await response.json();
+        console.log(result.message);
+        }
 
 
 export const getReviewsFromDB = (id) => async (dispatch) => {
