@@ -47,7 +47,6 @@ a,
 ul,
 li {
     margin: 0;
-    font-size: 100%;
     font-weight: normal;
 }
 
@@ -149,7 +148,6 @@ input, select {
 .home-title__brand {
     font-family: 'Balsamiq Sans';
     font-size: 48px;
-    font-weight: 600;
 }
 
 .home-title h2{
@@ -416,6 +414,10 @@ header {
     width: 416px;
     margin-left: 152px;
     margin-top: 27px;
+}
+
+.home-img img{
+    margin-right: 60px;
 }
 
 .home-title h1 {

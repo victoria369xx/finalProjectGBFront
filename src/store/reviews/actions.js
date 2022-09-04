@@ -15,7 +15,7 @@ const errReviews = (error) => ({
 })
 
 
-export const addReviewToDB = (token,thatId, userId, rating, reviewText) => async () =>{
+export const addReviewToDB = (token,thatId, userId, rating, reviewText) => async (dispatch) =>{
     const review = {
         that_id: thatId,
         to_whom_id: userId,
@@ -32,6 +32,9 @@ export const addReviewToDB = (token,thatId, userId, rating, reviewText) => async
     
         let result = await response.json();
         console.log(result.message);
+
+        dispatch(getReviewsFromDB(userId))
+
         }
 
 

@@ -8,6 +8,7 @@ import {
   selectCitiesLoading,
 } from "../../store/search/selector";
 import dog from "../../assets/images/home-dog.svg";
+import dog3 from "../../assets/images/dog3.png"
 import { Autocomplete } from "@mui/material";
 
 export const Search = () => {
@@ -55,11 +56,11 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-              <span className="home-title__brand">Pet Booking</span> 
+              <h1 className="home-title__brand">Pet Booking</h1> 
               <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
             <div className="home-img">
-              <img className="page-img" src={dog} alt="dog" />
+              <img className="page-img" src={dog3} alt="dog" />
             </div>
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>
