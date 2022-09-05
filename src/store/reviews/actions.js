@@ -15,26 +15,27 @@ const errReviews = (error) => ({
   payload: error,
 });
 
-export const addReviewToDB =
-  (token, thatId, userId, rating, reviewText) => async () => {
+export const addReviewToDB = (token,thatId, userId, rating, reviewText) => async (dispatch) =>{
     const review = {
-      that_id: thatId,
-      to_whom_id: userId,
-      rating: rating,
-      comment: reviewText,
-    };
+        that_id: thatId,
+        to_whom_id: userId,
+        rating: rating,
+        comment: reviewText
+    }
     let response = await fetch(saveReviewURL, {
-      method: "POST",
-      headers: {
+        method: "POST",
+        headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(review),
-    });
+    },
+        body: JSON.stringify(review)});
+    
+        let result = await response.json();
+        console.log(result.message);
 
-    let result = await response.json();
-    console.log(result.message);
-  };
+        dispatch(getReviewsFromDB(userId))
+
+        }
 
 export const getReviewsFromDB = (id) => async (dispatch) => {
   try {
