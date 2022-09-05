@@ -85,31 +85,38 @@ export const getAllCities = () => async (dispatch) => {
   }
 };
 
-export const editAccount = (newAccount, formData) => async (dispatch) => {
-  try {
-    //тут будет отправка запроса на бэк
-    //это пример для отправки файла
-    // const url = 'http://localhost:3000/uploadFile';
-    // const config = {
-    //   headers: {
-    //     'content-type': 'multipart/form-data',
-    //   },
-    // };
-    // axios.post(url, formData, config).then((response) => {
-    //   console.log(response.data);
-    // });
-    // const response = await fetch(baseURL + `/users/${newAccount.id}`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // if (!response.ok) {
-    //   throw new Error(`Request failed: ${response.status}`);
-    // }
-    dispatch(setAccount(newAccount));
-  } catch (e) {
-    console.log(e.message);
-    dispatch(setError(e.message));
-  }
-};
+export const editAccount =
+  (token, newAccount, formData) => async (dispatch) => {
+    try {
+      //это пример для отправки файла
+      // const url = 'http://localhost:3000/uploadFile';
+      // const config = {
+      //   headers: {
+      //     'content-type': 'multipart/form-data',
+      //   },
+      // };
+      // axios.post(url, formData, config).then((response) => {
+      //   console.log(response.data);
+      // });
+
+      // console.log(token);
+      // console.log(JSON.stringify(newAccount));
+      const response = await fetch(baseURL + `/usersave/${newAccount.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newAccount),
+      });
+      if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+      }
+      const data = await response.json();
+      // console.log(data.data.user);
+      dispatch(setAccount(data.data.user));
+    } catch (e) {
+      console.log(e.message);
+      dispatch(setError(e.message));
+    }
+  };

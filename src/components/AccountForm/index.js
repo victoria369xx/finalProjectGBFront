@@ -32,28 +32,14 @@ export const AccountForm = () => {
     options: citiesFromDB,
     getOptionLabel: (option) => option.city,
   };
-
-  const [account, setAccount] = useState(
-    accountFromDB
-      ? accountFromDB
-      : {
-          name: "",
-          description: "",
-          phone: "",
-          img: "",
-          locations: "",
-          address: "",
-          petSize: ["mini"],
-          otherAnimals: 0,
-        }
-  );
+  const [account, setAccount] = useState(accountFromDB);
   const [petSize, setPetSize] = useState({
     mini: account.petSize ? account.petSize.includes("mini") : true,
     small: account.petSize ? account.petSize.includes("small") : false,
     medium: account.petSize ? account.petSize.includes("medium") : false,
     big: account.petSize ? account.petSize.includes("big") : false,
   });
-  const [cityInput, setCityInput] = useState(account.city);
+  const [cityInput, setCityInput] = useState(account.locations);
   //тут потом будет useState для фотографии
   const [file, setFile] = useState("");
 
@@ -66,7 +52,7 @@ export const AccountForm = () => {
     dispatch(getAllCities());
   }, [accountFromDB, token]);
 
-  if (loading) {
+  if (loading || citiesLoading) {
     return (
       <div
         className="page-wrapper container"
@@ -114,7 +100,7 @@ export const AccountForm = () => {
   const handlerChangeCity = (event, newValue) => {
     setAccount({
       ...account,
-      locations: newValue ? newValue.city : "",
+      locations: newValue ? newValue.id : "",
     });
   };
   const handlerOnInputChangeCity = (event, newInputValue) => {
@@ -144,9 +130,20 @@ export const AccountForm = () => {
   const handlerSubmit = (event) => {
     event.preventDefault();
 
-    const petSizeNew = Object.keys(petSize).filter(
-      (key) => petSize[key] === true
-    );
+    const petSizeNew = Object.keys(petSize)
+      .filter((key) => petSize[key] === true)
+      .map((el) => {
+        if (el === "mini") {
+          return 1;
+        } else if (el === "small") {
+          return 2;
+        } else if (el === "medium") {
+          return 3;
+        } else if (el === "big") {
+          return 4;
+        }
+        return 0;
+      });
 
     if (petSizeNew.length === 0) {
       setErrorPetSize({
@@ -158,15 +155,22 @@ export const AccountForm = () => {
     account.petSize = petSizeNew;
 
     const formData = new FormData();
-    console.log(file);
+    // console.log(file);
     if (!file) {
       formData.append("file", file);
       formData.append("fileName", file.name);
     }
 
-    console.log(account);
+    // если город не меняли, тогда нужно изначальный город поменять на его id
+    if (isNaN(account.locations)) {
+      account.locations = citiesFromDB.find(
+        (el) => el.city === account.locations
+      ).id;
+    }
 
-    dispatch(editAccount(account, formData));
+    // console.log(account);
+
+    dispatch(editAccount(token, account, formData));
     navigate(`/account`);
   };
 
@@ -331,7 +335,9 @@ export const AccountForm = () => {
               <div className="form-hor datalist">
                 <Autocomplete
                   {...cities}
-                  value={cities.options.find((el) => el.city === account.city)}
+                  defaultValue={cities.options.find(
+                    (el) => el.city === account.locations
+                  )}
                   onChange={handlerChangeCity}
                   inputValue={cityInput}
                   onInputChange={handlerOnInputChangeCity}

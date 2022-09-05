@@ -65,7 +65,7 @@ export const RenderSearchResultsBlock = () => {
                 <div className="address text-additional">
                   {sitter.locations}
                 </div>
-                <div className="address text-additional">{sitter.adress}</div>
+                <div className="address text-additional">{sitter.address}</div>
               </span>
             </div>
             <div className="card-info">

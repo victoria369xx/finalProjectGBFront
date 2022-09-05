@@ -26,7 +26,7 @@ export const Search = () => {
   };
   const [city, setCity] = useState(cityId ? cityId : 0);
   const [cityInput, setCityInput] = useState(
-    cityId ? citiesFromDB.find((el) => el.id === Number(cityId).city) : "0"
+    cityId ? citiesFromDB.find((el) => el.id === Number(cityId).city) : ""
   );
 
   const handlerChangeCity = (event, newValue) => {
@@ -55,7 +55,7 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-              <span className="home-title__brand">Pet Booking</span> 
+              <span className="home-title__brand">Pet Booking</span>
               <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
             <div className="home-img">

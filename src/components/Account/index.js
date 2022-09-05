@@ -57,7 +57,7 @@ export const Account = () => {
             <input
               className="btn"
               type="submit"
-              value="Редактировать профиль"
+              value="Редактировать аккаунт"
               onClick={handlerClick}
             />
           </div>
@@ -106,9 +106,10 @@ export const Account = () => {
             .
           </p>
           <h4 className="text-lev3">Адрес</h4>
-          {account.location && account.address ? (
+          {account.locations ? (
             <p>
-              {account.locations} {account.address ? `,${account.address}` : ""}
+              {account.locations}
+              {account.address ? `, ${account.address}` : ""}
             </p>
           ) : (
             <p>Не указан</p>
