@@ -22,8 +22,7 @@
     margin: 0;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    /* font-family: "Inter", sans-serif; */
-    font-family: "Roboto", sans-serif;
+    font-family: "Nunito";
     font-style: normal;
     font-size: 16px;
     line-height: 22px;
@@ -141,13 +140,15 @@ input, select {
 .home-title {
   width: 416px;
   margin-left: 152px;
-  margin-top: 27px;
+  margin-top: 21px;
   text-align: justify;
+  padding-top: 15%;
 }
 
 .home-title__brand {
     font-family: 'Balsamiq Sans';
-    font-size: 48px;
+    font-weight: 700;
+    font-size: 72px;
 }
 
 .home-title h2{
@@ -417,10 +418,12 @@ header {
 }
 
 .home-img img{
-    margin-right: 60px;
+    height: 600px;
+    width: 400px;
+    margin-right: 135px;
 }
 
-.home-title h1 {
+/*.home-title h1 {
     font-family: "Yeseva One", cursive;
     color: var(--color-dark);
     font-weight: 900;
@@ -428,8 +431,8 @@ header {
     font-size: 90px;
     line-height: 89px;
     padding-bottom: 73px;
-    /* text-shadow: 0px 4px 6px rgba(34, 42, 70, 1); */
-}
+ text-shadow: 0px 4px 6px rgba(34, 42, 70, 1); 
+} */
 
 section h2 {
     font-family: "Yeseva One", cursive;
