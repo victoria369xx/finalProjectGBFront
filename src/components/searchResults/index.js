@@ -8,8 +8,8 @@ import {
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getSearchResult } from "../../store/search/actions";
 import { CircularProgress } from "@mui/material";
-import "../../css/style.css";
 import ratingStar from "../../img/star.svg";
+import avatar from "../../assets/images/avatar.jpg";
 
 export const RenderSearchResultsBlock = () => {
   const { cityId } = useParams();
@@ -19,8 +19,6 @@ export const RenderSearchResultsBlock = () => {
   const sitters = useSelector(selectSearchResult);
   const loading = useSelector(selectSearchResultLoading);
   const error = useSelector(selectSearchError);
-
-  
 
   useEffect(() => {
     dispatch(getSearchResult(cityId));
@@ -59,7 +57,7 @@ export const RenderSearchResultsBlock = () => {
       <div className="flex-card">
         {sitters.map((sitter) => (
           <Link to={`/profile/${sitter.id}`} className="card" key={sitter.id}>
-            <img src={sitter.img} alt={sitter.name} />
+            <img src={sitter.img ? sitter.img : avatar} alt={sitter.name} />
             <div className="card-content">
               <h3 className="text-lev3">{sitter.name}</h3>
               <p>{sitter.description ? sitter.description : ""}</p>

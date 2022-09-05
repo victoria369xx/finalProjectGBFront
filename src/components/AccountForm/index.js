@@ -2,15 +2,20 @@ import { Autocomplete, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { editAccount, getAccountFromDB } from "../../store/account/actions";
+import {
+  editAccount,
+  getAccountFromDB,
+  getAllCities,
+} from "../../store/account/actions";
 import {
   selectAccount,
   selectAccountError,
   selectAccountLoading,
+  selectAllCities,
+  selectAllCitiesLoading,
 } from "../../store/account/selector";
-import { selectCities } from "../../store/search/selector";
 import { getToken } from "../../store/userAuth/selectors";
-import avatar from "../../assets/images/user.jpg";
+import avatar from "../../assets/images/avatar.jpg";
 
 export const AccountForm = () => {
   const navigate = useNavigate();
@@ -21,7 +26,8 @@ export const AccountForm = () => {
 
   const accountFromDB = useSelector(selectAccount);
   const errorDB = useSelector(selectAccountError);
-  const citiesFromDB = useSelector(selectCities);
+  const citiesFromDB = useSelector(selectAllCities);
+  const citiesLoading = useSelector(selectAllCitiesLoading);
   const cities = {
     options: citiesFromDB,
     getOptionLabel: (option) => option.city,
@@ -38,7 +44,7 @@ export const AccountForm = () => {
           locations: "",
           address: "",
           petSize: ["mini"],
-          otherAnimals: "нет",
+          otherAnimals: 0,
         }
   );
   const [petSize, setPetSize] = useState({
@@ -57,6 +63,7 @@ export const AccountForm = () => {
     if (!accountFromDB) {
       dispatch(getAccountFromDB(token));
     }
+    dispatch(getAllCities());
   }, [accountFromDB, token]);
 
   if (loading) {
@@ -289,7 +296,7 @@ export const AccountForm = () => {
                   </label>
                 </div>
                 <div className="form">
-                  <label className="text-field__label" htmlFor="otherAnimals">
+                  <label className="text-field__label" htmlFor="anypet">
                     Есть другие животные:
                   </label>
                   <input
@@ -297,9 +304,9 @@ export const AccountForm = () => {
                     type="radio"
                     id="anypet-yes"
                     name="anypet"
-                    value="да"
-                    checked={account.otherAnimals === "да"}
+                    value="1"
                     onChange={handlerChangeOtherAnimals}
+                    defaultChecked={account.otherAnimals === 1}
                   />
                   <label htmlFor="anypet-yes">Да</label>
                   <input
@@ -307,11 +314,11 @@ export const AccountForm = () => {
                     type="radio"
                     id="anypet-no"
                     name="anypet"
-                    value="нет"
-                    checked={
-                      account.otherAnimals === "нет" || !account.otherAnimals
-                    }
+                    value="0"
                     onChange={handlerChangeOtherAnimals}
+                    defaultChecked={
+                      account.otherAnimals === 0 || !account.otherAnimals
+                    }
                   />
                   <label htmlFor="anypet-no">Нет</label>
                 </div>
@@ -329,6 +336,7 @@ export const AccountForm = () => {
                   inputValue={cityInput}
                   onInputChange={handlerOnInputChangeCity}
                   id="city"
+                  loading={citiesLoading}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
