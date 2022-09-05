@@ -16,8 +16,7 @@ import { selectAvatar } from "../../store/account/selector";
 import "../../css/style.css";
 import logo from "../../assets/images/logo_transparent.png";
 import logo2 from "../../img/logo.svg";
-import avatar2 from "../../assets/images/user.jpg";
-import { Logout } from "@mui/icons-material";
+import avatar2 from "../../assets/images/avatar.jpg";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -69,6 +68,7 @@ export const Header = () => {
                 sx: {
                   overflow: "visible",
                   filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: "5px",
                 },
               }}
               transformOrigin={{ horizontal: "right", vertical: "top" }}

@@ -7,6 +7,7 @@ import {
   SET_SEARCH_RESULT,
   SET_CITIES_ERROR,
 } from "./actionTypes";
+
 const initialState = {
   searchResult: [],
   errorResearch: null,
