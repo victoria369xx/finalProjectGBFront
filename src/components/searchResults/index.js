@@ -1,9 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { selectSearchResult, selectCities } from "../../store/search/selector";
+import {
+  selectSearchResult,
+  selectSearchResultLoading,
+  selectSearchError,
+} from "../../store/search/selector";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getSearchResult } from "../../store/search/actions";
-import "../../css/style.css";
+import { CircularProgress } from "@mui/material";
+import ratingStar from "../../img/star.svg";
+import avatar from "../../assets/images/avatar.jpg";
 
 export const RenderSearchResultsBlock = () => {
   const { cityId } = useParams();
@@ -11,23 +17,28 @@ export const RenderSearchResultsBlock = () => {
   const dispatch = useDispatch();
 
   const sitters = useSelector(selectSearchResult);
-  const cities = useSelector(selectCities);
-  // console.log(sitters);
+  const loading = useSelector(selectSearchResultLoading);
+  const error = useSelector(selectSearchError);
 
   useEffect(() => {
-    if (
-      isNaN(Number(cityId)) ||
-      !cities.find((el) => el.id === Number(cityId))
-    ) {
-      // если в get-parameters не число или id города, которого нет в cities, то редирект на 404
-      navigate("*");
-    } else if (!isNaN(Number(cityId)) && sitters.length === 0) {
-      // если в поиск попали, вбив руками url
-      dispatch(getSearchResult(cityId));
-    }
+    dispatch(getSearchResult(cityId));
   }, [cityId]);
 
-  // если возвращается пустой массив результатов поиска
+  if (isNaN(Number(cityId))) {
+    navigate("*");
+  }
+
+  if (loading) {
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <CircularProgress size={60} />
+      </div>
+    );
+  }
+
   if (sitters.length === 0) {
     return (
       <section className="page-wrapper">
@@ -36,24 +47,40 @@ export const RenderSearchResultsBlock = () => {
     );
   }
 
+  if (!sitters || error) {
+    return <h2 className>Проблемы со списком ситтеров на сервере</h2>;
+  }
+
   return (
-    <section className="page-wrapper container">
+    <section className="page-wrapper">
       <h2 className="text-center">Наши догситтеры</h2>
       <div className="flex-card">
         {sitters.map((sitter) => (
           <Link to={`/profile/${sitter.id}`} className="card" key={sitter.id}>
-            <img src="https://picsum.photos/200/300" alt={sitter.name} />
+            <img src={sitter.img ? sitter.img : avatar} alt={sitter.name} />
             <div className="card-content">
               <h3 className="text-lev3">{sitter.name}</h3>
               <p>{sitter.description ? sitter.description : ""}</p>
               <span>
-                <div className="address text-additional">{sitter.city}</div>
-                <div className="address text-additional">{sitter.adress}</div>
+                <div className="address text-additional">
+                  {sitter.locations}
+                </div>
+                <div className="address text-additional">{sitter.address}</div>
               </span>
             </div>
             <div className="card-info">
+              <div className="rating">
+                <span>
+                  {/* <img src={ratingStar} alt="" />
+                  {sitter.rating} */}
+                </span>
+                <span>
+                  <img src={ratingStar} alt="" />
+                  {sitter.rating}
+                </span>
+              </div>
               <div className="price">{sitter.price ? sitter.price : ""}</div>
-              <button className="btn">{sitter.phone}</button>
+              {/* <button className="btn">{sitter.phone}</button> */}
             </div>
           </Link>
         ))}

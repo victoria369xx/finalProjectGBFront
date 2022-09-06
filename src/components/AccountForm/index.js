@@ -1,351 +1,387 @@
-import {
-  Autocomplete,
-  Box,
-  Button,
-  CardMedia,
-  Checkbox,
-  Container,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { editAccount, getAccountFromDB } from "../../store/account/actions";
+import { useNavigate } from "react-router-dom";
+import {
+  editAccount,
+  getAccountFromDB,
+  getAllCities,
+} from "../../store/account/actions";
 import {
   selectAccount,
   selectAccountError,
+  selectAccountLoading,
+  selectAllCities,
+  selectAllCitiesLoading,
 } from "../../store/account/selector";
-import { selectCities } from "../../store/search/selector";
-import avatar from "../../assets/images/user.jpg";
+import { getToken } from "../../store/userAuth/selectors";
+import avatar from "../../assets/images/avatar.jpg";
 
 export const AccountForm = () => {
-  //пока информация о пользователе будет через get-параметр, потом будет браться только из стора и адрес будет без get-параметра
-  const { userId } = useParams();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const token = useSelector(getToken);
+  const loading = useSelector(selectAccountLoading);
+
   const accountFromDB = useSelector(selectAccount);
   const errorDB = useSelector(selectAccountError);
-  const citiesFromDB = useSelector(selectCities);
+  const citiesFromDB = useSelector(selectAllCities);
+  const citiesLoading = useSelector(selectAllCitiesLoading);
   const cities = {
     options: citiesFromDB,
     getOptionLabel: (option) => option.city,
   };
-
-  const [account, setAccount] = useState(
-    accountFromDB
-      ? accountFromDB
-      : {
-          name: "",
-          description: "",
-          phone: "",
-          img: "",
-          city: "",
-          address: "",
-          petSize: ["mini"],
-          otherAnimals: "нет",
-        }
-  );
-  //опредилить c бэком, как хранить размеры животных
+  const [account, setAccount] = useState(accountFromDB);
   const [petSize, setPetSize] = useState({
-    mini: account.petSize.includes("mini"),
-    small: account.petSize.includes("small"),
-    medium: account.petSize.includes("medium"),
-    big: account.petSize.includes("big"),
+    mini: account.petSize ? account.petSize.includes("mini") : true,
+    small: account.petSize ? account.petSize.includes("small") : false,
+    medium: account.petSize ? account.petSize.includes("medium") : false,
+    big: account.petSize ? account.petSize.includes("big") : false,
   });
-  const [cityInput, setCityInput] = useState(account.city);
+  const [cityInput, setCityInput] = useState(account.locations);
   //тут потом будет useState для фотографии
+  const [file, setFile] = useState("");
 
-  const [errorPetSize, setErrorPetSize] = useState(false);
-
-  //после интеграции с бэком добавить элемент с loading
+  const [errorPetSize, setErrorPetSize] = useState({ color: "none" });
 
   useEffect(() => {
-    //проверка пока есть get-параметр
-    if (isNaN(Number(userId))) {
-      navigate("*");
-    } else {
-      //пока редактирование не интегрировано с бэком
-      if (!account) {
-        dispatch(getAccountFromDB(Number(userId)));
-      }
+    if (!accountFromDB) {
+      dispatch(getAccountFromDB(token));
     }
-  }, [userId, account]);
+    dispatch(getAllCities());
+  }, [accountFromDB, token]);
+
+  if (loading || citiesLoading) {
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <CircularProgress size={60} />
+      </div>
+    );
+  }
 
   if (!account || errorDB) {
     return <h3>Нет данных об аккаунте</h3>;
   }
 
-  const handleChangeName = (event) => {
+  const handlerChangeName = (event) => {
     setAccount({
       ...account,
       name: event.target.value,
     });
   };
 
-  const handleChangeDescription = (event) => {
+  const handlerChangeDescription = (event) => {
     setAccount({
       ...account,
       description: event.target.value,
     });
   };
 
-  const handleChangePetSize = (event) => {
-    setErrorPetSize(false);
+  const handlerChangePetSize = (event) => {
+    setErrorPetSize({ border: "none" });
     setPetSize({
       ...petSize,
-      [event.target.name]: event.target.checked,
+      // [event.target.name]: event.target.checked,
+      [event.target.value]: event.target.checked,
     });
   };
 
-  const handleChangeOtherAnimals = (event) => {
+  const handlerChangeOtherAnimals = (event) => {
     setAccount({
       ...account,
       otherAnimals: event.target.value,
     });
   };
 
-  const handleChangeCity = (event, newValue) => {
+  const handlerChangeCity = (event, newValue) => {
     setAccount({
       ...account,
-      city: newValue ? newValue.city : "",
+      locations: newValue ? newValue.id : "",
     });
   };
-  const handleOnInputChangeCity = (event, newInputValue) => {
+  const handlerOnInputChangeCity = (event, newInputValue) => {
     setCityInput(newInputValue);
   };
 
-  const handleChangeAddress = (event) => {
+  const handlerChangeAddress = (event) => {
     setAccount({
       ...account,
       address: event.target.value,
     });
   };
 
-  const handleChangePhone = (event) => {
+  const handlerChangePhone = (event) => {
     setAccount({
       ...account,
       phone: event.target.value,
     });
   };
 
-  //тут потом будет handleChange для фотографии
+  //тут потом будет handlerChange для фотографии
+  const handlerChangePhoto = (event) => {
+    console.log(event.target.files[0]);
+    setFile(event.target.files[0]);
+  };
 
-  const handleSubmit = (event) => {
+  const handlerSubmit = (event) => {
     event.preventDefault();
 
-    const petSizeNew = Object.keys(petSize).filter(
-      (key) => petSize[key] === true
-    );
+    const petSizeNew = Object.keys(petSize)
+      .filter((key) => petSize[key] === true)
+      .map((el) => {
+        if (el === "mini") {
+          return 1;
+        } else if (el === "small") {
+          return 2;
+        } else if (el === "medium") {
+          return 3;
+        } else if (el === "big") {
+          return 4;
+        }
+        return 0;
+      });
 
     if (petSizeNew.length === 0) {
-      setErrorPetSize(true);
+      setErrorPetSize({
+        color: "red",
+      });
       return;
     }
 
     account.petSize = petSizeNew;
 
-    dispatch(editAccount(account));
-    navigate(`/account/${userId}`);
+    const formData = new FormData();
+    // console.log(file);
+    if (!file) {
+      formData.append("file", file);
+      formData.append("fileName", file.name);
+    }
+
+    // если город не меняли, тогда нужно изначальный город поменять на его id
+    if (isNaN(account.locations)) {
+      account.locations = citiesFromDB.find(
+        (el) => el.city === account.locations
+      ).id;
+    }
+
+    // console.log(account);
+
+    dispatch(editAccount(token, account, formData));
+    navigate(`/account`);
   };
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 10 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", gap: 3 }}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <CardMedia
-            component="img"
-            sx={{ width: 300 }}
-            image={avatar}
-            alt={account.name}
-          />
-          <Button
-            variant="contained"
-            component="label"
-            color="warning"
-            disabled
-          >
-            Загрузить фотографию
-            <input type="file" name="photo" accept="image/*" hidden />
-          </Button>
-        </Box>
-        <Box
-          component="form"
-          method="POST"
-          encType="multipart/form-data"
-          sx={{
-            flex: 1,
-            display: "flex",
-            gap: 2,
-            mb: 5,
-            flexDirection: "column",
-          }}
-          onSubmit={handleSubmit}
-        >
-          <TextField
-            required
-            variant="outlined"
-            defaultValue={account.name}
-            name="name"
-            onChange={handleChangeName}
-            placeholder="Введите свое имя"
-            label="Имя"
-          />
-          <FormControl>
-            <FormLabel htmlFor="description">
-              <Typography variant="h6" component="div">
-                Обо мне
-              </Typography>
-            </FormLabel>
-            <TextField
-              id="description"
-              name="description"
-              defaultValue={account.description}
-              onChange={handleChangeDescription}
-              multiline
-              placeholder="Введите информацию о себе"
+    <section className="page-wrapper">
+      <form
+        className="flex-card profile"
+        method="POST"
+        encType="multipart/form-data"
+        onSubmit={handlerSubmit}
+      >
+        <div>
+          <img src={account.img ? account.img : avatar} alt={account.name} />
+          <div className="review-block">
+            <input
+              type="file"
+              name="img"
+              id="img"
+              accept="image/*"
+              onChange={handlerChangePhoto}
+              hidden
             />
-          </FormControl>
-          <Typography variant="h6" component="div">
-            Спецификация услуги
-          </Typography>
-          <FormControl error={errorPetSize}>
-            <FormLabel htmlFor="petSize">-Размер принимаемой собаки</FormLabel>
-            <FormGroup id="petSize" name="petSize">
-              <FormControlLabel
-                label="Mini (до 3 кг)"
-                control={
-                  <Checkbox
-                    checked={petSize.mini}
-                    name="mini"
-                    onChange={handleChangePetSize}
-                  />
-                }
-              />
-              <FormControlLabel
-                label="Small (3-5 кг)"
-                control={
-                  <Checkbox
-                    checked={petSize.small}
-                    name="small"
-                    onChange={handleChangePetSize}
-                  />
-                }
-              />
-              <FormControlLabel
-                label="Medium (5-10 кг)"
-                control={
-                  <Checkbox
-                    checked={petSize.medium}
-                    name="medium"
-                    onChange={handleChangePetSize}
-                  />
-                }
-              />
-              <FormControlLabel
-                label="Big (более 10 кг)"
-                control={
-                  <Checkbox
-                    checked={petSize.big}
-                    name="big"
-                    onChange={handleChangePetSize}
-                  />
-                }
-              />
-            </FormGroup>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="other_animals_label">
-              Есть другие животные
-            </FormLabel>
-            <RadioGroup name="otherAnimals" id="other_animals_label">
-              <FormControlLabel
-                control={
-                  <Radio
-                    value="да"
-                    checked={account.otherAnimals === "да"}
-                    onChange={handleChangeOtherAnimals}
-                  />
-                }
-                label="Да"
-              ></FormControlLabel>
-              <FormControlLabel
-                control={
-                  <Radio
-                    value="нет"
-                    checked={account.otherAnimals === "нет"}
-                    onChange={handleChangeOtherAnimals}
-                  />
-                }
-                label="Нет"
-              ></FormControlLabel>
-            </RadioGroup>
-          </FormControl>
-          <FormControl>
-            <Typography variant="h6" component="div">
-              Адрес
-            </Typography>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Autocomplete
-                {...cities}
-                value={cities.options.find((el) => el.city === account.city)}
-                onChange={handleChangeCity}
-                inputValue={cityInput}
-                onInputChange={handleOnInputChangeCity}
-                id="city"
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    required
-                    placeholder="Выберите город"
-                  />
-                )}
-                sx={{ width: 200 }}
-              />
-              <TextField
-                variant="outlined"
-                defaultValue={account.address}
-                name="address"
-                onChange={handleChangeAddress}
-                placeholder="Введите свой адрес"
-                sx={{ flexGrow: 1 }}
-              />
-            </Box>
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="phone">
-              <Typography variant="h6" component="div">
-                Телефон
-              </Typography>
-            </FormLabel>
-            <TextField
-              required
-              variant="outlined"
-              defaultValue={account.phone}
-              name="phone"
-              onChange={handleChangePhone}
-              inputProps={{
-                inputMode: "numeric",
-                pattern:
-                  "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}",
+            <label
+              htmlFor="img"
+              className="btn btn-add"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
-              sx={{ width: 200 }}
-              placeholder="+79999999999"
-            />
-          </FormControl>
-          <Button type="submit" variant="contained" color="warning">
-            Сохранить
-          </Button>
-        </Box>
-      </Box>
-    </Container>
+            >
+              Загрузить фотографию
+            </label>
+          </div>
+        </div>
+
+        <div className="card-content">
+          <h1 className="text-lev2">Редактирование профиля</h1>
+          <div className="form">
+            <div className="text-field">
+              <label className="text-lev3" htmlFor="name">
+                Имя
+              </label>
+              <input
+                className="text-field__input"
+                id="name"
+                type="text"
+                placeholder="Введите свое имя"
+                defaultValue={account.name}
+                name="name"
+                onChange={handlerChangeName}
+                required
+              />
+            </div>
+            <div className="text-field">
+              <label className="text-lev3" htmlFor="description">
+                Обо мне
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                defaultValue={account.description}
+                onChange={handlerChangeDescription}
+                rows="10"
+                placeholder="Введите информацию о себе"
+                maxLength="1000"
+              ></textarea>
+            </div>
+            <div className="text-field">
+              <div className="text-lev3">Спецификация услуги</div>
+              <div className="form-hor">
+                <div className="form">
+                  <label
+                    className="text-field__label"
+                    htmlFor="petSize"
+                    style={errorPetSize}
+                  >
+                    Размер принимаемой собаки:
+                  </label>
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id="mini"
+                    name="petSize"
+                    value="mini"
+                    checked={petSize.mini}
+                    onChange={handlerChangePetSize}
+                  />
+                  <label htmlFor="mini" style={errorPetSize}>
+                    Mini (до 3 кг)
+                  </label>
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id="small"
+                    name="petSize"
+                    value="small"
+                    checked={petSize.small}
+                    onChange={handlerChangePetSize}
+                  />
+                  <label htmlFor="small" style={errorPetSize}>
+                    Small (3-5 кг)
+                  </label>
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id="medium"
+                    name="petSize"
+                    value="medium"
+                    checked={petSize.medium}
+                    onChange={handlerChangePetSize}
+                  />
+                  <label htmlFor="medium" style={errorPetSize}>
+                    Medium (5-10 кг)
+                  </label>
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id="big"
+                    name="petSize"
+                    value="big"
+                    checked={petSize.big}
+                    onChange={handlerChangePetSize}
+                  />
+                  <label htmlFor="big" style={errorPetSize}>
+                    Big (более 10 кг)
+                  </label>
+                </div>
+                <div className="form">
+                  <label className="text-field__label" htmlFor="anypet">
+                    Есть другие животные:
+                  </label>
+                  <input
+                    className="custom-radio"
+                    type="radio"
+                    id="anypet-yes"
+                    name="anypet"
+                    value="1"
+                    onChange={handlerChangeOtherAnimals}
+                    defaultChecked={account.otherAnimals === 1}
+                  />
+                  <label htmlFor="anypet-yes">Да</label>
+                  <input
+                    className="custom-radio"
+                    type="radio"
+                    id="anypet-no"
+                    name="anypet"
+                    value="0"
+                    onChange={handlerChangeOtherAnimals}
+                    defaultChecked={
+                      account.otherAnimals === 0 || !account.otherAnimals
+                    }
+                  />
+                  <label htmlFor="anypet-no">Нет</label>
+                </div>
+              </div>
+            </div>
+            <div className="text-field">
+              <label className="text-lev3" htmlFor="city">
+                Контакты
+              </label>
+              <div className="form-hor datalist">
+                <Autocomplete
+                  {...cities}
+                  defaultValue={cities.options.find(
+                    (el) => el.city === account.locations
+                  )}
+                  onChange={handlerChangeCity}
+                  inputValue={cityInput}
+                  onInputChange={handlerOnInputChangeCity}
+                  id="city"
+                  loading={citiesLoading}
+                  renderInput={(params) => (
+                    <div ref={params.InputProps.ref}>
+                      <input
+                        type="text"
+                        {...params.inputProps}
+                        required
+                        placeholder="Введите город"
+                        className="text-field__input"
+                      />
+                    </div>
+                  )}
+                />
+                <input
+                  className="text-field__input"
+                  id="address"
+                  type="text"
+                  defaultValue={account.address}
+                  name="address"
+                  onChange={handlerChangeAddress}
+                  placeholder="Введите свой адрес"
+                />
+              </div>
+              <div className="form-hor">
+                <input
+                  type="text"
+                  className="text-field__input mask-phone"
+                  placeholder="+79999999999"
+                  required
+                  defaultValue={account.phone}
+                  name="phone"
+                  onChange={handlerChangePhone}
+                  pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$"
+                />
+                <input className="btn" type="submit" value="Сохранить" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
   );
 };

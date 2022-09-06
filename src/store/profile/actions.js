@@ -1,7 +1,7 @@
+import { API_URL } from "../storeConstants";
 import { PROFILE_PENDING, SET_ERROR, SET_PROFILE } from "./actioinTypes";
 
-// const baseURL = "http://localhost:881/api/v1";
-const baseURL = "http://localhost/api/v1";
+const baseURL = API_URL;
 
 const setProfile = (profile) => ({
   type: SET_PROFILE,

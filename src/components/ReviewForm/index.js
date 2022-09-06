@@ -2,17 +2,20 @@ import React, {useState} from "react";
 import { useParams } from "react-router";
 import {Card, Typography, Button, Rating, FormGroup, TextareaAutosize} from '@mui/material';
 import {useSelector,useDispatch} from 'react-redux';
-import {getUser} from '../../store/userAuth/selectors'; 
-import { addReviewThunk } from "../../store/reviews/actions";
+import {addReviewToDB } from "../../store/reviews/actions";
+import {selectAccount} from "../../store/account/selector";
+import {getUser} from "../../store/userAuth/selectors";
 
 
 
 export function ReviewForm () {
     const { userId } = useParams();
     const dispatch = useDispatch();
-    const currentUser = useSelector(getUser);
+    const currentUser = useSelector(selectAccount);
     const [rating, setRating] = useState(3); 
-    const [reviewText, setReviewText] = useState('');
+    const [reviewText, setReviewText] = useState('');  
+    const token = useSelector(getUser).token  
+
 
     function setRatingHandler(event) {
         setRating(event.target.value)
@@ -29,12 +32,8 @@ export function ReviewForm () {
     function reviewSubmitHandler(event) {
         event.preventDefault();
         if(reviewText) {
-            const newReview = {
-                name: currentUser.email,
-                rating:rating,
-                reviewText: reviewText
-            }
-            dispatch(addReviewThunk(userId, newReview))
+            const thatId = currentUser.id;
+           dispatch(addReviewToDB(token,thatId, userId, rating, reviewText))
             clearForm();
         } else {
             alert('Поле комментарий не может быть пустым!')
@@ -45,8 +44,8 @@ export function ReviewForm () {
         <Typography sx={{fontWeight:'medium'}}>Оставить отзыв</Typography>
         <form onSubmit={reviewSubmitHandler}>
         <FormGroup>
-                <Typography sx={{mt:2}}>Имя: {currentUser.email}</Typography>
-               <Typography> Оценка: <Rating sx={{mb:2}} value={rating} onChange={setRatingHandler}></Rating></Typography>
+                <Typography sx={{mt:2}}>Имя: {currentUser.name}</Typography>
+               <Typography> Оценка: <Rating sx={{mb:2}} value={Number(rating)} onChange={setRatingHandler}></Rating></Typography>
                 <Typography>Комментарий:</Typography>
                 <TextareaAutosize
                 aria-label="minimum height"

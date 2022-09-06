@@ -1,36 +1,122 @@
-import { SET_ACCOUNT, SET_ERROR } from "./actionTypes";
-import JSONDATA from "../users.json";
+import {
+  CLEAR_ACCOUNT,
+  SET_ACCOUNT,
+  SET_ERROR,
+  ACCOUNT_PENDING,
+  ALL_CITIES_PENDING,
+  SET_ALL_CITIES,
+  SET_ERROR_ALL_CITIES,
+} from "./actionTypes";
+import { API_URL } from "../storeConstants";
+
+const baseURL = API_URL;
 
 const setAccount = (account) => ({
   type: SET_ACCOUNT,
   payload: account,
 });
 
-const setError = (error) => ({
+const setError = (errorAccount) => ({
   type: SET_ERROR,
-  payload: error,
+  payload: errorAccount,
 });
 
-export const getAccountFromDB = (id) => async (dispatch) => {
+export const clearAccount = () => ({
+  type: CLEAR_ACCOUNT,
+});
+
+const getAccountPending = () => ({
+  type: ACCOUNT_PENDING,
+});
+
+const getAllCitiesPending = () => ({
+  type: ALL_CITIES_PENDING,
+});
+
+const setAllCities = (allCities) => ({
+  type: SET_ALL_CITIES,
+  payload: allCities,
+});
+
+const setErrorAllCities = (errorCities) => ({
+  type: SET_ERROR_ALL_CITIES,
+  payload: errorCities,
+});
+
+export const getAccountFromDB = (token) => async (dispatch) => {
+  dispatch(getAccountPending());
   try {
-    //тут будет отправка запроса на бэк
-    const data = JSONDATA["users"].find((el) => el.id === Number(id));
-    if (!data) {
-      throw new Error(`No such user`);
+    const response = await fetch(baseURL.slice(0, -3) + `/user`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
     }
-    dispatch(setAccount(data));
+    const data = await response.json();
+    dispatch(setAccount(data.data));
   } catch (e) {
     console.log(e.message);
     dispatch(setError(e.message));
   }
 };
 
-export const editAccount = (newAccount) => async (dispatch) => {
+export const getAllCities = () => async (dispatch) => {
+  dispatch(getAllCitiesPending());
   try {
-    //тут будет отправка запроса на бэк
-    dispatch(setAccount(newAccount));
+    const response = await fetch(baseURL + `/locations`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
+    }
+    const data = await response.json();
+    const result = data.data.cities;
+    dispatch(setAllCities(result));
   } catch (e) {
     console.log(e.message);
-    dispatch(setError(e.message));
+    dispatch(setErrorAllCities(e.message));
   }
 };
+
+export const editAccount =
+  (token, newAccount, formData) => async (dispatch) => {
+    try {
+      //это пример для отправки файла
+      // const url = 'http://localhost:3000/uploadFile';
+      // const config = {
+      //   headers: {
+      //     'content-type': 'multipart/form-data',
+      //   },
+      // };
+      // axios.post(url, formData, config).then((response) => {
+      //   console.log(response.data);
+      // });
+
+      // console.log(token);
+      // console.log(JSON.stringify(newAccount));
+      const response = await fetch(baseURL + `/usersave/${newAccount.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newAccount),
+      });
+      if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+      }
+      const data = await response.json();
+      // console.log(data.data.user);
+      dispatch(setAccount(data.data.user));
+    } catch (e) {
+      console.log(e.message);
+      dispatch(setError(e.message));
+    }
+  };

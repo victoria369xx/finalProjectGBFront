@@ -1,4 +1,4 @@
-import { REQUEST_STATUS } from "./reducer";
+import { REQUEST_STATUS } from "../storeConstants";
 
 export const selectProfile = (state) => state.profile.profile;
 export const selectProfileError = (state) => state.profile.error;

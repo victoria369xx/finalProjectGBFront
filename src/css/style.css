@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Nunito&display=swap');
 
 :root {
     --unit: 1rem; /* 1rem = 16px */
@@ -21,8 +22,7 @@
     margin: 0;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    /* font-family: "Inter", sans-serif; */
-    font-family: "Roboto", sans-serif;
+    font-family: "Nunito";
     font-style: normal;
     font-size: 16px;
     line-height: 22px;
@@ -46,7 +46,6 @@ a,
 ul,
 li {
     margin: 0;
-    font-size: 100%;
     font-weight: normal;
 }
 
@@ -112,21 +111,6 @@ header {
   padding-top: 29px;
 }
 
-.index-form {
-  position: relative;
-  bottom: 24px;
-  width: max-content;
-  display: flex;
-  align-items: center;
-  background: #ffffff;
-  border-radius: var(--radius);
-  z-index: 1000;
-  background: #ffffff;
-  box-shadow: 0px 4px 15px rgba(34, 42, 70, 0.08);
-  padding: 12px 24px 18px;
-  margin-bottom: 87px;
-  margin: 0 auto;
-}
 
 input, select {
   /* height: 36px; */
@@ -141,17 +125,22 @@ input, select {
 .home-title {
   width: 416px;
   margin-left: 152px;
-  margin-top: 27px;
+  margin-top: 21px;
+  text-align: justify;
+  padding-top: 15%;
 }
 
-.home-title h1 {
-  color: #002033;
-  font-weight: 900;
-  font-style: normal;
-  font-size: 63px;
-  line-height: 72px;
-  padding-bottom: 73px;
+.home-title__brand {
+    font-family: 'Balsamiq Sans';
+    font-weight: 700;
+    font-size: 72px;
 }
+
+.home-title h2{
+    font-family: 'Balsamiq Sans';
+    font-size: 28px;
+}
+
 
 .search-btn {
   background: #f0bd66;
@@ -179,7 +168,9 @@ input, select {
     padding: 24px 24px 50px;
     background-color: #ffffff;
 }
-
+.img-description{
+    max-width: 400px;
+}
 .left-header {
   margin-left: 152px;
   margin-top: 27px;
@@ -383,9 +374,10 @@ header {
 .index-form {
     position: relative;
     bottom: 24px;
-    width: max-content;
+    width: 1010px;
     display: flex;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
     gap: 24px;
     background: #ffffff;
     border-radius: var(--radius);
@@ -397,6 +389,9 @@ header {
     margin: 0 auto;
 }
 
+.index-form input {
+    width: 100px;
+}
 .home-page {
     display: flex;
     justify-content: space-between;
@@ -413,7 +408,13 @@ header {
     margin-top: 27px;
 }
 
-.home-title h1 {
+.home-img img{
+    height: 600px;
+    width: 400px;
+    margin-right: 135px;
+}
+
+/*.home-title h1 {
     font-family: "Yeseva One", cursive;
     color: var(--color-dark);
     font-weight: 900;
@@ -421,8 +422,8 @@ header {
     font-size: 90px;
     line-height: 89px;
     padding-bottom: 73px;
-    /* text-shadow: 0px 4px 6px rgba(34, 42, 70, 1); */
-}
+ text-shadow: 0px 4px 6px rgba(34, 42, 70, 1); 
+} */
 
 section h2 {
     font-family: "Yeseva One", cursive;
