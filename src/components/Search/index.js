@@ -91,24 +91,8 @@ export const Search = () => {
                 )}
               />
             </div>
-            <div className="text-field">
-              <label
-                className="text-field__label text-caps text-center"
-                htmlFor="date_in"
-              >
-                Дата заезда
-              </label>
-              <input className="text-field__input" id="date_in" type="date" />
-            </div>
-            <div className="text-field">
-              <label
-                className="text-field__label text-caps text-center"
-                htmlFor="date_out"
-              >
-                Дата выезда
-              </label>
-              <input className="text-field__input" id="date_out" type="date" />
-            </div>
+          
+
             <div className="text-field">
               <label
                 className="text-field__label text-caps text-center"

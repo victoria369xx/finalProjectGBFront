@@ -1,8 +1,6 @@
 import * as React from "react";
 import {
   Avatar,
-  Box,
-  Button,
   IconButton,
   Menu,
   MenuItem,
@@ -14,7 +12,6 @@ import { logOutUserAction } from "../../store/userAuth/actions";
 import { getIsAuth } from "../../store/userAuth/selectors";
 import { selectAvatar } from "../../store/account/selector";
 import "../../css/style.css";
-import logo from "../../assets/images/logo_transparent.png";
 import logo2 from "../../img/logo.svg";
 import avatar2 from "../../assets/images/avatar.jpg";
 
