@@ -168,7 +168,9 @@ input, select {
     padding: 24px 24px 50px;
     background-color: #ffffff;
 }
-
+.img-description{
+    max-width: 400px;
+}
 .left-header {
   margin-left: 152px;
   margin-top: 27px;

@@ -116,9 +116,10 @@ export const Profile = () => {
             .
           </p>
           <h4 className="text-lev3">Адрес</h4>
-          {profile.location && profile.address ? (
+          {profile.locations ? (
             <p>
-              {profile.locations} {profile.address ? `,${profile.address}` : ""}
+              {profile.locations}
+              {profile.address ? `, ${profile.address}` : ""}
             </p>
           ) : (
             <p>Не указан</p>
