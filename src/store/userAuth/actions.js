@@ -1,32 +1,15 @@
-const signUpUrl = "http://localhost/api/v1/register";
-const logInUrl = "http://localhost/api/v1/login";
+import { clearAccount } from "../account/actions";
+import { API_URL } from "../storeConstants";
+import { sendRequest } from "../helpers";
 
-// const signUpUrl = "http://localhost:881/api/v1/register";
-// const logInUrl = "http://localhost:881/api/v1/login";
+const baseURL = API_URL;
+
+const signUpUrl = baseURL + "/register";
+const logInUrl = baseURL + "/login";
 
 export const SIGNUP_USER = "SIGNUP_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
-
-function sendRequest(method, url, body = null) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.responseType = "json";
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onload = () => {
-      if (xhr.status >= 400) {
-        reject(xhr.response);
-      } else {
-        resolve(xhr.response);
-      }
-    };
-    xhr.onerror = () => {
-      reject(xhr.response);
-    };
-    xhr.send(JSON.stringify(body));
-  });
-}
 
 export const signUpUser = (user) => ({
   type: SIGNUP_USER,
@@ -61,7 +44,7 @@ export const signUpUserThunk =
         };
         dispatch(signUpUser(user));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err.message));
   };
 
 export const logInUserThunk = (email, password) => (dispatch) => {
@@ -79,11 +62,12 @@ export const logInUserThunk = (email, password) => (dispatch) => {
       };
       dispatch(logInUser(user));
     })
-    .catch((err) => console.log(err));
+    .catch((err) => alert(err.message));
 };
 
 export const logOutUserAction = (dispatch) => {
   dispatch(logOutUser());
+  dispatch(clearAccount());
 };
 
 export const initAuthAction = (user) => (dispatch) => {
@@ -91,5 +75,6 @@ export const initAuthAction = (user) => (dispatch) => {
     dispatch(logInUser(user));
   } else {
     dispatch(logOutUser());
+    dispatch(clearAccount());
   }
 };

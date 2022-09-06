@@ -1,11 +1,13 @@
 import {
-  BottomNavigation,
-  BottomNavigationAction,
   Container,
   Paper,
+  BottomNavigation,
+  BottomNavigationAction,
+  Box,
 } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
 import { Header } from "../Header";
+import { MainDescription } from "../MainDescription";
 import { Search } from "../Search";
 
 export const MainContainer = () => {
@@ -19,9 +21,12 @@ export const MainContainer = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ paddingBottom: "60px" }}>
       <Header />
+      {/* <Container> */}
       {locationCheck(currentLocation) ? <Search /> : <></>}
+
+      {currentLocation.pathname === '/' ? <MainDescription /> : <></>}
 
       <Outlet />
       <Paper
@@ -32,6 +37,7 @@ export const MainContainer = () => {
           <BottomNavigationAction label="2022 Pet Booking" />
         </BottomNavigation>
       </Paper>
-    </Container>
+      {/* </Container> */}
+    </Box>
   );
 };

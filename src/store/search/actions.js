@@ -1,7 +1,14 @@
-import { SET_CITIES, SET_SEARCH_ERROR, SET_SEARCH_RESULT } from "./actionTypes";
+import { API_URL } from "../storeConstants";
+import {
+  CITIES_PENDING,
+  SEARCH_RESULT_PENDING,
+  SET_CITIES,
+  SET_SEARCH_ERROR,
+  SET_SEARCH_RESULT,
+  SET_CITIES_ERROR,
+} from "./actionTypes";
 
-// const baseURL = "http://localhost:881/api/v1";
-const baseURL = "http://localhost/api/v1";
+const baseURL = API_URL;
 
 const setSearchResult = (searchResult) => ({
   type: SET_SEARCH_RESULT,
@@ -13,14 +20,28 @@ const setSearchError = (error) => ({
   payload: error,
 });
 
+const setCitiesError = (error) => ({
+  type: SET_CITIES_ERROR,
+  payload: error,
+});
+
 const setCities = (cities) => ({
   type: SET_CITIES,
   payload: cities,
 });
 
+const getCitiesPending = () => ({
+  type: CITIES_PENDING,
+});
+
+const getSearchResultPending = () => ({
+  type: SEARCH_RESULT_PENDING,
+});
+
 export const getCities = () => async (dispatch) => {
+  dispatch(getCitiesPending());
   try {
-    fetch(baseURL + `/locations`, {
+    fetch(baseURL + `/locations?filters[city_id]`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,12 +52,14 @@ export const getCities = () => async (dispatch) => {
         const result = data.data.cities;
         dispatch(setCities(result));
       });
-  } catch (e) {
-    console.log(e.message);
+  } catch (error) {
+    dispatch(setCitiesError(error.message));
+    console.log(error.message);
   }
 };
 
 export const getSearchResult = (city) => async (dispatch) => {
+  dispatch(getSearchResultPending());
   try {
     fetch(baseURL + `/recipients?filters[city_id]=${city}`, {
       method: "GET",
@@ -46,8 +69,8 @@ export const getSearchResult = (city) => async (dispatch) => {
     })
       .then((responce) => responce.json())
       .then((data) => {
-        console.log(data.data.users);
         const result = data.data.users;
+        // console.log(result);
         dispatch(setSearchResult(result));
       });
   } catch (error) {
