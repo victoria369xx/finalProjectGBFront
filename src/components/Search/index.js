@@ -26,7 +26,7 @@ export const Search = () => {
   };
   const [city, setCity] = useState(cityId ? cityId : 0);
   const [cityInput, setCityInput] = useState(
-    cityId ? citiesFromDB.find((el) => el.id === Number(cityId).city) : "0"
+    cityId ? citiesFromDB.find((el) => el.id === Number(cityId).city) : ""
   );
 
   const handlerChangeCity = (event, newValue) => {
