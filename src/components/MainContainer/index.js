@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
 import { Header } from "../Header";
+import { MainDescription } from "../MainDescription";
 import { Search } from "../Search";
 
 export const MainContainer = () => {
@@ -24,6 +25,8 @@ export const MainContainer = () => {
       <Header />
       {/* <Container> */}
       {locationCheck(currentLocation) ? <Search /> : <></>}
+
+      {currentLocation.pathname === '/' ? <MainDescription /> : <></>}
 
       <Outlet />
       <Paper
