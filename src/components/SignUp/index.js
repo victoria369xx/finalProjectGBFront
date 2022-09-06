@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Card, FormGroup, TextField, Button, Typography } from "@mui/material";
+import {
+  Card,
+  FormGroup,
+  TextField,
+  Button,
+  Typography,
+  Container,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signUpUserThunk } from "../../store/userAuth/actions";
@@ -43,7 +50,7 @@ export const SignUp = () => {
   }
 
   return (
-    <>
+    <Container>
       <Card sx={{ maxWidth: 400, p: 4, boxShadow: 2, mt: 4 }}>
         <Typography sx={{ fontWeight: "medium" }}>РЕГИСТРАЦИЯ</Typography>
 
@@ -96,6 +103,6 @@ export const SignUp = () => {
           Уже есть аккаунт? <Link to="/login"> Войти </Link>
         </Typography>
       </Card>
-    </>
+    </Container>
   );
 };

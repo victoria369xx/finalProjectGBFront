@@ -7,9 +7,9 @@ import {
 } from "../../store/search/selector";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getSearchResult } from "../../store/search/actions";
-// import "./renderSearch_module.css";
 import { CircularProgress } from "@mui/material";
-import "../../css/style.css";
+import ratingStar from "../../img/star.svg";
+import avatar from "../../assets/images/avatar.jpg";
 
 export const RenderSearchResultsBlock = () => {
   const { cityId } = useParams();
@@ -30,9 +30,12 @@ export const RenderSearchResultsBlock = () => {
 
   if (loading) {
     return (
-      <section className="page-wrapper">
-        <CircularProgress />
-      </section>
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <CircularProgress size={60} />
+      </div>
     );
   }
 
@@ -45,16 +48,16 @@ export const RenderSearchResultsBlock = () => {
   }
 
   if (!sitters || error) {
-    return <h3>Проблемы со списком ситтеров на сервере</h3>;
+    return <h2 className>Проблемы со списком ситтеров на сервере</h2>;
   }
 
   return (
-    <section className="page-wrapper container">
+    <section className="page-wrapper">
       <h2 className="text-center">Наши догситтеры</h2>
       <div className="flex-card">
         {sitters.map((sitter) => (
           <Link to={`/profile/${sitter.id}`} className="card" key={sitter.id}>
-            <img src={sitter.img} alt={sitter.name} />
+            <img src={sitter.img ? sitter.img : avatar} alt={sitter.name} />
             <div className="card-content">
               <h3 className="text-lev3">{sitter.name}</h3>
               <p>{sitter.description ? sitter.description : ""}</p>
@@ -62,12 +65,22 @@ export const RenderSearchResultsBlock = () => {
                 <div className="address text-additional">
                   {sitter.locations}
                 </div>
-                <div className="address text-additional">{sitter.adress}</div>
+                <div className="address text-additional">{sitter.address}</div>
               </span>
             </div>
             <div className="card-info">
+              <div className="rating">
+                <span>
+                  {/* <img src={ratingStar} alt="" />
+                  {sitter.rating} */}
+                </span>
+                <span>
+                  <img src={ratingStar} alt="" />
+                  {sitter.rating}
+                </span>
+              </div>
               <div className="price">{sitter.price ? sitter.price : ""}</div>
-              <button className="btn">{sitter.phone}</button>
+              {/* <button className="btn">{sitter.phone}</button> */}
             </div>
           </Link>
         ))}

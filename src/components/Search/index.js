@@ -7,7 +7,7 @@ import {
   selectCitiesError,
   selectCitiesLoading,
 } from "../../store/search/selector";
-import dog from "../../assets/images/home-dog.svg";
+import dog4 from "../../assets/images/dog4.png"
 import { Autocomplete } from "@mui/material";
 
 export const Search = () => {
@@ -26,7 +26,7 @@ export const Search = () => {
   };
   const [city, setCity] = useState(cityId ? cityId : 0);
   const [cityInput, setCityInput] = useState(
-    cityId ? citiesFromDB.find((el) => el.id === Number(cityId).city) : "0"
+    cityId ? citiesFromDB.find((el) => el.id === Number(cityId).city) : ""
   );
 
   const handlerChangeCity = (event, newValue) => {
@@ -55,11 +55,13 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-              <h1 className="home-title__brand">Pet Booking</h1>
+
+              <h1 className="home-title__brand">Pet Booking</h1> 
               <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
             <div className="home-img">
-              <img src={dog} alt="dog" />
+              <img src={dog4} alt="dog" />
+
             </div>
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>

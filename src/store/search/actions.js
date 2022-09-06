@@ -41,8 +41,7 @@ const getSearchResultPending = () => ({
 export const getCities = () => async (dispatch) => {
   dispatch(getCitiesPending());
   try {
-    // `/locations?filters[city_id]`
-    fetch(baseURL + `/locations`, {
+    fetch(baseURL + `/locations?filters[city_id]`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

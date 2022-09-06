@@ -3,7 +3,7 @@ import {
   Paper,
   BottomNavigation,
   BottomNavigationAction,
-  Box
+  Box,
 } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
 import { Header } from "../Header";
@@ -25,7 +25,9 @@ export const MainContainer = () => {
       <Header />
       {/* <Container> */}
       {locationCheck(currentLocation) ? <Search /> : <></>}
+
       {currentLocation.pathname === '/' ? <MainDescription /> : <></>}
+
       <Outlet />
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
@@ -39,5 +41,3 @@ export const MainContainer = () => {
     </Box>
   );
 };
-
-
