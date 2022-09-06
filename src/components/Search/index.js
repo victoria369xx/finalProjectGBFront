@@ -55,10 +55,11 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-              <h1>Сервис поиска догситтеров</h1>
+              <h1 className="home-title__brand">Pet Booking</h1>
+              <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
             <div className="home-img">
-              <img className="page-img" src={dog} alt="dog" />
+              <img src={dog} alt="dog" />
             </div>
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>
