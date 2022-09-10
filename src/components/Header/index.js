@@ -81,13 +81,7 @@ export const Header = () => {
               ) : (
                 ""
               )}
-              <Link
-                to="/"
-                onClick={logOutHandler}
-                style={{ textDecoration: "none", color: "orange" }}
-              >
-                <MenuItem>Выйти</MenuItem>
-              </Link>
+                <MenuItem sx={{color: "orange" }} onClick={logOutHandler}>Выйти</MenuItem>
             </Menu>
           </>
         ) : (
