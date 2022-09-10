@@ -14,6 +14,7 @@ export function ReviewForm () {
     const [rating, setRating] = useState(3); 
     const [reviewText, setReviewText] = useState('');  
     const token = useSelector(getUser).token  
+    const thatId = currentUser.id;
 
 
     function setRatingHandler(event) {
@@ -28,15 +29,27 @@ export function ReviewForm () {
         setReviewText('');
     }
     
+    function idCheck (profileId, accountId) {
+        if(Number(profileId) !== accountId) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     function reviewSubmitHandler(event) {
         event.preventDefault();
-        if(reviewText) {
-            const thatId = currentUser.id;
-           dispatch(addReviewToDB(token,thatId, userId, rating, reviewText))
-            clearForm();
+        if(idCheck(userId,thatId)) {
+            if(reviewText) {
+                dispatch(addReviewToDB(token,thatId, userId, rating, reviewText))
+                 clearForm();
+             } else {
+                 alert('Поле комментарий не может быть пустым!')
+             }
         } else {
-            alert('Поле комментарий не может быть пустым!')
+            alert('Нельзя оставить отзыв себе!')
         }
+           
     }
     return <>
     <div class="review-block">
