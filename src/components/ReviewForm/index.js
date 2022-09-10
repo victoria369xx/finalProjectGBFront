@@ -1,6 +1,5 @@
 import React, {useState} from "react"; 
 import { useParams } from "react-router";
-import {Card, Typography, Button, Rating, FormGroup, TextareaAutosize} from '@mui/material';
 import {useSelector,useDispatch} from 'react-redux';
 import {addReviewToDB } from "../../store/reviews/actions";
 import {selectAccount} from "../../store/account/selector";
@@ -40,22 +39,25 @@ export function ReviewForm () {
         }
     }
     return <>
-    <Card sx={{p:4}}>
-        <Typography sx={{fontWeight:'medium'}}>Оставить отзыв</Typography>
+    <div class="review-block">
         <form onSubmit={reviewSubmitHandler}>
-        <FormGroup>
-                <Typography sx={{mt:2}}>Имя: {currentUser.name}</Typography>
-               <Typography> Оценка: <Rating sx={{mb:2}} value={Number(rating)} onChange={setRatingHandler}></Rating></Typography>
-                <Typography>Комментарий:</Typography>
-                <TextareaAutosize
-                aria-label="minimum height"
-                minRows={6}
-                placeholder=" Введите текст..."
-                sx={{p:2}}
+               <div className="rating-area" value={Number(rating)} onChange={setRatingHandler}>
+                            <input type="radio" id="star-5" name="rating" value="5"/>
+                            <label for="star-5" title="Оценка «5»"></label>
+                            <input type="radio" id="star-4" name="rating" value="4"/>
+                            <label for="star-4" title="Оценка «4»"></label>
+                            <input type="radio" id="star-3" name="rating" value="3"/>
+                            <label for="star-3" title="Оценка «3»"></label>
+                            <input type="radio" id="star-2" name="rating" value="2"/>
+                            <label for="star-2" title="Оценка «2»"></label>
+                            <input type="radio" id="star-1" name="rating" value="1"/>
+                            <label for="star-1" title="Оценка «1»"></label>
+                        </div>
+                <textarea id="login" name="reviews" rows="5" placeholder="Введите текст отзыва" maxlength="500"
+                required
                 value={reviewText} onChange={setReviewTextHandler} />
-                <Button variant="outlined" color="warning" sx={{mt:2, width:'100px'}} type="submit">Отправить</Button>
-        </FormGroup>
+                <input class="btn" type="submit" value="Отправить"></input>
         </form>
-    </Card>
+    </div>
     </>
 }
