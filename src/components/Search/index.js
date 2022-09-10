@@ -55,7 +55,6 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-
               <h1 className="home-title__brand">Pet Booking</h1> 
               <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
@@ -65,6 +64,7 @@ export const Search = () => {
             </div>
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>
+            <div className="index-form__flexWrapper">
             <div className="text-field datalist">
               <label
                 className="text-field__label text-caps text-center"
@@ -115,6 +115,7 @@ export const Search = () => {
                 <option value="">Medium (5-10 кг)</option>
                 <option value="">Big (более 10 кг)</option>
               </select>
+            </div>
             </div>
             <input type="submit" className="btn" value="НАЙТИ" />
           </form>
