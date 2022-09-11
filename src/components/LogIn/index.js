@@ -54,12 +54,6 @@ export const LogIn = () => {
               required
             />
             </div>
-            <div class="remember-me">
-                        <div class="check">
-                            <input class="custom-checkbox" type="checkbox" id="check"/>
-                            <label for="check">Запомнить меня</label>
-                        </div>
-            </div>
             <div className="text-login">
         <Link to="/signup" style={{ textDecoration: "none" }}>
         <p> Создать аккаунт</p>
