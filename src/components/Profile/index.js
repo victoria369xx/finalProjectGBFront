@@ -13,6 +13,7 @@ import { ReviewForm } from "../ReviewForm";
 import { getIsAuth } from "../../store/userAuth/selectors";
 import avatar from "../../assets/images/avatar.jpg";
 import ratingStar from "../../img/star.svg";
+import { resetReviewsAction } from "../../store/reviews/actions";
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -26,6 +27,7 @@ export const Profile = () => {
   const loading = useSelector(selectProfileLoading);
 
   useEffect(() => {
+    dispatch(resetReviewsAction)
     if (isNaN(Number(userId))) {
       navigate("*");
     } else {
