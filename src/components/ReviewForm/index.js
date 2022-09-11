@@ -69,7 +69,7 @@ export function ReviewForm () {
                 <textarea id="login" name="reviews" rows="5" placeholder="Введите текст отзыва" maxlength="500"
                 required
                 value={reviewText} onChange={setReviewTextHandler} />
-                <input class="btn" type="submit" value="Отправить"></input>
+                <input class="btn review_submit" type="submit" value="Отправить"></input>
         </form>
     </div>
     </>

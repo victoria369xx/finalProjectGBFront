@@ -4,6 +4,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Nunito&display=swap');
 
+/*@media screen and (max-width: 740px) {
+    @import url(./style_pad.css);
+}
+
+@media screen and (max-width: 360px) {
+    @import url(./style_mobile.css);
+}
+ */
 :root {
     --unit: 1rem; /* 1rem = 16px */
     --radius: 5px;
@@ -878,6 +886,10 @@ option {
     gap: 24px;
 }
 
+.review_submit {
+    margin-top: 1rem;
+}
+
 /*************************/
 /* RATING
 /*************************/
@@ -888,6 +900,7 @@ option {
     overflow: hidden;
     width: 100%;
     margin: 0 auto;
+    margin-bottom: 1rem;
 }
 
 .rating-area:not(:checked) > input {
