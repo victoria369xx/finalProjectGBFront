@@ -13,6 +13,7 @@ import { ReviewForm } from "../ReviewForm";
 import { getIsAuth } from "../../store/userAuth/selectors";
 import avatar from "../../assets/images/avatar.jpg";
 import ratingStar from "../../img/star.svg";
+import { API_URL } from "../../store/storeConstants";
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -24,6 +25,8 @@ export const Profile = () => {
   const profile = useSelector(selectProfile);
   const error = useSelector(selectProfileError);
   const loading = useSelector(selectProfileLoading);
+
+  const baseURL = API_URL.slice(0, -6);
 
   useEffect(() => {
     if (isNaN(Number(userId))) {
@@ -59,7 +62,11 @@ export const Profile = () => {
     <section className="page-wrapper">
       <div className="flex-card-profile">
         <div className="profile-aside">
-          <img src={profile.img ? profile.img : avatar} alt={profile.name} />
+          {profile.img ? (
+            <img src={baseURL + profile.img} alt={profile.name} />
+          ) : (
+            <img src={avatar} alt={profile.name} />
+          )}
         </div>
         <div className="profile-content">
           <h1 className="text-lev2">{profile.name}</h1>

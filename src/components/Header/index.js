@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  Avatar,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
+import { Avatar, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUserAction } from "../../store/userAuth/actions";
@@ -14,6 +8,7 @@ import { selectAvatar } from "../../store/account/selector";
 import "../../css/style.css";
 import logo2 from "../../img/logo.svg";
 import avatar2 from "../../assets/images/avatar.jpg";
+import { API_URL } from "../../store/storeConstants";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -34,6 +29,8 @@ export const Header = () => {
   const authed = useSelector(getIsAuth);
   const avatar = useSelector(selectAvatar);
 
+  const baseURL = API_URL.slice(0, -6);
+
   return (
     <header>
       <nav className="navbar container">
@@ -51,7 +48,11 @@ export const Header = () => {
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
               >
-                <Avatar src={avatar ? avatar : avatar2}></Avatar>
+                {avatar ? (
+                  <Avatar src={baseURL + avatar}></Avatar>
+                ) : (
+                  <Avatar src={avatar2}></Avatar>
+                )}
               </IconButton>
             </Tooltip>
             <Menu

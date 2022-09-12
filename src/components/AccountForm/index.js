@@ -19,6 +19,7 @@ import {
 } from "../../store/account/selector";
 import { getToken } from "../../store/userAuth/selectors";
 import avatar from "../../assets/images/avatar.jpg";
+import { API_URL } from "../../store/storeConstants";
 
 export const AccountForm = () => {
   const navigate = useNavigate();
@@ -29,6 +30,8 @@ export const AccountForm = () => {
 
   const editSuccess = useSelector(selectEditSuccess);
   const editLoading = useSelector(selectEditLoading);
+
+  const baseURL = API_URL.slice(0, -6);
 
   const accountFromDB = useSelector(selectAccount);
   const errorDB = useSelector(selectAccountError);
@@ -234,8 +237,10 @@ export const AccountForm = () => {
         <div className="profile-aside">
           {file ? (
             <img src={preview} alt={file.name} />
+          ) : account.img ? (
+            <img src={baseURL + account.img} alt={account.name} />
           ) : (
-            <img src={account.img ? account.img : avatar} alt={account.name} />
+            <img src={avatar} alt={account.name} />
           )}
 
           <div className="review-block">

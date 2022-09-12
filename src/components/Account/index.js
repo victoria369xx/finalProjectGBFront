@@ -11,6 +11,7 @@ import {
 import { getToken } from "../../store/userAuth/selectors";
 import avatar from "../../assets/images/avatar.jpg";
 import ratingStar from "../../img/star.svg";
+import { API_URL } from "../../store/storeConstants";
 
 export const Account = () => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ export const Account = () => {
   const error = useSelector(selectAccountError);
   const token = useSelector(getToken);
   const loading = useSelector(selectAccountLoading);
+
+  const baseURL = API_URL.slice(0, -6);
 
   useEffect(() => {
     dispatch(getAccountFromDB(token));
@@ -55,7 +58,11 @@ export const Account = () => {
     <section className="page-wrapper">
       <div className="flex-card-profile">
         <div className="profile-aside">
-          <img src={account.img ? account.img : avatar} alt={account.name} />
+          {account.img ? (
+            <img src={baseURL + account.img} alt={account.name} />
+          ) : (
+            <img src={avatar} alt={account.name} />
+          )}
           <div className="review-block">
             <input
               className="btn"
