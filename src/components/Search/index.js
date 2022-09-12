@@ -55,7 +55,7 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-              <h1 className="home-title__brand">Pet Booking</h1> 
+              <h1 className="home-title__brand">Pet Booking</h1>
               <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
             <div className="home-img">
@@ -65,59 +65,59 @@ export const Search = () => {
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>
             <div className="index-form__flexWrapper">
-            <div className="text-field datalist">
-              <label
-                className="text-field__label text-caps text-center"
-                htmlFor="city"
-              >
-                Город
+              <div className="text-field datalist">
+                <label
+                  className="text-field__label text-caps text-center"
+                  htmlFor="city"
+                >
+                  Город
               </label>
-              <Autocomplete
-                {...cities}
-                value={cities.options.find((el) => el.id === Number(cityId))}
-                onChange={handlerChangeCity}
-                inputValue={cityInput}
-                onInputChange={handlerOnInputChangeCity}
-                id="city"
-                loading={loading}
-                renderInput={(params) => (
-                  <div ref={params.InputProps.ref}>
-                    <input
-                      type="text"
-                      {...params.inputProps}
-                      required
-                      placeholder="Выберите город"
-                      className="text-field__input datalist"
-                    />
-                  </div>
-                )}
-              />
-            </div>
-          
+                <Autocomplete
+                  {...cities}
+                  value={cities.options.find((el) => el.id === Number(cityId))}
+                  onChange={handlerChangeCity}
+                  inputValue={cityInput}
+                  onInputChange={handlerOnInputChangeCity}
+                  id="city"
+                  loading={loading}
+                  renderInput={(params) => (
+                    <div ref={params.InputProps.ref}>
+                      <input
+                        type="text"
+                        {...params.inputProps}
+                        required
+                        placeholder="Выберите город"
+                        className="text-field__input datalist"
+                      />
+                    </div>
+                  )}
+                />
+              </div>
 
-            <div className="text-field">
-              <label
-                className="text-field__label text-caps text-center"
-                htmlFor="size"
-              >
-                Размер
+
+              <div className="text-field text-field__margin">
+                <label
+                  className="text-field__label text-caps text-center"
+                  htmlFor="size"
+                >
+                  Размер
               </label>
-              <select
-                className="text-field__select"
-                id="size"
-                defaultValue={""}
-              >
-                <option value="" disabled hidden>
-                  Введите размер
+                <select
+                  className="text-field__select"
+                  id="size"
+                  defaultValue={""}
+                >
+                  <option value="" disabled hidden>
+                    Введите размер
                 </option>
-                <option value="">Mini (до 3 кг)</option>
-                <option value="">Small (3-5 кг)</option>
-                <option value="">Medium (5-10 кг)</option>
-                <option value="">Big (более 10 кг)</option>
-              </select>
+                  <option value="">Mini (до 3 кг)</option>
+                  <option value="">Small (3-5 кг)</option>
+                  <option value="">Medium (5-10 кг)</option>
+                  <option value="">Big (более 10 кг)</option>
+                </select>
+              </div>
             </div>
-            </div>
-            <input type="submit" className="btn" value="НАЙТИ" />
+            <button type="submit" className="btn btn-search" value="НАЙТИ">НАЙТИ</button>
           </form>
         </div>
       </div>
