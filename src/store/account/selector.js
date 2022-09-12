@@ -12,3 +12,8 @@ export const selectAllCities = (state) => state.account.allCities;
 export const selectAllCitiesError = (state) => state.account.errorCities;
 export const selectAllCitiesLoading = (state) =>
   state.account.statusRequestCities === REQUEST_STATUS.PENDING;
+
+export const selectEditSuccess = (state) =>
+  state.account.statusEdit === REQUEST_STATUS.SUCCESS;
+export const selectEditLoading = (state) =>
+  state.account.statusEdit === REQUEST_STATUS.PENDING;

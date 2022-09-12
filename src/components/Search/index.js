@@ -7,7 +7,7 @@ import {
   selectCitiesError,
   selectCitiesLoading,
 } from "../../store/search/selector";
-import dog4 from "../../assets/images/dog4.png"
+import dog4 from "../../assets/images/dog4.png";
 import { Autocomplete } from "@mui/material";
 
 export const Search = () => {
@@ -46,7 +46,14 @@ export const Search = () => {
   }, [cityId]);
 
   if (!citiesFromDB || error) {
-    return <h3>Проблемы со списком городов на сервере</h3>;
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <h3>Упс, что-то пошло не так...</h3>
+      </div>
+    );
   }
 
   return (
@@ -55,13 +62,11 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-
-              <h1 className="home-title__brand">Pet Booking</h1> 
+              <h1 className="home-title__brand">Pet Booking</h1>
               <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
             <div className="home-img">
               <img src={dog4} alt="dog" />
-
             </div>
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>
@@ -93,7 +98,6 @@ export const Search = () => {
                 )}
               />
             </div>
-          
 
             <div className="text-field">
               <label

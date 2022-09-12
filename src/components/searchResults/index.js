@@ -48,7 +48,14 @@ export const RenderSearchResultsBlock = () => {
   }
 
   if (!sitters || error) {
-    return <h2 className>Проблемы со списком ситтеров на сервере</h2>;
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <h3>Упс, что-то пошло не так...</h3>
+      </div>
+    );
   }
 
   return (

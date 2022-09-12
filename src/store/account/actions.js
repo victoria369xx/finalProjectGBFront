@@ -6,6 +6,8 @@ import {
   ALL_CITIES_PENDING,
   SET_ALL_CITIES,
   SET_ERROR_ALL_CITIES,
+  EDIT_PENDING,
+  EDIT_SUCCESS,
 } from "./actionTypes";
 import { API_URL } from "../storeConstants";
 
@@ -41,6 +43,14 @@ const setAllCities = (allCities) => ({
 const setErrorAllCities = (errorCities) => ({
   type: SET_ERROR_ALL_CITIES,
   payload: errorCities,
+});
+
+const editPending = () => ({
+  type: EDIT_PENDING,
+});
+
+const editSuccess = () => ({
+  type: EDIT_SUCCESS,
 });
 
 export const getAccountFromDB = (token) => async (dispatch) => {
@@ -86,21 +96,9 @@ export const getAllCities = () => async (dispatch) => {
 };
 
 export const editAccount =
-  (token, newAccount, formData) => async (dispatch) => {
+  (token, newAccount, photoFlag) => async (dispatch) => {
+    dispatch(editPending());
     try {
-      //это пример для отправки файла
-      // const url = 'http://localhost:3000/uploadFile';
-      // const config = {
-      //   headers: {
-      //     'content-type': 'multipart/form-data',
-      //   },
-      // };
-      // axios.post(url, formData, config).then((response) => {
-      //   console.log(response.data);
-      // });
-
-      // console.log(token);
-      // console.log(JSON.stringify(newAccount));
       const response = await fetch(baseURL + `/usersave/${newAccount.id}`, {
         method: "PUT",
         headers: {
@@ -113,10 +111,37 @@ export const editAccount =
         throw new Error(`Request failed: ${response.status}`);
       }
       const data = await response.json();
+      if (!photoFlag) {
+        dispatch(editSuccess());
+      }
       // console.log(data.data.user);
-      dispatch(setAccount(data.data.user));
+      // dispatch(setAccount(data.data.user));
     } catch (e) {
       console.log(e.message);
       dispatch(setError(e.message));
     }
   };
+
+export const addPhoto = (token, formData) => async (dispatch) => {
+  dispatch(editPending());
+  try {
+    const responseImg = await fetch(baseURL + `/image/save`, {
+      method: "POST",
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    if (!responseImg.ok) {
+      throw new Error(`Request failed: ${responseImg.status}`);
+    }
+    // console.log(responseImg);
+    const dataImg = await responseImg.json();
+    dispatch(editSuccess());
+    // console.log(dataImg.data.image);
+  } catch (e) {
+    console.log(e.message);
+    dispatch(setError(e.message));
+  }
+};
