@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
+  addPhoto,
   editAccount,
   getAccountFromDB,
   getAllCities,
@@ -13,9 +14,12 @@ import {
   selectAccountLoading,
   selectAllCities,
   selectAllCitiesLoading,
+  selectEditLoading,
+  selectEditSuccess,
 } from "../../store/account/selector";
 import { getToken } from "../../store/userAuth/selectors";
 import avatar from "../../assets/images/avatar.jpg";
+import { API_URL } from "../../store/storeConstants";
 
 export const AccountForm = () => {
   const navigate = useNavigate();
@@ -23,6 +27,11 @@ export const AccountForm = () => {
 
   const token = useSelector(getToken);
   const loading = useSelector(selectAccountLoading);
+
+  const editSuccess = useSelector(selectEditSuccess);
+  const editLoading = useSelector(selectEditLoading);
+
+  const baseURL = API_URL.slice(0, -6);
 
   const accountFromDB = useSelector(selectAccount);
   const errorDB = useSelector(selectAccountError);
@@ -40,8 +49,8 @@ export const AccountForm = () => {
     big: account.petSize ? account.petSize.includes("big") : false,
   });
   const [cityInput, setCityInput] = useState(account.locations);
-  //тут потом будет useState для фотографии
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState();
+  const [preview, setPreview] = useState();
 
   const [errorPetSize, setErrorPetSize] = useState({ color: "none" });
 
@@ -52,7 +61,24 @@ export const AccountForm = () => {
     dispatch(getAllCities());
   }, [accountFromDB, token]);
 
-  if (loading || citiesLoading) {
+  useEffect(() => {
+    if (editSuccess) {
+      navigate(`/account`);
+    }
+  }, [editSuccess]);
+
+  useEffect(() => {
+    if (!file) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [file]);
+
+  if (loading || citiesLoading || editLoading) {
     return (
       <div
         className="page-wrapper container"
@@ -64,7 +90,14 @@ export const AccountForm = () => {
   }
 
   if (!account || errorDB) {
-    return <h3>Нет данных об аккаунте</h3>;
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <h3>Упс, что-то пошло не так...</h3>
+      </div>
+    );
   }
 
   const handlerChangeName = (event) => {
@@ -93,7 +126,7 @@ export const AccountForm = () => {
   const handlerChangeOtherAnimals = (event) => {
     setAccount({
       ...account,
-      otherAnimals: event.target.value,
+      otherAnimals: Number(event.target.value),
     });
   };
 
@@ -121,10 +154,32 @@ export const AccountForm = () => {
     });
   };
 
-  //тут потом будет handlerChange для фотографии
+  const handlerChangeRole = (event) => {
+    setAccount({
+      ...account,
+      role: Number(event.target.value),
+    });
+  };
+
   const handlerChangePhoto = (event) => {
-    console.log(event.target.files[0]);
+    // console.log(event.target.files[0]);
+    if (!event.target.files || event.target.files.length === 0) {
+      setFile(undefined);
+      return;
+    }
     setFile(event.target.files[0]);
+  };
+
+  const handlerDeletePhoto = (event) => {
+    setFile(undefined);
+    setAccount({
+      ...account,
+      img: "",
+    });
+  };
+
+  const handlerRevokePhoto = (event) => {
+    setFile(undefined);
   };
 
   const handlerSubmit = (event) => {
@@ -145,7 +200,7 @@ export const AccountForm = () => {
         return 0;
       });
 
-    if (petSizeNew.length === 0) {
+    if (account.role.toString() === "2" && petSizeNew.length === 0) {
       setErrorPetSize({
         color: "red",
       });
@@ -154,14 +209,6 @@ export const AccountForm = () => {
 
     account.petSize = petSizeNew;
 
-    const formData = new FormData();
-    // console.log(file);
-    if (!file) {
-      formData.append("file", file);
-      formData.append("fileName", file.name);
-    }
-
-    // если город не меняли, тогда нужно изначальный город поменять на его id
     if (isNaN(account.locations)) {
       account.locations = citiesFromDB.find(
         (el) => el.city === account.locations
@@ -169,21 +216,40 @@ export const AccountForm = () => {
     }
 
     // console.log(account);
+    const photoFlag = file ? true : false;
 
-    dispatch(editAccount(token, account, formData));
-    navigate(`/account`);
+    dispatch(editAccount(token, account, photoFlag));
+    const formData = new FormData();
+    if (file) {
+      formData.append("image", file);
+      dispatch(addPhoto(token, formData));
+    }
   };
 
   return (
     <section className="page-wrapper">
       <form
-        className="flex-card profile"
+        className="flex-card-profile"
         method="POST"
         encType="multipart/form-data"
         onSubmit={handlerSubmit}
       >
-        <div>
-          <img src={account.img ? account.img : avatar} alt={account.name} />
+        <div className="profile-aside">
+          {file ? (
+            <img src={preview} alt={file.name} />
+          ) : account.img ? (
+            <img
+              src={
+                account.img.includes("storage/")
+                  ? baseURL + account.img
+                  : account.img
+              }
+              alt={account.name}
+            />
+          ) : (
+            <img src={avatar} alt={account.name} />
+          )}
+
           <div className="review-block">
             <input
               type="file"
@@ -205,9 +271,29 @@ export const AccountForm = () => {
               Загрузить фотографию
             </label>
           </div>
+          {file && (
+            <div className="review-block">
+              <input
+                className="btn btn-add"
+                type="button"
+                value="Отменить загрузку фото"
+                onClick={handlerRevokePhoto}
+              />
+            </div>
+          )}
+          {account.img && !file && (
+            <div className="review-block">
+              <input
+                className="btn btn-add"
+                type="button"
+                value="Удалить фото"
+                onClick={handlerDeletePhoto}
+              />
+            </div>
+          )}
         </div>
 
-        <div className="card-content">
+        <div className="profile-content">
           <h1 className="text-lev2">Редактирование профиля</h1>
           <div className="form">
             <div className="text-field">
@@ -240,6 +326,40 @@ export const AccountForm = () => {
               ></textarea>
             </div>
             <div className="text-field">
+              <label className="text-lev3" htmlFor="sitter">
+                Готов сидеть с собакой
+              </label>
+              <div className="form">
+                <input
+                  className="custom-radio"
+                  type="radio"
+                  id="sitter-yes"
+                  name="sitter"
+                  value="2"
+                  onChange={handlerChangeRole}
+                  defaultChecked={account.role.toString() === "2"}
+                />
+                <label htmlFor="sitter-yes">Да</label>
+                <input
+                  className="custom-radio"
+                  type="radio"
+                  id="sitter-no"
+                  name="sitter"
+                  value="0"
+                  onChange={handlerChangeRole}
+                  defaultChecked={account.role.toString() === "0"}
+                />
+                <label htmlFor="sitter-no">Нет</label>
+              </div>
+            </div>
+            <div
+              className="text-field"
+              style={
+                account.role.toString() === "2"
+                  ? { display: "block" }
+                  : { display: "none" }
+              }
+            >
               <div className="text-lev3">Спецификация услуги</div>
               <div className="form-hor">
                 <div className="form">
@@ -310,7 +430,7 @@ export const AccountForm = () => {
                     name="anypet"
                     value="1"
                     onChange={handlerChangeOtherAnimals}
-                    defaultChecked={account.otherAnimals === 1}
+                    defaultChecked={account.otherAnimals.toString() === "1"}
                   />
                   <label htmlFor="anypet-yes">Да</label>
                   <input
@@ -321,7 +441,8 @@ export const AccountForm = () => {
                     value="0"
                     onChange={handlerChangeOtherAnimals}
                     defaultChecked={
-                      account.otherAnimals === 0 || !account.otherAnimals
+                      account.otherAnimals.toString() === "0" ||
+                      !account.otherAnimals
                     }
                   />
                   <label htmlFor="anypet-no">Нет</label>
@@ -335,9 +456,10 @@ export const AccountForm = () => {
               <div className="form-hor datalist">
                 <Autocomplete
                   {...cities}
-                  defaultValue={cities.options.find(
-                    (el) => el.city === account.locations
-                  )}
+                  defaultValue={
+                    cities.options &&
+                    cities.options.find((el) => el.city === account.locations)
+                  }
                   onChange={handlerChangeCity}
                   inputValue={cityInput}
                   onInputChange={handlerOnInputChangeCity}
@@ -370,7 +492,7 @@ export const AccountForm = () => {
                   type="text"
                   className="text-field__input mask-phone"
                   placeholder="+79999999999"
-                  required
+                  required={account.role.toString() === "2"}
                   defaultValue={account.phone}
                   name="phone"
                   onChange={handlerChangePhone}

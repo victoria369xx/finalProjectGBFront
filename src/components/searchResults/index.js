@@ -10,6 +10,7 @@ import { getSearchResult } from "../../store/search/actions";
 import { CircularProgress } from "@mui/material";
 import ratingStar from "../../img/star.svg";
 import avatar from "../../assets/images/avatar.jpg";
+import { API_URL } from "../../store/storeConstants";
 
 export const RenderSearchResultsBlock = () => {
   const { cityId } = useParams();
@@ -19,6 +20,8 @@ export const RenderSearchResultsBlock = () => {
   const sitters = useSelector(selectSearchResult);
   const loading = useSelector(selectSearchResultLoading);
   const error = useSelector(selectSearchError);
+
+  const baseURL = API_URL.slice(0, -6);
 
   useEffect(() => {
     dispatch(getSearchResult(cityId));
@@ -48,7 +51,14 @@ export const RenderSearchResultsBlock = () => {
   }
 
   if (!sitters || error) {
-    return <h2 className>Проблемы со списком ситтеров на сервере</h2>;
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <h3>Упс, что-то пошло не так...</h3>
+      </div>
+    );
   }
 
   return (
@@ -57,7 +67,18 @@ export const RenderSearchResultsBlock = () => {
       <div className="flex-card">
         {sitters.map((sitter) => (
           <Link to={`/profile/${sitter.id}`} className="card" key={sitter.id}>
-            <img src={sitter.img ? sitter.img : avatar} alt={sitter.name} />
+            {sitter.img ? (
+              <img
+                src={
+                  sitter.img.includes("storage/")
+                    ? baseURL + sitter.img
+                    : sitter.img
+                }
+                alt={sitter.name}
+              />
+            ) : (
+              <img src={avatar} alt={sitter.name} />
+            )}
             <div className="card-content">
               <h3 className="text-lev3">{sitter.name}</h3>
               <p>{sitter.description ? sitter.description : ""}</p>

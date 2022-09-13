@@ -7,15 +7,17 @@ import {
   selectCitiesError,
   selectCitiesLoading,
 } from "../../store/search/selector";
+
 import dog4 from "../../assets/images/dog4.png"
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, Select, MenuItem } from "@mui/material";
+
 
 export const Search = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { cityId } = useParams();
-
+  const { cityId, size } = useParams();
+  console.log(cityId)
   const citiesFromDB = useSelector(selectCities);
   const loading = useSelector(selectCitiesLoading);
   const error = useSelector(selectCitiesError);
@@ -45,9 +47,19 @@ export const Search = () => {
     dispatch(getCities());
   }, [cityId]);
 
+  // Size
+  // const [size, setSize] = useState('')
   if (!citiesFromDB || error) {
-    return <h3>Проблемы со списком городов на сервере</h3>;
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <h3>Упс, что-то пошло не так...</h3>
+      </div>
+    );
   }
+
 
   return (
     <section>
@@ -55,23 +67,23 @@ export const Search = () => {
         <div className="home-content">
           <div className="home-page">
             <div className="home-title">
-
-              <h1 className="home-title__brand">Pet Booking</h1> 
+              <h1 className="home-title__brand">Pet Booking</h1>
               <h2>Позаботимся о вашем питомце в ваше отсутствие! ❤️</h2>
             </div>
             <div className="home-img">
               <img src={dog4} alt="dog" />
-
             </div>
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>
-            <div className="text-field datalist">
-              <label
-                className="text-field__label text-caps text-center"
-                htmlFor="city"
-              >
-                Город
+            <div className="index-form__flexWrapper">
+              <div className="text-field datalist">
+                <label
+                  className="text-field__label text-caps text-center"
+                  htmlFor="city"
+                >
+                  Город
               </label>
+
               <Autocomplete
                 {...cities}
                 value={cities.options.find((el) => el.id === Number(cityId))}
@@ -93,33 +105,33 @@ export const Search = () => {
                 )}
               />
             </div>
-          
 
-            <div className="text-field">
-              <label
-                className="text-field__label text-caps text-center"
-                htmlFor="size"
-              >
-                Размер
+              <div className="text-field text-field__margin">
+                <label
+                  className="text-field__label text-caps text-center"
+                  htmlFor="size"
+                >
+                  Размер
               </label>
-              <select
-                className="text-field__select"
-                id="size"
-                defaultValue={""}
-              >
-                <option value="" disabled hidden>
-                  Введите размер
-                </option>
-                <option value="">Mini (до 3 кг)</option>
-                <option value="">Small (3-5 кг)</option>
-                <option value="">Medium (5-10 кг)</option>
-                <option value="">Big (более 10 кг)</option>
-              </select>
+
+                <Select
+                  className="text-field__select"
+                  id="size"
+                  defaultValue={""}
+                // onChange={handlerChangeSize}
+                >
+                  <MenuItem value={10}>Mini (до 3 кг)</MenuItem>
+                  <MenuItem value={20}>Small (3-5 кг)</MenuItem>
+                  <MenuItem value={30}>Medium (5-10 кг)</MenuItem>
+                  <MenuItem value="">Big (более 10 кг)</MenuItem>
+
+                </Select>
+              </div>
             </div>
-            <input type="submit" className="btn" value="НАЙТИ" />
+            <button type="submit" className="btn btn-search" value="НАЙТИ">НАЙТИ</button>
           </form>
         </div>
       </div>
     </section>
   );
-};
+}

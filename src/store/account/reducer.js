@@ -3,6 +3,8 @@ import {
   ACCOUNT_PENDING,
   ALL_CITIES_PENDING,
   CLEAR_ACCOUNT,
+  EDIT_PENDING,
+  EDIT_SUCCESS,
   SET_ACCOUNT,
   SET_ALL_CITIES,
   SET_ERROR,
@@ -17,6 +19,7 @@ const initialState = {
   allCities: [],
   errorCities: null,
   statusRequestCities: REQUEST_STATUS.IDLE,
+  statusEdit: REQUEST_STATUS.IDLE,
 };
 
 export const accountReducer = (state = initialState, { type, payload }) => {
@@ -50,6 +53,7 @@ export const accountReducer = (state = initialState, { type, payload }) => {
         account: {},
         errorAccount: null,
         statusRequest: REQUEST_STATUS.PENDING,
+        statusEdit: REQUEST_STATUS.IDLE,
       };
     }
     case ALL_CITIES_PENDING: {
@@ -58,6 +62,7 @@ export const accountReducer = (state = initialState, { type, payload }) => {
         allCities: [],
         errorCities: null,
         statusRequestCities: REQUEST_STATUS.PENDING,
+        statusEdit: REQUEST_STATUS.IDLE,
       };
     }
     case SET_ALL_CITIES: {
@@ -73,6 +78,18 @@ export const accountReducer = (state = initialState, { type, payload }) => {
         ...state,
         errorCities: payload,
         statusRequestCities: REQUEST_STATUS.ERROR,
+      };
+    }
+    case EDIT_PENDING: {
+      return {
+        ...state,
+        statusEdit: REQUEST_STATUS.PENDING,
+      };
+    }
+    case EDIT_SUCCESS: {
+      return {
+        ...state,
+        statusEdit: REQUEST_STATUS.SUCCESS,
       };
     }
     default:

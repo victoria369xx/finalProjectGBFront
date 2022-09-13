@@ -1,12 +1,4 @@
 import React, { useState } from "react";
-import {
-  Card,
-  FormGroup,
-  TextField,
-  Button,
-  Typography,
-  Container,
-} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signUpUserThunk } from "../../store/userAuth/actions";
@@ -50,59 +42,50 @@ export const SignUp = () => {
   }
 
   return (
-    <Container>
-      <Card sx={{ maxWidth: 400, p: 4, boxShadow: 2, mt: 4 }}>
-        <Typography sx={{ fontWeight: "medium" }}>РЕГИСТРАЦИЯ</Typography>
-
+    <section className="page-wrapper">
+      <div className="login-page">
         <form onSubmit={signUpHandler}>
-          <FormGroup>
-            <TextField
-              id="standard-basic"
-              label="Имя"
-              variant="outlined"
-              sx={{ mt: 2 }}
+        <div class="text-lev3 text-center">Регистрация</div>
+          <div className="form">
+          <div class="text-field">
+          <label class="text-field__label" for="name">Имя</label>
+            <input class="text-field__input" id="name" type="text" placeholder="Ваше имя"
               onChange={nameSubmitHandler}
               required
             />
-            <TextField
-              id="standard-basic"
-              label="Эл. почта"
-              variant="outlined"
-              sx={{ mt: 2 }}
+            </div>
+            <div class="text-field">
+            <label class="text-field__label" for="email">Email</label>
+            <input class="text-field__input" id="email" type="email" placeholder="Введите email"
               onChange={emailSubmitHandler}
               required
             />
-            <TextField
-              id="standard-basic"
-              label="Пароль"
-              variant="outlined"
-              sx={{ mt: 2 }}
+            </div>
+            <div class="text-field">
+            <label class="text-field__label" for="password">Пароль</label>
+            <input class="text-field__input" id="password" type="password" placeholder="Введите пароль"
               onChange={passwordSubmitHandler}
               required
             />
-            <TextField
-              id="standard-basic"
-              label="Подтвердите пароль"
-              variant="outlined"
-              sx={{ mt: 2 }}
+            </div>
+            <div class="text-field">
+            <label class="text-field__label" for="_repeat">Повторить пароль</label>
+            <input class="text-field__input" id="password_repeat" type="password" placeholder="Повторите пароль"
               onChange={confirmationSubmitHandler}
               required
             />
-            <Button
-              type="submit"
-              color="warning"
-              variant="contained"
-              sx={{ mt: 2 }}
-            >
-              СОЗДАТЬ АККАУНТ
-            </Button>
-          </FormGroup>
+          </div>
+          <div class="remember-me">
+                        <div class="text-login">
+                        <Link to="/login"> 
+                            <p>Уже есть аккаунт?</p>
+                            </Link>
+                        </div>
+                    </div>
+                    <input class="btn" type="submit" value="Создать аккаунт"/>
+          </div>
         </form>
-        <Typography sx={{ mt: 2 }}>
-          {" "}
-          Уже есть аккаунт? <Link to="/login"> Войти </Link>
-        </Typography>
-      </Card>
-    </Container>
+      </div>
+    </section>
   );
 };

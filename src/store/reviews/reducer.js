@@ -1,5 +1,5 @@
 
-import { GET_REVIEWS, ERR_REVIEWS} from "./actionTypes";
+import { GET_REVIEWS, ERR_REVIEWS, RESET_REVIEWS} from "./actionTypes";
 
 const initialState = {
     reviews: [],
@@ -21,6 +21,13 @@ export const reviewsReducer = (state = initialState, { type, payload }) => {
                 error: payload
             }
         }
+
+        case RESET_REVIEWS: {
+            return {
+                initialState
+            }
+        }
+        
         default:
             return state;
     }
