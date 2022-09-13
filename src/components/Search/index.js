@@ -7,8 +7,10 @@ import {
   selectCitiesError,
   selectCitiesLoading,
 } from "../../store/search/selector";
+
 import dog4 from "../../assets/images/dog4.png"
 import { Autocomplete, Select, MenuItem } from "@mui/material";
+
 
 export const Search = () => {
   const navigate = useNavigate();
@@ -48,7 +50,14 @@ export const Search = () => {
   // Size
   // const [size, setSize] = useState('')
   if (!citiesFromDB || error) {
-    return <h3>Проблемы со списком городов на сервере</h3>;
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <h3>Упс, что-то пошло не так...</h3>
+      </div>
+    );
   }
 
 
@@ -63,7 +72,6 @@ export const Search = () => {
             </div>
             <div className="home-img">
               <img src={dog4} alt="dog" />
-
             </div>
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>
@@ -75,28 +83,28 @@ export const Search = () => {
                 >
                   Город
               </label>
-                <Autocomplete
-                  {...cities}
-                  value={cities.options.find((el) => el.id === Number(cityId))}
-                  onChange={handlerChangeCity}
-                  inputValue={cityInput}
-                  onInputChange={handlerOnInputChangeCity}
-                  id="city"
-                  loading={loading}
-                  renderInput={(params) => (
-                    <div ref={params.InputProps.ref}>
-                      <input
-                        type="text"
-                        {...params.inputProps}
-                        required
-                        placeholder="Выберите город"
-                        className="text-field__input datalist"
-                      />
-                    </div>
-                  )}
-                />
-              </div>
 
+              <Autocomplete
+                {...cities}
+                value={cities.options.find((el) => el.id === Number(cityId))}
+                onChange={handlerChangeCity}
+                inputValue={cityInput}
+                onInputChange={handlerOnInputChangeCity}
+                id="city"
+                loading={loading}
+                renderInput={(params) => (
+                  <div ref={params.InputProps.ref}>
+                    <input
+                      type="text"
+                      {...params.inputProps}
+                      required
+                      placeholder="Выберите город"
+                      className="text-field__input datalist"
+                    />
+                  </div>
+                )}
+              />
+            </div>
 
               <div className="text-field text-field__margin">
                 <label
