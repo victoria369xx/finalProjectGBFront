@@ -53,7 +53,7 @@
     }
 
     .index-form__flexWrapper{
-        width: 100%;
+        width: 50%;
         margin: 0 12%;
         justify-content: center;
     }
@@ -243,6 +243,9 @@
 }
 
 @media (max-width: 420px) {
+    .index-form__flexWrapper {
+        width: 100%;
+    }
     .home-img {
         display: none;
     }
@@ -258,7 +261,19 @@
     .index-form{
         bottom: 0;
     }
+    .text-field {
+        min-width: 50%;
+    }
     .text-field__margin {
         margin-left: 5%;
+    }
+}
+
+@media (max-width: 320px){
+    /* .text-field {
+        min-width: 75%;
+    } */
+    .text-field__margin {
+        margin-left: 0;
     }
 }
