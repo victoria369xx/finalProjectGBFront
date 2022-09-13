@@ -13,7 +13,9 @@ import { ReviewForm } from "../ReviewForm";
 import { getIsAuth } from "../../store/userAuth/selectors";
 import avatar from "../../assets/images/avatar.jpg";
 import ratingStar from "../../img/star.svg";
+import { API_URL } from "../../store/storeConstants";
 import { resetReviewsAction } from "../../store/reviews/actions";
+
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -25,6 +27,8 @@ export const Profile = () => {
   const profile = useSelector(selectProfile);
   const error = useSelector(selectProfileError);
   const loading = useSelector(selectProfileLoading);
+
+  const baseURL = API_URL.slice(0, -6);
 
   useEffect(() => {
     dispatch(resetReviewsAction)
@@ -47,14 +51,87 @@ export const Profile = () => {
   }
 
   if (!profile || error) {
-    return <h3>Нет такого ситтера</h3>;
+    return (
+      <div
+        className="page-wrapper container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <h3>Упс, что-то пошло не так...</h3>
+      </div>
+    );
   }
 
   return (
     <section className="page-wrapper">
-      <div className="flex-card profile">
-        <div>
-          <img src={profile.img ? profile.img : avatar} alt={profile.name} />
+      <div className="flex-card-profile">
+        <div className="profile-aside">
+          {profile.img ? (
+            <img src={baseURL + profile.img} alt={profile.name} />
+          ) : (
+            <img src={avatar} alt={profile.name} />
+          )}
+        </div>
+        <div className="profile-content">
+          <h1 className="text-lev2">{profile.name}</h1>
+          <div className="card-info">
+            {profile.role === 2 && (
+              <div className="rating">
+                <span>
+                  <img src={ratingStar} alt="rating" />
+                  {profile.rating}
+                </span>
+              </div>
+            )}
+          </div>
+          <h4 className="text-lev3">Обо мне</h4>
+          <div>{profile.description ? profile.description : "Не указано."}</div>
+          {profile.role === 2 && (
+            <>
+              <h4 className="text-lev3">Спецификация услуги</h4>
+              <p>
+                - Размер принимаемой собаки:{" "}
+                <span className="text-italic">
+                  {profile.petSize && profile.petSize.length !== 0
+                    ? profile.petSize
+                        .map((el) => {
+                          if (el === "mini") {
+                            return "mini (до 3 кг)";
+                          } else if (el === "small") {
+                            return "small (3-5 кг)";
+                          } else if (el === "medium") {
+                            return "medium (5-10 кг)";
+                          } else if (el === "big") {
+                            return "big (более 10 кг)";
+                          }
+                          return "";
+                        })
+                        .join(", ")
+                    : "не указано"}
+                </span>
+                .
+              </p>
+              <p>
+                - Есть другие животные:{" "}
+                <span className="text-italic">
+                  {profile.otherAnimals === 0 ? "нет" : "да"}
+                </span>
+                .
+              </p>
+            </>
+          )}
+          <h4 className="text-lev3">Адрес</h4>
+          {profile.locations ? (
+            <p>
+              {profile.locations}
+              {profile.address ? `, ${profile.address}` : ""}
+            </p>
+          ) : (
+            <p>Не указан</p>
+          )}
+          <h4 className="text-lev3">Телефон</h4>
+          <p>{profile.phone ? profile.phone : "Не указан"}</p>
+        </div>
+        <div className="profile-aside">
           {/* тут в верстке у ребят форма отзыва */}
           <div className="review-block">
             <div className="text-lev2 text-center">Оставьте свой отзыв</div>
@@ -75,60 +152,7 @@ export const Profile = () => {
             )}
           </div>
         </div>
-        <div className="card-content">
-          <h1 className="text-lev2">{profile.name}</h1>
-          <div className="card-info">
-            <div className="rating">
-              <span>
-                <img src={ratingStar} alt="rating" />
-                {profile.rating}
-              </span>
-            </div>
-          </div>
-          <h4 className="text-lev3">Обо мне</h4>
-          <div>{profile.description ? profile.description : "Не указано."}</div>
-          <h4 className="text-lev3">Спецификация услуги</h4>
-          <p>
-            - Размер принимаемой собаки:{" "}
-            <span className="text-italic">
-              {profile.petSize && profile.petSize.length !== 0
-                ? profile.petSize
-                    .map((el) => {
-                      if (el === "mini") {
-                        return "mini (до 3 кг)";
-                      } else if (el === "small") {
-                        return "small (3-5 кг)";
-                      } else if (el === "medium") {
-                        return "medium (5-10 кг)";
-                      } else if (el === "big") {
-                        return "big (более 10 кг)";
-                      }
-                      return "";
-                    })
-                    .join(", ")
-                : "не указано"}
-            </span>
-            .
-          </p>
-          <p>
-            - Есть другие животные:{" "}
-            <span className="text-italic">
-              {profile.otherAnimals === 0 ? "нет" : "да"}
-            </span>
-            .
-          </p>
-          <h4 className="text-lev3">Адрес</h4>
-          {profile.locations ? (
-            <p>
-              {profile.locations}
-              {profile.address ? `, ${profile.address}` : ""}
-            </p>
-          ) : (
-            <p>Не указан</p>
-          )}
-          <h4 className="text-lev3">Телефон</h4>
-          <p>{profile.phone ? profile.phone : "Не указан"}</p>
-
+        <div className="profile-content">
           <Reviews></Reviews>
         </div>
       </div>
