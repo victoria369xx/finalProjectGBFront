@@ -419,6 +419,7 @@ header {
     /* width: 500px; */
     /* width: 50%; */
 }
+
 .text-field__margin {
     margin-left: 20%;
 }
@@ -511,7 +512,7 @@ select {
 }
 
 .text-field {
-    min-width: max-content;
+    min-width: 80%;
 }
 
 .text-field__label {
@@ -1081,4 +1082,8 @@ option {
     line-height: 1.75;
     letter-spacing: 0.00938em;
     margin-bottom: 0.35em;
+}
+
+.MuiOutlinedInput-root fieldset{
+    border: none;
 }

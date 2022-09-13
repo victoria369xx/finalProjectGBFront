@@ -41,7 +41,10 @@
     .index-form__flexWrapper{
         width: 100%;
     }
-   
+    .text-field{
+        min-width: 50%;
+    }
+
     .text-field__margin {
         margin-left: 3%;
     }
@@ -56,7 +59,7 @@
 
     .index-form .text-field__input,
     .index-form .text-field__select {
-        /* width: 135px; */
+        width: 90%;
         font-size: 14px;
     }
 

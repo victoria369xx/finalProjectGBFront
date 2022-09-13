@@ -8,14 +8,14 @@ import {
   selectCitiesLoading,
 } from "../../store/search/selector";
 import dog4 from "../../assets/images/dog4.png"
-import { Autocomplete } from "@mui/material";
+import { Autocomplete, Select, MenuItem } from "@mui/material";
 
 export const Search = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { cityId } = useParams();
-
+  const { cityId, size } = useParams();
+  console.log(cityId)
   const citiesFromDB = useSelector(selectCities);
   const loading = useSelector(selectCitiesLoading);
   const error = useSelector(selectCitiesError);
@@ -45,9 +45,12 @@ export const Search = () => {
     dispatch(getCities());
   }, [cityId]);
 
+  // Size
+  // const [size, setSize] = useState('')
   if (!citiesFromDB || error) {
     return <h3>Проблемы со списком городов на сервере</h3>;
   }
+
 
   return (
     <section>
@@ -102,19 +105,19 @@ export const Search = () => {
                 >
                   Размер
               </label>
-                <select
+
+                <Select
                   className="text-field__select"
                   id="size"
                   defaultValue={""}
+                // onChange={handlerChangeSize}
                 >
-                  <option value="" disabled hidden>
-                    Введите размер
-                </option>
-                  <option value="">Mini (до 3 кг)</option>
-                  <option value="">Small (3-5 кг)</option>
-                  <option value="">Medium (5-10 кг)</option>
-                  <option value="">Big (более 10 кг)</option>
-                </select>
+                  <MenuItem value={10}>Mini (до 3 кг)</MenuItem>
+                  <MenuItem value={20}>Small (3-5 кг)</MenuItem>
+                  <MenuItem value={30}>Medium (5-10 кг)</MenuItem>
+                  <MenuItem value="">Big (более 10 кг)</MenuItem>
+
+                </Select>
               </div>
             </div>
             <button type="submit" className="btn btn-search" value="НАЙТИ">НАЙТИ</button>
@@ -123,4 +126,4 @@ export const Search = () => {
       </div>
     </section>
   );
-};
+}
