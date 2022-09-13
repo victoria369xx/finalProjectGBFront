@@ -49,7 +49,11 @@ export const Header = () => {
                 aria-expanded={open ? "true" : undefined}
               >
                 {avatar ? (
-                  <Avatar src={baseURL + avatar}></Avatar>
+                  <Avatar
+                    src={
+                      avatar.includes("storage/") ? baseURL + avatar : avatar
+                    }
+                  ></Avatar>
                 ) : (
                   <Avatar src={avatar2}></Avatar>
                 )}
@@ -82,7 +86,9 @@ export const Header = () => {
               ) : (
                 ""
               )}
-                <MenuItem sx={{color: "orange" }} onClick={logOutHandler}>Выйти</MenuItem>
+              <MenuItem sx={{ color: "orange" }} onClick={logOutHandler}>
+                Выйти
+              </MenuItem>
             </Menu>
           </>
         ) : (

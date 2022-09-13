@@ -16,7 +16,6 @@ import ratingStar from "../../img/star.svg";
 import { API_URL } from "../../store/storeConstants";
 import { resetReviewsAction } from "../../store/reviews/actions";
 
-
 export const Profile = () => {
   const { userId } = useParams();
   const authed = useSelector(getIsAuth);
@@ -31,7 +30,7 @@ export const Profile = () => {
   const baseURL = API_URL.slice(0, -6);
 
   useEffect(() => {
-    dispatch(resetReviewsAction)
+    dispatch(resetReviewsAction);
     if (isNaN(Number(userId))) {
       navigate("*");
     } else {
@@ -66,7 +65,14 @@ export const Profile = () => {
       <div className="flex-card-profile">
         <div className="profile-aside">
           {profile.img ? (
-            <img src={baseURL + profile.img} alt={profile.name} />
+            <img
+              src={
+                profile.img.includes("storage/")
+                  ? baseURL + profile.img
+                  : profile.img
+              }
+              alt={profile.name}
+            />
           ) : (
             <img src={avatar} alt={profile.name} />
           )}

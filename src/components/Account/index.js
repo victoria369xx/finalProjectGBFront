@@ -59,7 +59,14 @@ export const Account = () => {
       <div className="flex-card-profile">
         <div className="profile-aside">
           {account.img ? (
-            <img src={baseURL + account.img} alt={account.name} />
+            <img
+              src={
+                account.img.includes("storage/")
+                  ? baseURL + account.img
+                  : account.img
+              }
+              alt={account.name}
+            />
           ) : (
             <img src={avatar} alt={account.name} />
           )}

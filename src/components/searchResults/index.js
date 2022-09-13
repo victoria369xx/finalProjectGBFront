@@ -68,7 +68,14 @@ export const RenderSearchResultsBlock = () => {
         {sitters.map((sitter) => (
           <Link to={`/profile/${sitter.id}`} className="card" key={sitter.id}>
             {sitter.img ? (
-              <img src={baseURL + sitter.img} alt={sitter.name} />
+              <img
+                src={
+                  sitter.img.includes("storage/")
+                    ? baseURL + sitter.img
+                    : sitter.img
+                }
+                alt={sitter.name}
+              />
             ) : (
               <img src={avatar} alt={sitter.name} />
             )}

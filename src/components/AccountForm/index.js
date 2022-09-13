@@ -238,7 +238,14 @@ export const AccountForm = () => {
           {file ? (
             <img src={preview} alt={file.name} />
           ) : account.img ? (
-            <img src={baseURL + account.img} alt={account.name} />
+            <img
+              src={
+                account.img.includes("storage/")
+                  ? baseURL + account.img
+                  : account.img
+              }
+              alt={account.name}
+            />
           ) : (
             <img src={avatar} alt={account.name} />
           )}
