@@ -14,6 +14,8 @@ import { getIsAuth } from "../../store/userAuth/selectors";
 import avatar from "../../assets/images/avatar.jpg";
 import ratingStar from "../../img/star.svg";
 import { API_URL } from "../../store/storeConstants";
+import { resetReviewsAction } from "../../store/reviews/actions";
+
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -29,6 +31,7 @@ export const Profile = () => {
   const baseURL = API_URL.slice(0, -6);
 
   useEffect(() => {
+    dispatch(resetReviewsAction)
     if (isNaN(Number(userId))) {
       navigate("*");
     } else {

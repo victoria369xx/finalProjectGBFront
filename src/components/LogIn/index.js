@@ -1,14 +1,4 @@
 import React, { useState } from "react";
-import {
-  Card,
-  FormGroup,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Button,
-  Typography,
-  Container,
-} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logInUserThunk } from "../../store/userAuth/actions";
@@ -39,45 +29,46 @@ export const LogIn = () => {
     clearForm();
   }
   return (
-    <Container>
-      <Card sx={{ maxWidth: 400, p: 4, boxShadow: 2, mt: 4 }}>
-        <Typography sx={{ fontWeight: "medium" }}>ВХОД </Typography>
-        <form onSubmit={logInHandler}>
-          <FormGroup>
-            <TextField
-              id="standard-basic"
-              label="Эл.почта"
-              variant="outlined"
-              sx={{ mt: 2 }}
+    <section className="page-wrapper">
+      <div className="login-page">
+      <form onSubmit={logInHandler}>
+        <div className="text-lev3 text-center">Вход на сайт</div>
+          <div className="form">
+            <div className="text-field">
+            <label class="text-field__label" for="email">Email</label>
+            <input className="text-field__input"
+            type="email" 
+            placeholder="Введите email"
               value={email}
               onChange={emailSubmitHandler}
               required
             />
-            <TextField
-              id="standard-basic"
-              label="Пароль"
-              variant="outlined"
-              sx={{ mt: 2 }}
+            </div>
+            <div className="text-field">
+            <label class="text-field__label" for="password">Пароль</label>
+            <input className="text-field__input"
+            type="password" 
+            placeholder="Введите пароль"
               value={password}
               onChange={passwordSubmitHandler}
               required
             />
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label="Запомнить меня"
-              sx={{ mt: 2 }}
-            />
-            <Button type="submit" variant="contained" color="warning">
-              ВОЙТИ
-            </Button>
-          </FormGroup>
-        </form>
+            </div>
+            <div class="remember-me">
+                        <div class="check">
+                            <input class="custom-checkbox" type="checkbox" id="check"/>
+                            <label for="check">Запомнить меня</label>
+                        </div>
+            </div>
+            <div className="text-login">
         <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Button color="warning" sx={{ mt: 2 }}>
-            Создать аккаунт
-          </Button>
+        <p> Создать аккаунт</p>
         </Link>
-      </Card>
-    </Container>
+        </div>
+            <input class="btn" type="submit" value="Войти"></input>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 };

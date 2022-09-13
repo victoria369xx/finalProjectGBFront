@@ -4,6 +4,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Nunito&display=swap');
 
+/*@media screen and (max-width: 740px) {
+    @import url(./style_pad.css);
+}
+
+@media screen and (max-width: 360px) {
+    @import url(./style_mobile.css);
+}
+ */
 :root {
     --unit: 1rem; /* 1rem = 16px */
     --radius: 5px;
@@ -108,7 +116,6 @@ header {
 
 .home-content {
   background-color: #f5f2ed;
-  padding-top: 29px;
 }
 
 
@@ -123,24 +130,33 @@ input, select {
 }
 
 .home-title {
-  width: 416px;
-  margin-left: 152px;
-  margin-top: 21px;
+  /* width: 416px; */
+  width: 50%;
+  margin-left: 30px;
+  /* margin-top: 21px; */
   text-align: justify;
   padding-top: 15%;
+  margin-right: 5%;
 }
 
 .home-title__brand {
     font-family: 'Balsamiq Sans';
     font-weight: 700;
-    font-size: 72px;
+    font-size: 71px;
+    padding-bottom: 10px;
 }
 
 .home-title h2{
     font-family: 'Balsamiq Sans';
     font-size: 28px;
+    line-height: 30px;
 }
 
+.home-img img{
+    height: 600px;
+    /* width: 400px; */
+  
+}
 
 .search-btn {
   background: #f0bd66;
@@ -169,7 +185,7 @@ input, select {
     background-color: #ffffff;
 }
 .img-description{
-    max-width: 400px;
+    max-width: 100%;
 }
 .left-header {
   margin-left: 152px;
@@ -378,30 +394,40 @@ header {
 /*************************/
 .index-form {
     position: absolute;
-    bottom: 24px;
-    width: fit-content;
+    /* left: 140px;
+    bottom: 65px;
+    width: 1000px; */
+    left: 10%;
+    bottom: 10%;
+    width: 80%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 24px;
     background: #ffffff;
     border-radius: var(--radius);
-    z-index: 1000;
+    z-index: 100;
+    background: #ffffff;
     box-shadow: 0px 4px 15px rgba(34, 42, 70, 0.08);
     padding: 12px 24px 18px;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    text-align: center;
+    margin-bottom: 87px;
+    margin: 0 auto;
 }
 
+.index-form__flexWrapper {
+    display: flex;
+    justify-content: flex-start;
+    /* width: 500px; */
+    /* width: 50%; */
+}
+.text-field__margin {
+    margin-left: 20%;
+}
 .container .index-form {
     margin: 0 auto;
 }
 
 .index-form input {
-    width: 100px;
+    width: 250px;
 }
 .home-page {
     width: 100%;
@@ -413,35 +439,11 @@ header {
 }
 
 
-.home-page h1 {
-    font-family: "Yeseva One", cursive;
-    color: var(--color-dark);
-    font-weight: 900;
-    font-style: normal;
-    font-size: 90px;
-    line-height: 89px;
-    /* padding-bottom: 73px; */
-    /* text-shadow: 0px 4px 6px rgba(34, 42, 70, 1); */
-}
-
-
-h1.text-lev2 {
-    margin: 0;
-}
-
-section h2 {
-    font-family: "Yeseva One", cursive;
-    color: var(--color-dark);
-    /* text-shadow: 0px 1px 1px rgba(34, 42, 70, 1); */
-    padding: 24px 0;
-    font-size: 32px;
-    line-height: 32px;
-    font-weight: 600;
-}
 
 /*************************/
 /* КНОПКИ
 /*************************/
+
 .btn {
     width: 100%;
     height: 38px;
@@ -456,7 +458,9 @@ section h2 {
     text-align: center;
     transition: 0.15s ease-in-out;
 }
-
+.btn-search{
+    width: 20%;
+}
 .btn:hover {
     background-color: #fcb130;
 }
@@ -539,7 +543,9 @@ select {
     font-weight: 400;
     color: var(--color-gray);
 }
-
+.text-field__margin {
+    margin-left: 20%;
+}
 textarea {
     width: 100%;
     font-family: inherit;
@@ -853,14 +859,21 @@ option {
 /* LOGIN/REGISTER
 /*************************/
 .login-page {
-    max-width: 280px;
+    max-width: 380px;
     padding: 24px;
     background: #ffffff;
     box-shadow: 0px 4px 15px rgba(34, 42, 70, 0.08);
     border-radius: var(--radius);
     margin: 0 auto;
 }
+.text-login p{
+    font-family: "Nunito";
+    font-size: 0.8em;
+}
 
+.text-login p:hover {
+    color: #fcb130;
+}
 /*************************/
 /* REVIEWS
 /*************************/
@@ -887,6 +900,10 @@ option {
     gap: 24px;
 }
 
+.review_submit {
+    margin-top: 1rem;
+}
+
 /*************************/
 /* RATING
 /*************************/
@@ -897,6 +914,7 @@ option {
     overflow: hidden;
     width: 100%;
     margin: 0 auto;
+    margin-bottom: 1rem;
 }
 
 .rating-area:not(:checked) > input {
@@ -1033,3 +1051,34 @@ option {
     align-items: stretch;
     justify-content: space-between;
 } */
+
+
+
+.description{
+    display: flex;
+    justify-content: space-between;
+}
+.description-col{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 33.3%;
+    padding: 4% 2%;
+}
+.description-item{
+    margin-bottom: 5%;
+}
+.description-header{
+    /* font-weight: 500; */
+    font-family: 'Balsamiq Sans';
+    font-size: 1.8rem;
+    line-height: 1.6;
+    letter-spacing: 0.0075em;
+}
+.description-text{
+    font-weight: 400;
+    font-size: 1.35rem;
+    line-height: 1.75;
+    letter-spacing: 0.00938em;
+    margin-bottom: 0.35em;
+}

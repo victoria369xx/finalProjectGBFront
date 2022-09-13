@@ -16,9 +16,20 @@
 
     .home-page h1 {
         font-size: 28px;
-        line-height: 32px;
+        line-height: 90%;
+    }
+    .home-page h2 {
+        font-size: 20px;
+        line-height: 120%;
     }
 
+    .home-img {
+        width: 50%;
+    }
+    .home-img img {
+        height: auto;
+        width: 90%;
+    }
     .page-img {
         width: 150px;
     }
@@ -26,11 +37,12 @@
     .index-form {
         width: 100%;
         position: relative;
-        bottom: 12px;
-        width: fit-content;
+        bottom: 40px;
+        /* width: fit-content; */
         display: flex;
         align-items: flex-end;
-        justify-content: space-between;
+        /* justify-content: space-between; */
+        justify-content: center;
         gap: 12px;
         margin-left: auto;
         margin-right: auto;
@@ -40,10 +52,17 @@
         flex-wrap: wrap;
     }
 
+    .index-form__flexWrapper{
+        width: 100%;
+        margin: 0 12%;
+        justify-content: center;
+    }
     .index-form .text-field {
         width: 48%;
     }
-
+    .btn-search{
+        width: 50%;
+    }
     .index-form .text-field__input,
     .index-form .text-field__select {
         width: 100%;
@@ -196,5 +215,50 @@
     .review-block {
         margin-top: 6px;
         margin-bottom: 6px;
+    }
+/* ___________DESCRIPTION____________ */
+
+    .description{
+        flex-direction: column;
+    }
+    .description-col{
+        width: 100%;
+        text-align: center;
+        padding: 2% 4%;
+    }
+    .description-item{
+        margin-bottom: 1%;
+    }
+    .description-header{
+        font-size: 1.3rem;
+    }
+    .description-text {
+        font-weight: 400;
+        font-size: 1rem;
+    }
+    .img-description {
+        max-width: 50%;
+        align-self: center;
+    }
+}
+
+@media (max-width: 420px) {
+    .home-img {
+        display: none;
+    }
+    .home-title {
+        width: 100%;
+    }
+    .home-title__brand {
+        text-align: center;
+    }
+    .btn-search{
+        width: 75%;
+    }
+    .index-form{
+        bottom: 0;
+    }
+    .text-field__margin {
+        margin-left: 5%;
     }
 }

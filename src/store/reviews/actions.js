@@ -1,5 +1,6 @@
 import { API_URL } from "../storeConstants";
-import { GET_REVIEWS, ERR_REVIEWS } from "./actionTypes";
+import { GET_REVIEWS, ERR_REVIEWS, RESET_REVIEWS } from "./actionTypes";
+import {getProfileFromDB} from "../profile/actions";
 
 // const baseURL = "http://l7933yx2.beget.tech/api/v1";
 const baseURL = API_URL;
@@ -14,6 +15,15 @@ const errReviews = (error) => ({
   type: ERR_REVIEWS,
   payload: error,
 });
+
+const resetReviews = () => ({
+  type: RESET_REVIEWS
+})
+
+export const resetReviewsAction = (dispatch) => {
+  dispatch(resetReviews());
+}
+
 
 export const addReviewToDB = (token,thatId, userId, rating, reviewText) => async (dispatch) =>{
     const review = {
@@ -34,7 +44,7 @@ export const addReviewToDB = (token,thatId, userId, rating, reviewText) => async
         console.log(result.message);
 
         dispatch(getReviewsFromDB(userId))
-
+        dispatch(getProfileFromDB(Number(userId)))
         }
 
 export const getReviewsFromDB = (id) => async (dispatch) => {

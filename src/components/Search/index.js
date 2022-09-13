@@ -70,13 +70,15 @@ export const Search = () => {
             </div>
           </div>
           <form className="index-form" onSubmit={handlerSubmit}>
-            <div className="text-field datalist">
-              <label
-                className="text-field__label text-caps text-center"
-                htmlFor="city"
-              >
-                Город
+            <div className="index-form__flexWrapper">
+              <div className="text-field datalist">
+                <label
+                  className="text-field__label text-caps text-center"
+                  htmlFor="city"
+                >
+                  Город
               </label>
+
               <Autocomplete
                 {...cities}
                 value={cities.options.find((el) => el.id === Number(cityId))}
@@ -99,28 +101,29 @@ export const Search = () => {
               />
             </div>
 
-            <div className="text-field">
-              <label
-                className="text-field__label text-caps text-center"
-                htmlFor="size"
-              >
-                Размер
+              <div className="text-field text-field__margin">
+                <label
+                  className="text-field__label text-caps text-center"
+                  htmlFor="size"
+                >
+                  Размер
               </label>
-              <select
-                className="text-field__select"
-                id="size"
-                defaultValue={""}
-              >
-                <option value="" disabled hidden>
-                  Введите размер
+                <select
+                  className="text-field__select"
+                  id="size"
+                  defaultValue={""}
+                >
+                  <option value="" disabled hidden>
+                    Введите размер
                 </option>
-                <option value="">Mini (до 3 кг)</option>
-                <option value="">Small (3-5 кг)</option>
-                <option value="">Medium (5-10 кг)</option>
-                <option value="">Big (более 10 кг)</option>
-              </select>
+                  <option value="">Mini (до 3 кг)</option>
+                  <option value="">Small (3-5 кг)</option>
+                  <option value="">Medium (5-10 кг)</option>
+                  <option value="">Big (более 10 кг)</option>
+                </select>
+              </div>
             </div>
-            <input type="submit" className="btn" value="НАЙТИ" />
+            <button type="submit" className="btn btn-search" value="НАЙТИ">НАЙТИ</button>
           </form>
         </div>
       </div>
