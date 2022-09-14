@@ -58,10 +58,16 @@ export const getCities = () => async (dispatch) => {
   }
 };
 
-export const getSearchResult = (city, size = '') => async (dispatch) => {
+export const getSearchResult = (city, size) => async (dispatch) => {
   dispatch(getSearchResultPending());
+  let URL = `/recipients?filters[city_id]=${city}`
+
+  if (size) {
+    URL += `&filters[pet_size]=${size}`
+  }
+
   try {
-    fetch(baseURL + `/recipients?filters[city_id]=${city}&filters[pet_size]=${size}`, {
+    fetch(baseURL + URL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -77,4 +83,5 @@ export const getSearchResult = (city, size = '') => async (dispatch) => {
     console.log(error.message);
     dispatch(setSearchError(error.message));
   }
+
 };

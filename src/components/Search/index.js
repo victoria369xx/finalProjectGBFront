@@ -17,7 +17,7 @@ export const Search = () => {
   // const { cityId } = useParams();
   const params = useParams();
   console.log(params)
-  const cityId = params.city_id;
+  const cityId = params.cityId;
   console.log(cityId)
 
   const citiesFromDB = useSelector(selectCities);
