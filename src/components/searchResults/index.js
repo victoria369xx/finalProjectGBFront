@@ -13,7 +13,10 @@ import avatar from "../../assets/images/avatar.jpg";
 import { API_URL } from "../../store/storeConstants";
 
 export const RenderSearchResultsBlock = () => {
-  const { cityId } = useParams();
+  // const { cityId } = useParams();
+  const params = useParams();
+  const cityId = params.cityId;
+  const pet_size = params.pet_size
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,8 +27,8 @@ export const RenderSearchResultsBlock = () => {
   const baseURL = API_URL.slice(0, -6);
 
   useEffect(() => {
-    dispatch(getSearchResult(cityId));
-  }, [cityId]);
+    dispatch(getSearchResult(cityId, pet_size));
+  }, [cityId, pet_size]);
 
   if (isNaN(Number(cityId))) {
     navigate("*");

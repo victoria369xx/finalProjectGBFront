@@ -16,8 +16,12 @@ export const Search = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { cityId, size } = useParams();
+  // const { cityId } = useParams();
+  const params = useParams();
+  console.log(params)
+  const cityId = params.cityId;
   console.log(cityId)
+
   const citiesFromDB = useSelector(selectCities);
   const loading = useSelector(selectCitiesLoading);
   const error = useSelector(selectCitiesError);
@@ -27,6 +31,7 @@ export const Search = () => {
     getOptionLabel: (option) => option.city,
   };
   const [city, setCity] = useState(cityId ? cityId : 0);
+
   const [cityInput, setCityInput] = useState(
     cityId ? citiesFromDB.find((el) => el.id === Number(cityId).city) : ""
   );
@@ -38,17 +43,30 @@ export const Search = () => {
     setCityInput(newInputValue);
   };
 
+
+  // ____Pet size____ 
+
+  const pet_size = params.pet_size
+  console.log(pet_size)
+  const [size, setSize] = useState(pet_size ? pet_size : '')
+  console.log(size)
+  const handlerChangeSize = (event, newSize) => {
+    console.log(newSize.props.value)
+    setSize(newSize.props.value ? newSize.props.value : "")
+  }
+
+  console.log(size)
   const handlerSubmit = (event) => {
     event.preventDefault();
-    navigate(`/search/${city}`);
+    size !== '' && size ? navigate(`/search/${city}/${size}`) : navigate(`/search/${city}`)
   };
+
 
   useEffect(() => {
     dispatch(getCities());
   }, [cityId]);
 
-  // Size
-  // const [size, setSize] = useState('')
+
   if (!citiesFromDB || error) {
     return (
       <div
@@ -118,12 +136,16 @@ export const Search = () => {
                   className="text-field__select"
                   id="size"
                   defaultValue={""}
-                // onChange={handlerChangeSize}
+                  onChange={handlerChangeSize}
+
                 >
-                  <MenuItem value={10}>Mini (до 3 кг)</MenuItem>
-                  <MenuItem value={20}>Small (3-5 кг)</MenuItem>
-                  <MenuItem value={30}>Medium (5-10 кг)</MenuItem>
-                  <MenuItem value="">Big (более 10 кг)</MenuItem>
+                  <MenuItem value="">
+                    <em>Выберите размер</em>
+                  </MenuItem>
+                  <MenuItem value="1">Mini (до 3 кг)</MenuItem>
+                  <MenuItem value="2">Small (3-5 кг)</MenuItem>
+                  <MenuItem value="3">Medium (5-10 кг)</MenuItem>
+                  <MenuItem value="4">Big (более 10 кг)</MenuItem>
 
                 </Select>
               </div>

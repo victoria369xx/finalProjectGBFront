@@ -22,8 +22,8 @@ export const ProjectRoutes = () => {
           <Route path="/account" element={<AccountPage />} />
           <Route path="/accountEdit" element={<AccountEditPage />} />
         </Route>
-
         <Route path="/search/:cityId" element={<RenderSearchResultsBlock />} />
+        <Route path="/search/:cityId/:pet_size" element={<RenderSearchResultsBlock />} />
       </Route>
       <Route path={"*"} element={<NotFound />} />
     </Routes>
