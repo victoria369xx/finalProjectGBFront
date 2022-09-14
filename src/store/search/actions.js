@@ -58,10 +58,10 @@ export const getCities = () => async (dispatch) => {
   }
 };
 
-export const getSearchResult = (city) => async (dispatch) => {
+export const getSearchResult = (city, size = '') => async (dispatch) => {
   dispatch(getSearchResultPending());
   try {
-    fetch(baseURL + `/recipients?filters[city_id]=${city}`, {
+    fetch(baseURL + `/recipients?filters[city_id]=${city}&filters[pet_size]=${size}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
