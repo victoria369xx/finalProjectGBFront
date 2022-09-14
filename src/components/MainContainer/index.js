@@ -1,5 +1,4 @@
 import {
-  Container,
   Paper,
   BottomNavigation,
   BottomNavigationAction,
@@ -21,23 +20,38 @@ export const MainContainer = () => {
   };
 
   return (
-    <Box sx={{ paddingBottom: "60px" }}>
-      <Header />
-      {/* <Container> */}
-      {locationCheck(currentLocation) ? <Search /> : <></>}
+    // <Box sx={{ paddingBottom: "60px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
+      <div style={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+        <Header />
+        {locationCheck(currentLocation) ? <Search /> : <></>}
 
-      {currentLocation.pathname === '/' ? <MainDescription /> : <></>}
+        {currentLocation.pathname === "/" ? <MainDescription /> : <></>}
 
-      <Outlet />
+        <Outlet />
+      </div>
       <Paper
-        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+        sx={{
+          bottom: 0,
+          left: 0,
+          right: 0,
+          width: "100%",
+          // position: "fixed",
+          zIndex: 2,
+        }}
         elevation={3}
       >
         <BottomNavigation showLabels>
           <BottomNavigationAction label="2022 Pet Booking" />
         </BottomNavigation>
       </Paper>
-      {/* </Container> */}
-    </Box>
+    </div>
+    // </Box>
   );
 };

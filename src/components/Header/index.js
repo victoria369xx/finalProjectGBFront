@@ -1,5 +1,11 @@
-import * as React from "react";
-import { Avatar, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUserAction } from "../../store/userAuth/actions";
@@ -9,12 +15,14 @@ import "../../css/style.css";
 import logo2 from "../../img/logo.svg";
 import avatar2 from "../../assets/images/avatar.jpg";
 import { API_URL } from "../../store/storeConstants";
+import { Logout, Person, Settings } from "@mui/icons-material";
+import { useState } from "react";
 
 export const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handlerClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -81,12 +89,35 @@ export const Header = () => {
                   to="/account"
                   style={{ textDecoration: "none", color: "orange" }}
                 >
-                  <MenuItem>Мой аккаунт</MenuItem>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <Person fontSize="small" />
+                    </ListItemIcon>
+                    Мой аккаунт
+                  </MenuItem>
+                </Link>
+              ) : (
+                ""
+              )}
+              {location.pathname !== "/settings" ? (
+                <Link
+                  to="/settings"
+                  style={{ textDecoration: "none", color: "orange" }}
+                >
+                  <MenuItem>
+                    <ListItemIcon>
+                      <Settings fontSize="small" className="header_icon" />
+                    </ListItemIcon>
+                    Настройки
+                  </MenuItem>
                 </Link>
               ) : (
                 ""
               )}
               <MenuItem sx={{ color: "orange" }} onClick={logOutHandler}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
                 Выйти
               </MenuItem>
             </Menu>

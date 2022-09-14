@@ -3,6 +3,8 @@ import {
   ACCOUNT_PENDING,
   ALL_CITIES_PENDING,
   CLEAR_ACCOUNT,
+  EDIT_ERROR,
+  EDIT_IDLE,
   EDIT_PENDING,
   EDIT_SUCCESS,
   SET_ACCOUNT,
@@ -84,12 +86,26 @@ export const accountReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         statusEdit: REQUEST_STATUS.PENDING,
+        errorAccount: null,
       };
     }
     case EDIT_SUCCESS: {
       return {
         ...state,
         statusEdit: REQUEST_STATUS.SUCCESS,
+      };
+    }
+    case EDIT_ERROR: {
+      return {
+        ...state,
+        statusEdit: REQUEST_STATUS.ERROR,
+      };
+    }
+    case EDIT_IDLE: {
+      return {
+        ...state,
+        statusEdit: REQUEST_STATUS.IDLE,
+        errorAccount: null,
       };
     }
     default:
