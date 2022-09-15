@@ -42,7 +42,11 @@
     gap: 6%;
     width: 80%;
   }
- 
+
+  .MuiInputBase-root div {
+    padding: calc(0.375rem + var(--border) * 2) 0.75rem;
+    box-sizing: border-box;
+  }
 
   .text-field__margin {
     margin-left: 3%;

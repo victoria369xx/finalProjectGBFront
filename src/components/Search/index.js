@@ -7,7 +7,6 @@ import {
   selectCitiesError,
   selectCitiesLoading,
 } from "../../store/search/selector";
-
 import dog4 from "../../assets/images/dog4.png";
 import { Autocomplete, Select, MenuItem } from "@mui/material";
 
@@ -135,6 +134,24 @@ export const Search = () => {
                   displayEmpty
                   defaultValue={pet_size ? pet_size : ""}
                   onChange={handlerChangeSize}
+                  MenuProps={{
+                    sx: {
+                      padding: "0",
+                      "&& .MuiPaper-root": {
+                        boxShadow:
+                          "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+                      },
+                      // "&& .Mui-selected": {
+                      //   backgroundColor: "rgba(255, 166, 0, 0.276)",
+                      // },
+                      // "&& li:hover": {
+                      //   backgroundColor: "rgba(255, 166, 0, 0.116)",
+                      // },
+                    },
+                  }}
+                  sx={{
+                    padding: "0px",
+                  }}
                 >
                   <MenuItem value="">
                     <em>Выберите размер</em>

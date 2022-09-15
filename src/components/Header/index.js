@@ -68,6 +68,7 @@ export const Header = () => {
               </IconButton>
             </Tooltip>
             <Menu
+              className="accountMenu"
               anchorEl={anchorEl}
               id="account-menu"
               open={open}
