@@ -8,9 +8,8 @@ import {
   selectCitiesLoading,
 } from "../../store/search/selector";
 
-import dog4 from "../../assets/images/dog4.png"
+import dog4 from "../../assets/images/dog4.png";
 import { Autocomplete, Select, MenuItem } from "@mui/material";
-
 
 export const Search = () => {
   const navigate = useNavigate();
@@ -18,9 +17,9 @@ export const Search = () => {
 
   // const { cityId } = useParams();
   const params = useParams();
-  console.log(params)
+  // console.log(params);
   const cityId = params.cityId;
-  console.log(cityId)
+  // console.log(cityId);
 
   const citiesFromDB = useSelector(selectCities);
   const loading = useSelector(selectCitiesLoading);
@@ -43,29 +42,28 @@ export const Search = () => {
     setCityInput(newInputValue);
   };
 
+  // ____Pet size____
 
-  // ____Pet size____ 
-
-  const pet_size = params.pet_size
-  console.log(pet_size)
-  const [size, setSize] = useState(pet_size ? pet_size : '')
-  console.log(size)
+  const pet_size = params.pet_size;
+  // console.log(pet_size);
+  const [size, setSize] = useState(pet_size ? pet_size : "");
+  // console.log(size);
   const handlerChangeSize = (event, newSize) => {
-    console.log(newSize.props.value)
-    setSize(newSize.props.value ? newSize.props.value : "")
-  }
-
-  console.log(size)
-  const handlerSubmit = (event) => {
-    event.preventDefault();
-    size !== '' && size ? navigate(`/search/${city}/${size}`) : navigate(`/search/${city}`)
+    // console.log(newSize.props.value);
+    setSize(newSize.props.value ? newSize.props.value : "");
   };
 
+  // console.log(size);
+  const handlerSubmit = (event) => {
+    event.preventDefault();
+    size !== "" && size
+      ? navigate(`/search/${city}/${size}`)
+      : navigate(`/search/${city}`);
+  };
 
   useEffect(() => {
     dispatch(getCities());
   }, [cityId]);
-
 
   if (!citiesFromDB || error) {
     return (
@@ -77,7 +75,6 @@ export const Search = () => {
       </div>
     );
   }
-
 
   return (
     <section>
@@ -100,29 +97,29 @@ export const Search = () => {
                   htmlFor="city"
                 >
                   Город
-              </label>
+                </label>
 
-              <Autocomplete
-                {...cities}
-                value={cities.options.find((el) => el.id === Number(cityId))}
-                onChange={handlerChangeCity}
-                inputValue={cityInput}
-                onInputChange={handlerOnInputChangeCity}
-                id="city"
-                loading={loading}
-                renderInput={(params) => (
-                  <div ref={params.InputProps.ref}>
-                    <input
-                      type="text"
-                      {...params.inputProps}
-                      required
-                      placeholder="Выберите город"
-                      className="text-field__input datalist"
-                    />
-                  </div>
-                )}
-              />
-            </div>
+                <Autocomplete
+                  {...cities}
+                  value={cities.options.find((el) => el.id === Number(cityId))}
+                  onChange={handlerChangeCity}
+                  inputValue={cityInput}
+                  onInputChange={handlerOnInputChangeCity}
+                  id="city"
+                  loading={loading}
+                  renderInput={(params) => (
+                    <div ref={params.InputProps.ref}>
+                      <input
+                        type="text"
+                        {...params.inputProps}
+                        required
+                        placeholder="Выберите город"
+                        className="text-field__input datalist"
+                      />
+                    </div>
+                  )}
+                />
+              </div>
 
               <div className="text-field text-field__margin">
                 <label
@@ -130,14 +127,14 @@ export const Search = () => {
                   htmlFor="size"
                 >
                   Размер
-              </label>
+                </label>
 
                 <Select
                   className="text-field__select"
                   id="size"
-                  defaultValue={""}
+                  // defaultValue={""}
+                  defaultValue={pet_size ? pet_size : ""}
                   onChange={handlerChangeSize}
-
                 >
                   <MenuItem value="">
                     <em>Выберите размер</em>
@@ -146,14 +143,15 @@ export const Search = () => {
                   <MenuItem value="2">Small (3-5 кг)</MenuItem>
                   <MenuItem value="3">Medium (5-10 кг)</MenuItem>
                   <MenuItem value="4">Big (более 10 кг)</MenuItem>
-
                 </Select>
               </div>
             </div>
-            <button type="submit" className="btn btn-search" value="НАЙТИ">НАЙТИ</button>
+            <button type="submit" className="btn btn-search" value="НАЙТИ">
+              НАЙТИ
+            </button>
           </form>
         </div>
       </div>
     </section>
   );
-}
+};

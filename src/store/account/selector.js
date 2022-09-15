@@ -17,3 +17,5 @@ export const selectEditSuccess = (state) =>
   state.account.statusEdit === REQUEST_STATUS.SUCCESS;
 export const selectEditLoading = (state) =>
   state.account.statusEdit === REQUEST_STATUS.PENDING;
+export const selectEditError = (state) =>
+  state.account.statusEdit === REQUEST_STATUS.ERROR;

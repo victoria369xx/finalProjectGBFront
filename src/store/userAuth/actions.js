@@ -38,8 +38,8 @@ export const signUpUserThunk =
         const user = {
           name: name,
           email: email,
-          password: password,
-          password_confirmation: confirmation,
+          // password: password,
+          // password_confirmation: confirmation,
           token: token,
         };
         dispatch(signUpUser(user));
@@ -57,7 +57,7 @@ export const logInUserThunk = (email, password) => (dispatch) => {
       const token = response.data.token;
       const user = {
         email: email,
-        password: password,
+        // password: password,
         token: token,
       };
       dispatch(logInUser(user));
