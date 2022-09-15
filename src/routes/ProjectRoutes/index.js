@@ -8,6 +8,7 @@ import { NotFound } from "../../pages/NotFound";
 import { AccountPage } from "../../pages/AccountPage";
 import { ProtectedRoute } from "../ProtectedRoute";
 import { AccountEditPage } from "../../pages/AccountEditPage";
+import { AccountSettingsPage } from "../../pages/AccountSettings";
 
 export const ProjectRoutes = () => {
   return (
@@ -21,9 +22,13 @@ export const ProjectRoutes = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<AccountPage />} />
           <Route path="/accountEdit" element={<AccountEditPage />} />
+          <Route path="/settings" element={<AccountSettingsPage />} />
         </Route>
-
         <Route path="/search/:cityId" element={<RenderSearchResultsBlock />} />
+        <Route
+          path="/search/:cityId/:pet_size"
+          element={<RenderSearchResultsBlock />}
+        />
       </Route>
       <Route path={"*"} element={<NotFound />} />
     </Routes>

@@ -8,8 +8,11 @@ import {
   SET_ERROR_ALL_CITIES,
   EDIT_PENDING,
   EDIT_SUCCESS,
+  EDIT_ERROR,
+  EDIT_IDLE,
 } from "./actionTypes";
 import { API_URL } from "../storeConstants";
+import { logOutUser } from "../userAuth/actions";
 
 const baseURL = API_URL;
 
@@ -51,6 +54,14 @@ const editPending = () => ({
 
 const editSuccess = () => ({
   type: EDIT_SUCCESS,
+});
+
+const editError = () => ({
+  type: EDIT_ERROR,
+});
+
+export const editIdle = () => ({
+  type: EDIT_IDLE,
 });
 
 export const getAccountFromDB = (token) => async (dispatch) => {
@@ -114,11 +125,13 @@ export const editAccount =
       if (!photoFlag) {
         dispatch(editSuccess());
       }
+      console.log(data);
       // console.log(data.data.user);
       // dispatch(setAccount(data.data.user));
     } catch (e) {
       console.log(e.message);
       dispatch(setError(e.message));
+      dispatch(editError());
     }
   };
 
@@ -138,10 +151,68 @@ export const addPhoto = (token, formData) => async (dispatch) => {
     }
     // console.log(responseImg);
     const dataImg = await responseImg.json();
+    console.log(dataImg);
     dispatch(editSuccess());
     // console.log(dataImg.data.image);
   } catch (e) {
     console.log(e.message);
     dispatch(setError(e.message));
+    dispatch(editError());
+  }
+};
+
+export const changeAccountPassword =
+  (token, passwords, id) => async (dispatch) => {
+    dispatch(editPending());
+    try {
+      console.log(passwords);
+      console.log(id);
+      //уточнить API запроса и метод (put или post), и нужен ли id
+      // const response = await fetch(baseURL + `/usersave/${newAccount.id}`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify(passwords),
+      // });
+      // if (!response.ok) {
+      //   throw new Error(`Request failed: ${response.status}`);
+      // }
+      // const data = await response.json;
+      // проверка валидации
+      // let rand = Math.floor(Math.random() * 2);
+      // if (rand === 1) {
+      //   throw new Error(`проверка ошибки 1`);
+      // } else {
+      //   throw new Error(`проверка ошибки 2`);
+      // }
+      dispatch(editSuccess());
+    } catch (e) {
+      console.log(e.message);
+      dispatch(setError(e.message));
+      dispatch(editError());
+    }
+  };
+
+export const deleteAccount = (token, id) => async (dispatch) => {
+  try {
+    const response = await fetch(baseURL + `/usersave/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+    dispatch(clearAccount());
+    dispatch(logOutUser());
+  } catch (e) {
+    console.log(e.message);
+    dispatch(setError(e.message));
+    dispatch(editError());
   }
 };

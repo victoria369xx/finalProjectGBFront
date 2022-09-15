@@ -268,7 +268,7 @@ export const AccountForm = () => {
                 alignItems: "center",
               }}
             >
-              Загрузить фотографию
+              {account.img ? "Изменить фотографию" : "Загрузить фотографию"}
             </label>
           </div>
           {file && (
