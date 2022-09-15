@@ -52,6 +52,9 @@
     flex-wrap: wrap;
   }
 
+  .text-field {
+    min-width: 70%;
+}
   .index-form__flexWrapper {
     width: 50%;
     margin: 0 12%;

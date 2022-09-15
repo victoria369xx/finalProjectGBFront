@@ -132,7 +132,7 @@ export const Search = () => {
                 <Select
                   className="text-field__select"
                   id="size"
-                  // defaultValue={""}
+                  displayEmpty
                   defaultValue={pet_size ? pet_size : ""}
                   onChange={handlerChangeSize}
                 >

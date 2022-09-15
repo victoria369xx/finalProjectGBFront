@@ -421,7 +421,7 @@ header {
   justify-content: flex-start;
   gap: 20%;
   /* width: 500px; */
-  /* width: 50%; */
+  width: 80%;
 }
 
 /* .text-field__margin {
@@ -516,7 +516,7 @@ select {
 }
 
 .text-field {
-  min-width: 80%;
+  min-width: 40%;
 }
 
 .text-field__label {
@@ -1138,4 +1138,11 @@ option {
 
 .form-settings {
   padding-top: 0;
+}
+    
+.MuiInputBase-root div em{
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.5;
 }

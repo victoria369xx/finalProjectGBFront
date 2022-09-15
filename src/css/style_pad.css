@@ -38,12 +38,11 @@
     display: flex;
     align-items: flex-end;
   }
-  /* .index-form__flexWrapper {
-    width: 100%;
-  } */
-  .text-field {
-    min-width: 50%;
+  .index-form__flexWrapper {
+    gap: 6%;
+    width: 80%;
   }
+ 
 
   .text-field__margin {
     margin-left: 3%;
