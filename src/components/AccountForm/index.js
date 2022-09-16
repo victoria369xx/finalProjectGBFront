@@ -276,7 +276,7 @@ export const AccountForm = () => {
               <input
                 className="btn btn-add"
                 type="button"
-                value="Отменить загрузку фото"
+                value="Отменить загрузку фотографии"
                 onClick={handlerRevokePhoto}
               />
             </div>
@@ -286,7 +286,7 @@ export const AccountForm = () => {
               <input
                 className="btn btn-add"
                 type="button"
-                value="Удалить фото"
+                value="Удалить фотографию"
                 onClick={handlerDeletePhoto}
               />
             </div>
