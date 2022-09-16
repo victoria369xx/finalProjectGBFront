@@ -37,9 +37,9 @@ export const AccountSettings = () => {
   const [changePassword, setChangePassword] = useState("Изменить");
   const [formPassword, setFormPassword] = useState({ display: "none" });
   const [passwords, setPasswords] = useState({
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    old_password: "",
+    password: "",
+    password_confirmation: "",
   });
   const [errorConfirm, setErrorConfirm] = useState();
   const [errorStyle, setErrorStyle] = useState();
@@ -49,9 +49,9 @@ export const AccountSettings = () => {
 
   const clearForm = () => {
     setPasswords({
-      oldPassword: "",
-      newPassword: "",
-      confirmPassword: "",
+      old_password: "",
+      password: "",
+      password_confirmation: "",
     });
   };
 
@@ -106,42 +106,46 @@ export const AccountSettings = () => {
     clearError();
     setPasswords({
       ...passwords,
-      oldPassword: event.target.value,
+      old_password: event.target.value,
     });
   };
   const newPasswordChangeHandler = (event) => {
     clearError();
     setPasswords({
       ...passwords,
-      newPassword: event.target.value,
+      password: event.target.value,
     });
   };
   const confirmationChangeHandler = (event) => {
     clearError();
     setPasswords({
       ...passwords,
-      confirmPassword: event.target.value,
+      password_confirmation: event.target.value,
     });
   };
 
   const passwordSubmitHandler = (event) => {
     event.preventDefault();
-    if (passwords.oldPassword === passwords.newPassword) {
+    if (passwords.old_password === passwords.password) {
       setErrorStyle({ borderColor: "red" });
       setError("Введите новый пароль");
       return;
     }
 
-    if (passwords.confirmPassword !== passwords.newPassword) {
+    if (passwords.password_confirmation !== passwords.password) {
       setPasswords({
         ...passwords,
-        confirmPassword: "",
+        password_confirmation: "",
       });
       setErrorConfirm({ borderColor: "red" });
       setError("Пароли не совпадают, попробуйте еще раз");
       return;
     }
-    dispatch(changeAccountPassword(token, passwords, account.id));
+
+    passwords.old_password_confirmation = passwords.old_password;
+
+    // console.log(passwords);
+    dispatch(changeAccountPassword(token, passwords));
   };
 
   const accountDeleteHandler = () => {
@@ -178,7 +182,7 @@ export const AccountSettings = () => {
               placeholder="Введите пароль"
               id="oldPassword"
               name="oldPassword"
-              value={passwords.oldPassword}
+              value={passwords.old_password}
               onChange={oldPasswordChangeHandler}
               required
               style={errorStyle}
@@ -194,7 +198,7 @@ export const AccountSettings = () => {
               placeholder="Введите пароль"
               id="newPassword"
               name="newPassword"
-              value={passwords.newPassword}
+              value={passwords.password}
               onChange={newPasswordChangeHandler}
               required
               style={errorStyle}
@@ -210,7 +214,7 @@ export const AccountSettings = () => {
               placeholder="Повторите пароль"
               id="confirmPassword"
               name="confirmPassword"
-              value={passwords.confirmPassword}
+              value={passwords.password_confirmation}
               onChange={confirmationChangeHandler}
               required
               style={errorConfirm}
@@ -218,7 +222,6 @@ export const AccountSettings = () => {
           </div>
           {editLoading && <LinearProgress color="warning" />}
           {error && <p style={{ color: "red" }}>{error}</p>}
-          {/* {errorDB && <p style={{ color: "red" }}>{errorDB}</p>} */}
           {editSuccess && (
             <p
               style={{
