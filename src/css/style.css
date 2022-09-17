@@ -1055,6 +1055,8 @@ option {
     justify-content: space-between;
 } */
 
+
+
 .description {
   display: flex;
   justify-content: space-between;
@@ -1072,18 +1074,53 @@ option {
 }
 .description-header {
   /* font-weight: 500; */
-  font-family: "Balsamiq Sans";
-  font-size: 1.8rem;
+  font-family: "Nunito";
+  font-size: 1.6rem;
   line-height: 1.6;
   letter-spacing: 0.0075em;
 }
 .description-text {
   font-weight: 400;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   line-height: 1.75;
   letter-spacing: 0.00938em;
   margin-bottom: 0.35em;
 }
+
+/*Download section*/
+
+.download_heading {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.download_wrapperFlex {
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffff;
+  padding-bottom: 5%;
+}
+
+.download_leftBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.leftBlock_el {
+  margin-top: 1rem;
+}
+
+.download_rightBlock {
+  text-align:left;
+}
+
+.rightBlock_li {
+  margin-top: 1rem;
+}
+/************/
 
 .MuiOutlinedInput-root fieldset {
   border: none;
@@ -1163,3 +1200,4 @@ option {
   outline: 0;
   box-shadow: 0 0 0 0.2rem #f0bd6650;
 }
+

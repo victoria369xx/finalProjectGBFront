@@ -161,7 +161,7 @@ export const Profile = () => {
             {authed ? (
               <ReviewForm />
             ) : (
-              <Box style={{ width: "400px" }}>
+              <Box>
                 Войдите или зарегистрируйтесь,чтобы оставить отзыв.{" "}
                 <Link
                   to="/login"

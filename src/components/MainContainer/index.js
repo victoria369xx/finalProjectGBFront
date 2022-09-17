@@ -2,12 +2,12 @@ import {
   Paper,
   BottomNavigation,
   BottomNavigationAction,
-  Box,
 } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
 import { Header } from "../Header";
 import { MainDescription } from "../MainDescription";
 import { Search } from "../Search";
+import { DownloadApp } from "../DownloadApp";
 
 export const MainContainer = () => {
   const currentLocation = useLocation();
@@ -33,6 +33,7 @@ export const MainContainer = () => {
         {locationCheck(currentLocation) ? <Search /> : <></>}
 
         {currentLocation.pathname === "/" ? <MainDescription /> : <></>}
+        {currentLocation.pathname === "/" ? <DownloadApp /> : <></>}
 
         <Outlet />
       </div>
