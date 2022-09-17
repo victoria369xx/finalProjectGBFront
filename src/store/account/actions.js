@@ -161,39 +161,35 @@ export const addPhoto = (token, formData) => async (dispatch) => {
   }
 };
 
-export const changeAccountPassword =
-  (token, passwords, id) => async (dispatch) => {
-    dispatch(editPending());
-    try {
-      console.log(passwords);
-      console.log(id);
-      //уточнить API запроса и метод (put или post), и нужен ли id
-      // const response = await fetch(baseURL + `/usersave/${newAccount.id}`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   body: JSON.stringify(passwords),
-      // });
-      // if (!response.ok) {
-      //   throw new Error(`Request failed: ${response.status}`);
-      // }
-      // const data = await response.json;
-      // проверка валидации
-      // let rand = Math.floor(Math.random() * 2);
-      // if (rand === 1) {
-      //   throw new Error(`проверка ошибки 1`);
-      // } else {
-      //   throw new Error(`проверка ошибки 2`);
-      // }
-      dispatch(editSuccess());
-    } catch (e) {
-      console.log(e.message);
-      dispatch(setError(e.message));
-      dispatch(editError());
+export const changeAccountPassword = (token, passwords) => async (dispatch) => {
+  dispatch(editPending());
+  try {
+    const response = await fetch(baseURL + `/change_password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(passwords),
+    });
+    if (!response.ok) {
+      const data = await response.json();
+      console.log(data);
+      if (data.errors) {
+        throw new Error(`${data.message}`);
+      } else {
+        throw new Error(`Request failed: ${response.status}`);
+      }
     }
-  };
+    const data = await response.json();
+    console.log(data);
+    dispatch(editSuccess());
+  } catch (e) {
+    console.log(e.message);
+    dispatch(setError(e.message));
+    dispatch(editError());
+  }
+};
 
 export const deleteAccount = (token, id) => async (dispatch) => {
   try {

@@ -54,7 +54,7 @@
 
   .text-field {
     min-width: 70%;
-}
+  }
   .index-form__flexWrapper {
     width: 50%;
     margin: 0 12%;
@@ -69,6 +69,29 @@
   .index-form .text-field__input,
   .index-form .text-field__select {
     width: 100%;
+    font-size: 11px;
+  }
+
+  .MuiInputBase-root div em {
+    font-size: 11px;
+  }
+  .MuiList-root li {
+    font-family: "Nunito";
+    font-size: 11px;
+  }
+  .MuiList-root li em {
+    font-family: "Nunito";
+    font-size: 11px;
+  }
+  .accountMenu li {
+    font-size: 1rem;
+  }
+  .MuiInputBase-root div {
+    padding: calc(0.375rem + var(--border) * 2) 0.75rem;
+    /* box-sizing: border-box;  */
+  }
+  .MuiAutocomplete-popper li {
+    font-family: "Nunito";
     font-size: 11px;
   }
 
