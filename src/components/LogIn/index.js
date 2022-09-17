@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logInUserThunk } from "../../store/userAuth/actions";
+import {getErrors} from "../../store/userAuth/selectors";
+import {ErrorField} from "../ErrorField";
 
 export const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
+
+  const errorList = useSelector(getErrors);
 
   function emailSubmitHandler(event) {
     setEmail(event.target.value);
@@ -54,18 +58,16 @@ export const LogIn = () => {
               required
             />
             </div>
-            <div class="remember-me">
-                        <div class="check">
-                            <input class="custom-checkbox" type="checkbox" id="check"/>
-                            <label for="check">Запомнить меня</label>
-                        </div>
-            </div>
             <div className="text-login">
         <Link to="/signup" style={{ textDecoration: "none" }}>
         <p> Создать аккаунт</p>
         </Link>
         </div>
             <input class="btn" type="submit" value="Войти"></input>
+            {
+              errorList &&
+               <ErrorField error={errorList}/>
+            }
           </div>
         </form>
       </div>

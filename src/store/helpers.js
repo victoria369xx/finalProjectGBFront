@@ -11,9 +11,9 @@ export function sendRequest(method, url, body = null) {
           resolve(xhr.response);
         }
       };
-      xhr.onerror = () => {
+      /*xhr.onerror = () => {
         reject(xhr.response);
-      };
+      }; */
       xhr.send(JSON.stringify(body));
     });
   }
