@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signUpUserThunk } from "../../store/userAuth/actions";
+import {getErrors} from "../../store/userAuth/selectors";
+import {ErrorField} from "../ErrorField";
 
 export const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
+
+  const errorList = useSelector(getErrors);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -82,7 +86,11 @@ export const SignUp = () => {
                             </Link>
                         </div>
                     </div>
-                    <input class="btn" type="submit" value="Создать аккаунт"/>
+                    <input class="btn" type="submit" value="Создать аккаунт"/> 
+                    {
+              errorList &&
+               <ErrorField error={errorList}/>
+            }
           </div>
         </form>
       </div>
