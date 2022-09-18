@@ -1072,14 +1072,14 @@ option {
 }
 .description-header {
   /* font-weight: 500; */
-  font-family: "Balsamiq Sans";
-  font-size: 1.8rem;
+  font-family: "Nunito";
+  font-size: 1.6rem;
   line-height: 1.6;
   letter-spacing: 0.0075em;
 }
 .description-text {
   font-weight: 400;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   line-height: 1.75;
   letter-spacing: 0.00938em;
   margin-bottom: 0.35em;
