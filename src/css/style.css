@@ -1098,9 +1098,9 @@ option {
 
 .download_wrapperFlex {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   background-color: #ffff;
-  padding-bottom: 5%;
+  flex-wrap:wrap;
 }
 
 .download_leftBlock {
@@ -1113,8 +1113,19 @@ option {
   margin-top: 1rem;
 }
 
+.leftBlock_link {
+color: #002033;
+font-size: large;
+font-weight: bold;
+}
+
+.leftBlock_link:hover {
+  color:#fcb130;
+}
+
 .download_rightBlock {
   text-align:left;
+  padding-left: 2%;
 }
 
 .rightBlock_li {
